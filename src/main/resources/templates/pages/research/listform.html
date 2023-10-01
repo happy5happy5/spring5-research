@@ -9,7 +9,148 @@
 </head>
 <body>
 <div layout:fragment="content">
-    research card list show page
+    <div id="rs-list" class="container mt-5">
+        <!-- 카드로 표시될 Rs 데이터를 추가합니다. -->
+    </div>
+
+    <div id="loading"></div>
+
+
+    <script th:inline="javascript">
+        /* [[${userRoles}]] 값을 JavaScript 객체로 파싱 */
+        let userRoles = /*[[${userRoles}]]*/ {};
+
+        console.log(userRoles);
+        // 사용자 권한 확인 예시
+        // if (userRoles.includes('ROLE_ADMIN')) {
+
+    </script>
+
+
+    <!-- 스크롤 이벤트를 감지하는 JavaScript 코드 -->
+    <script th:fragment="infinite-scroll">
+        let page = 1;
+        let size = 30;
+
+        function createCard(rs) {
+
+            let rsCardList = []
+
+            rsCardList.push(
+                `
+            <div class="card" style="width: 18rem;">
+              <div class="card-body">
+                <h5 class="card-title">${rs.rs_title}</h5>
+                <p class="card-text">${rs.rs_desc}</p>`
+            )
+
+            rsCardList.push(
+                userRoles.includes('ROLE_ADMIN')?
+                    `<a href="/research/updateform/${rs.rs_seq}" class="btn btn-primary">수정</a>
+                    <a href="/research/delete/${rs.rs_seq}" class="btn btn-primary">삭제</a>`
+                    :``
+            )
+
+            rsCardList.push(
+                userRoles.includes('ROLE_USER')?
+                    `<a href="/research/updateform/${rs.rs_seq}" class="btn btn-primary">결과</a>
+                    <a href="/research/delete/${rs.rs_seq}" class="btn btn-primary">수정</a>`
+                    :``
+            )
+
+            rsCardList.push(
+                `
+                <button href="#" class="btn btn-primary">Card link</button>
+                <button href="#" class="btn btn-secondary">Another link</button>
+<!--                권한이 있는 사람만 보이는 버튼-->
+
+              </div>
+            </div>
+`
+            )
+            return rsCardList.join('')
+        }
+
+        let noMoreData = false;
+        function loadMoreData() {
+            return $.get("/research/list2?page=" + page + "&size=" + size, function (data) {
+                console.log(data);
+                if (data.rsList.length === 0) {
+                    if(!noMoreData) alert("마지막 데이터입니다.");
+                    noMoreData = true;
+                    return;
+                }
+                page++;
+                data.rsList.forEach(function (rs) {
+                    let rsCard = createCard(rs);
+                    $("#rs-list").append(rsCard);
+                });
+            });
+        }
+        // 쓰로틀링을 적용한 스크롤 이벤트 핸들러
+        // if (window.innerHeight + window.scrollY >= document.body.scrollHeight) {
+        //     if (!timer) {
+        //         timer = setTimeout(() => {
+        //             timer = null;
+        //             console.log("End Of Document");
+        //         }, 500);
+        //     }
+        // }
+        let isLoading = false;
+        let timer;
+        $(window).scroll(function () {
+            if(noMoreData) return;
+            // console.log($(window).scrollTop() + $(window).height() , $(document).height())
+            if ($(window).scrollTop() + $(window).height()+ 10 >= $(document).height()) {
+
+                if (!timer) {
+                    timer = setTimeout(() => {
+                        timer = null;
+                        console.log("스크롤이 바닥에 닿았습니다.")
+                        loadMoreData().then(function (){
+                            isLoading = false;
+                            handleLoading(isLoading);
+                        });
+                    }, 1000);
+                }else{
+                    isLoading = true;
+                    handleLoading(isLoading);
+                    console.log("스크롤 이벤트가 발생했지만 1초 이내에 처리하지 않습니다.")
+                }
+            }
+        });
+
+        $(document).ready(function () {
+            loadMoreData(); // 페이지 로드 시 초기 데이터 로드
+        });
+
+        function handleLoading(isLoading){
+            if(noMoreData){
+                $("#loading").html(
+                    `<div class="d-flex justify-content-center">
+                        <div class="alert alert-primary" role="alert">
+                          마지막 데이터입니다.
+                        </div>
+                      </div>`
+                )
+                return;
+            }
+
+            if(isLoading){
+                $("#loading").html(
+                    `<div class="d-flex justify-content-center">
+                        <div class="spinner-border" role="status">
+                          <span class="visually-hidden">Loading...</span>
+                        </div>
+                      </div>`
+                )
+            }else{
+                $("#loading").html("")
+            }
+        }
+    </script>
+
+
 </div>
 </body>
 </html>

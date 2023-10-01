@@ -8,13 +8,13 @@
 </head>
 <body>
 <nav th:fragment="navbar" class="navbar navbar-expand-lg fixed-top navbar-default" id="nav-layout">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="#">Company Name</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
+    <div class="container">
+        <a href="#" class="navbar-brand ">Company Logo</a>
+        <button type="button" class="navbar-toggler shadow-none" data-bs-toggle="collapse" data-bs-target="#resNav">
+            <!--            <span class="navbar-toggler-icon"></span>-->
+            <img alt="" src="/img/blue-burger-menu.png" width="40" height="40">
         </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
+        <div class="collapse navbar-collapse" id="resNav">
             <div th:if="${#authorization.expression('isAuthenticated()')}" class="d-flex align-items-center">
                 <!-- 로그인한 사용자만 볼 수 있는 내용 -->
                 <p class="text-white m-0 me-3">Welcome, <span th:text="${#authentication.principal.name}"></span>!</p>
@@ -23,20 +23,42 @@
                 <li class="nav-item"><a th:href="@{/}" class="nav-link text-white border-0 bg-transparent">Home</a></li>
                 <li class="nav-item"><a th:href="@{/research/list}" class="nav-link text-white border-0 bg-transparent">List</a></li>
                 <li class="nav-item"><a th:href="@{/user/test}" class="nav-link text-white border-0 bg-transparent">UserPage</a></li>
-                <li th:if="${#authorization.expression('isAuthenticated()')}" class="d-flex align-items-center">
+                <li th:if="${#authorization.expression('isAuthenticated()')}" class="nav-item">
                     <!-- 로그인한 사용자 -->
-                    <span class="nav-item"><a th:href="@{/auth/profile}" class="nav-link text-white border-0 bg-transparent">Profile</a></span>
-                    <span class="nav-item"><a th:href="@{/auth/logout}" class="nav-link text-white border-0 bg-transparent">Logout</a></span>
+                    <a th:href="@{/auth/profile}" class="nav-link text-white border-0 bg-transparent">Profile</a>
                 </li>
-                <li th:unless="${#authorization.expression('isAuthenticated()')}" class="d-flex">
+                <li th:unless="${#authorization.expression('isAuthenticated()')}" class="nav-item">
                     <!-- 로그인하지 않은 사용자만 볼 수 있는 내용 -->
-                    <span class="nav-item"><a th:href="@{/auth/login}" class="nav-link text-white border-0 bg-transparent">Login</a></span>
-                    <span class="nav-item"><a th:href="@{/auth/register}" class="nav-link text-white border-0 bg-transparent">SignIn</a></span>
+                    <a th:href="@{/auth/login}" class="nav-link text-white border-0 bg-transparent">Login</a>
                 </li>
+                <li th:if="${#authorization.expression('isAuthenticated()')}" class="nav-item">
+                    <!-- 로그인한 사용자 -->
+                    <a th:href="@{/auth/logout}" class="nav-link text-white border-0 bg-transparent">Logout</a>
+                </li>
+                <li th:unless="${#authorization.expression('isAuthenticated()')}" class="nav-item">
+                    <!-- 로그인하지 않은 사용자만 볼 수 있는 내용 -->
+                    <a th:href="@{/auth/register}" class="nav-link text-white border-0 bg-transparent">SignIn</a>
+                </li>
+<!--                admin 전용-->
+                <li th:if="${#authorization.expression('hasRole(''ADMIN'')')}" class="nav-item">
+                    <!-- 로그인한 사용자 -->
+                    <a th:href="@{/admin/test}" class="nav-link text-white border-0 bg-transparent">Admin전용</a>
+                </li>
+
             </ul>
         </div>
     </div>
 </nav>
+<script>
+    // 특정 스크롤 이상 했을 때 애니메이션 효과를 주는 코드
+    window.addEventListener('scroll', function () {
+        if (window.scrollY > 100) {
+            document.querySelector('nav').classList.add('animate');
+        } else {
+            document.querySelector('nav').classList.remove('animate');
+        }
+    });
+</script>
 
 </body>
 </html>

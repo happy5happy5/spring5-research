@@ -63,27 +63,39 @@ public class DataLoadUtility implements CommandLineRunner {
 
         Rs rs1 = new Rs();
         rs1.setRs_cnt(0);
-        rs1.setRs_desc("test desc");
-        rs1.setRs_title("test title");
+        rs1.setRs_desc("test desc1111111111");
+        rs1.setRs_title("test title1111111111111111");
         rs1.setUsername(registeredUser1.getUsername());
 //        rs1.setUser(registeredUser1);
         Rs registeredRs1=rsRepository.save(rs1);
 
         Rs rs2 = new Rs();
         rs2.setRs_cnt(0);
-        rs2.setRs_desc("test desc");
-        rs2.setRs_title("test title");
+        rs2.setRs_desc("test desc2222222222");
+        rs2.setRs_title("test title22222222222222222222");
         rs2.setUsername(registeredUser2.getUsername());
 //        rs2.setUser(registeredUser2);
         Rs registeredRs2=rsRepository.save(rs2);
 
         Rs rs3 = new Rs();
         rs3.setRs_cnt(0);
-        rs3.setRs_desc("test desc");
-        rs3.setRs_title("test title");
+        rs3.setRs_desc("test desc33333333333333");
+        rs3.setRs_title("test title33333333333333333");
         rs3.setUsername(registeredUser3.getUsername());
 //        rs3.setUser(registeredUser3);
         Rs registeredRs3=rsRepository.save(rs3);
+
+//        Rs 를 for문으로 많이 만들기
+        for(int i=0; i<100; i++){
+            Rs rs = new Rs();
+            rs.setRs_cnt(0);
+            rs.setRs_desc("여기는 설문 내용이 없음"+i);
+            rs.setRs_title("무한 스크롤 테스트용"+i);
+            rs.setUsername(registeredUser1.getUsername());
+            rs.setUser(registeredUser1);
+            rsRepository.save(rs);
+        }
+
 
         questionMaker(5, "0", registeredRs1);
         questionMaker(2, "1", registeredRs1);

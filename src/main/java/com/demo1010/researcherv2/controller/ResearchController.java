@@ -1,0 +1,106 @@
+package com.demo1010.researcherv2.controller;
+
+
+import com.demo1010.researcherv2.entity.Rs;
+import com.demo1010.researcherv2.model.ResearchListDTO;
+import com.demo1010.researcherv2.model.ResearchListRequestDTO;
+import com.demo1010.researcherv2.model.ResearchListResponseDTO;
+import com.demo1010.researcherv2.repository.RsRepository;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+@Slf4j
+@Controller
+@RequiredArgsConstructor
+@RequestMapping("/research")
+public class ResearchController {
+
+    private final RsRepository rsRepository;
+
+    @GetMapping("/list")
+    public String list(Model model, ResearchListRequestDTO requestDTO) {
+        log.info("[GET] /research/list");
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Set<String> roles = auth.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
+                .collect(Collectors.toSet());
+        model.addAttribute("userRoles", roles);
+
+        return "pages/research/listform";
+    }
+
+    @GetMapping("/list2")
+    @ResponseBody
+    public ResearchListResponseDTO list2(ResearchListRequestDTO requestDTO) {
+        log.info("[GET] /research/list2");
+
+        // 페이지와 사이즈를 이용해 데이터를 가져오도록 수정
+        int page = requestDTO.getPage() - 1; // 페이지 번호는 0부터 시작하므로 1을 빼줍니다.
+        int size = requestDTO.getSize();
+        String sort = requestDTO.getSort();
+        String order = requestDTO.getOrder();
+
+        // 정렬 관련 처리 추가
+//        Sort.Direction sortDirection = Sort.Direction.fromString(order);
+//        Pageable pageable = PageRequest.of(page, size, sortDirection, sort);
+        Pageable pageable = PageRequest.of(page, size);
+
+        Page<Rs> rsPage = rsRepository.findAll(pageable);
+
+        ResearchListResponseDTO responseDTO = new ResearchListResponseDTO();
+        List<ResearchListDTO> rsList = getResearchListDTOS(rsPage);
+        responseDTO.setRsList(rsList);
+        responseDTO.setTotalPage(rsPage.getTotalPages());
+        responseDTO.setCurrentPage(rsPage.getNumber());
+        responseDTO.setTotalSize((int) rsPage.getTotalElements());
+        responseDTO.setCurrentSize(rsPage.getNumberOfElements());
+        responseDTO.setHasNext(rsPage.hasNext());
+        responseDTO.setHasPrevious(rsPage.hasPrevious());
+        responseDTO.setFirst(rsPage.isFirst());
+        responseDTO.setLast(rsPage.isLast());
+        responseDTO.setEmpty(rsPage.isEmpty());
+        responseDTO.setHasContent(rsPage.hasContent());
+        responseDTO.setHasElements(rsPage.hasContent());
+
+
+        return responseDTO;
+    }
+
+    private static List<ResearchListDTO> getResearchListDTOS(Page<Rs> rsPage) {
+        List<ResearchListDTO> rsList = new ArrayList<>();
+        for (Rs rs : rsPage.getContent()) {
+            ResearchListDTO researchListDTO = new ResearchListDTO();
+            researchListDTO.setRs_seq(rs.getRs_seq());
+            researchListDTO.setUsername(rs.getUsername());
+            researchListDTO.setRs_title(rs.getRs_title());
+            researchListDTO.setRs_desc(rs.getRs_desc());
+            researchListDTO.setRs_cnt(rs.getRs_cnt());
+            researchListDTO.setRs_start_date(rs.getRs_start_date());
+            researchListDTO.setRs_end_date(rs.getRs_end_date());
+            researchListDTO.setUse_yn(rs.getUse_yn());
+            researchListDTO.setHits(rs.getHits());
+            rsList.add(researchListDTO);
+        }
+        return rsList;
+    }
+
+
+
+}
