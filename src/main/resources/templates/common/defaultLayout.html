@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+>
+<head th:replace=" ~{fragments/head :: head}">
+    <title></title>
+</head>
+<body id="bodyContext">
+<header th:replace="~{fragments/navbar :: navbar}">
+
+</header>
+<div th:replace="~{fragments/spacer :: spacer(15)}"></div>
+
+
+    <div id="layout-content" layout:fragment="content">
+
+    </div>
+
+    <div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+</html>
