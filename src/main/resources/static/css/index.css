@@ -5,7 +5,7 @@ body{
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-position: top;
-    background-color: #2c3034;
+    background-color: rgb(15, 31, 46);
 }
 
 
@@ -29,6 +29,43 @@ body{
     border: none;
     outline: none !important;
     opacity: 0.8;
+}
+
+.scroll-to-top{
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 50px;
+    height: 50px;
+    background: #0a53be;
+    color: #fff;
+    border-radius: 50px;
+    text-align: center;
+    line-height: 46px;
+    transition: all ease 0.3s;
+    z-index: 99;
+    opacity: 0.8;
+    display: none;
+}
+
+.scroll-to-top:hover{
+    background: #0a53be;
+    color: #fff;
+    opacity: 1;
+/*    커서 모양*/
+    cursor: pointer;
+}
+
+.scroll-to-top:focus{
+    outline: none;
+}
+
+.scroll-to-top-show{
+    bottom: 30px;
+    right: 30px;
+    opacity: 1;
+    display: block;
+    transition: all ease 0.3s;
 }
 
 /* Animation */
