@@ -1,0 +1,42 @@
+server:
+  port: 8080
+spring:
+  profiles:
+    active: security
+  web:
+    resources:
+      static-locations: classpath:/static/
+  datasource:
+    url: jdbc:mysql://localhost:3306/{databasename}?serverTimezone=UTC&useSSL=false
+    username: root1234
+    password: 1234
+
+# application-security.yml
+#  server:
+#    port: 9090
+#  spring:
+#    #  live reload
+#    devtools:
+#      livereload:
+#        enabled: true
+#    thymeleaf:
+#      cache: false
+#      prefix: classpath:/templates/
+#      suffix: .html
+#    freemarker:
+#      cache: false
+#    # static resource
+#    web:
+#      resources:
+#        static-locations: classpath:/static/
+#    datasource:
+#      driver-class-name: com.mysql.cj.jdbc.Driver
+#      url: jdbc:mysql://localhost:3306/test_db_board?serverTimezone=UTC&useSSL=false&useUnicode=true&characterEncoding=utf8
+#      username: root
+#      password: 1234
+#    jpa:
+#      hibernate:
+#        ddl-auto: update
+#      show-sql: true
+#      database-platform: org.hibernate.dialect.MySQL8Dialect
+# application-security.yml git ignore
