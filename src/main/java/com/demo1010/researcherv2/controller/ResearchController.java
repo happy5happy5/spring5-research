@@ -2,9 +2,10 @@ package com.demo1010.researcherv2.controller;
 
 
 import com.demo1010.researcherv2.entity.Rs;
-import com.demo1010.researcherv2.model.RSListDTO;
+import com.demo1010.researcherv2.model.RSDTO;
 import com.demo1010.researcherv2.model.RSListRequestDTO;
 import com.demo1010.researcherv2.model.RSListResponseDTO;
+import com.demo1010.researcherv2.model.RegistrationRSDTO;
 import com.demo1010.researcherv2.repository.RsRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,6 +18,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -64,7 +66,7 @@ public class ResearchController {
         Page<Rs> rsPage = rsRepository.findAll(pageable);
 
         RSListResponseDTO responseDTO = new RSListResponseDTO();
-        List<RSListDTO> rsList = getResearchListDTOS(rsPage);
+        List<RSDTO> rsList = getResearchListDTOS(rsPage);
         responseDTO.setRsList(rsList);
         responseDTO.setTotalPage(rsPage.getTotalPages());
         responseDTO.setCurrentPage(rsPage.getNumber());
@@ -82,10 +84,10 @@ public class ResearchController {
         return responseDTO;
     }
 
-    private static List<RSListDTO> getResearchListDTOS(Page<Rs> rsPage) {
-        List<RSListDTO> rsList = new ArrayList<>();
+    private static List<RSDTO> getResearchListDTOS(Page<Rs> rsPage) {
+        List<RSDTO> rsList = new ArrayList<>();
         for (Rs rs : rsPage.getContent()) {
-            RSListDTO researchListDTO = new RSListDTO();
+            RSDTO researchListDTO = new RSDTO();
             researchListDTO.setRs_seq(rs.getRs_seq());
             researchListDTO.setUsername(rs.getUsername());
             researchListDTO.setRs_title(rs.getRs_title());
@@ -104,8 +106,16 @@ public class ResearchController {
     @GetMapping("/create")
     public String create(Model model) {
         log.info("[GET] /research/create");
-
+        RegistrationRSDTO registrationRSDTO = new RegistrationRSDTO();
+        model.addAttribute("registrationRSDTO", registrationRSDTO);
         return "pages/research/createform";
+    }
+
+    @PostMapping("/create")
+    public String create(RegistrationRSDTO registrationRSDTO) {
+        log.info("[POST] /research/create");
+        log.info("registrationRSDTO: " + registrationRSDTO);
+        return null;
     }
 
 

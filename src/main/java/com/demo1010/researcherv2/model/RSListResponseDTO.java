@@ -7,7 +7,7 @@ import java.util.List;
 @Data
 public class RSListResponseDTO {
 
-    private List<RSListDTO> rsList;
+    private List<RSDTO> rsList;
     private int totalPage;
     private int currentPage;
     private int totalSize;

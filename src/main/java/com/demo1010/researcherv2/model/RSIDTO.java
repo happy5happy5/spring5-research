@@ -3,7 +3,7 @@ package com.demo1010.researcherv2.model;
 import lombok.Data;
 
 @Data
-public class RSIListDTO {
+public class RSIDTO {
 
         private int rsi_seq;
         private int rs_seq;
