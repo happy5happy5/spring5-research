@@ -48,7 +48,7 @@ body{
     text-align: center;
     line-height: 46px;
     transition: all ease 0.3s;
-    z-index: 99;
+        z-index: 99;
     opacity: 0.8;
     display: none;
 }
@@ -178,13 +178,13 @@ body{
     background: #1e2125;
     opacity: 0.8;
     /*background: transparent;*/
+    height: 100%;
     left: 0;
     width: 13em;
     transition: all ease 0.4s;
 }
 /* Side bar */
 .sidebar{
-
     list-style: none;
     /*left: 0;*/
     margin: 0;
@@ -196,10 +196,33 @@ body{
     /*height: 80%;*/
     /*max-height: 80%; !* 최대 높이를 지정 *!*/
     /*background: #1e2125;*/
-    z-index: 99;
+    /*z-index: 99;*/
     /*transition: all ease 0.4s;*/
     overflow-y: scroll; /* 세로 스크롤 추가 */
     overflow-x: hidden; /* 가로 스크롤 숨김 */
+}
+
+.sidebar-item{
+    padding: 10px;
+    margin: 10px;
+    /*border: 1px solid #666;*/
+    /*border: 3px solid #666;*/
+    /*background-color: #ddd;*/
+    /*border-radius: .5em;*/
+    cursor: pointer;
+}
+.sidebar-item.over{
+    border: 3px dotted #666;
+}
+
+
+.item-movable{
+    cursor: move;
+}
+
+
+.dropdown-menu{
+    /*z-index: 100;*/
 }
 
 
@@ -244,5 +267,5 @@ body{
     margin-left: 0;
 }
 
-
+/* create page popup menu button*/
 

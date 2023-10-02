@@ -6,108 +6,191 @@
 </head>
 <body>
 <div th:fragment="sidebar">
+
     <button class="sidebar-toggle hide shadow-none mt-3 bg-transparent btn btn-toolbar position-absolute">
         <img alt="" src="/img/white-burger-menu-icon.png" width="10px" height="10px">
     </button>
     <div class="sidebar-container position-absolute top-0 overflow-hidden d-flex flex-column vh-100 flex-shrink-0 py-3 text-white ">
-        <div class="align-items-center m-0 mt-3 text-white text-decoration-none">
+        <div class="align-items-center m-0 mt-3 text-white text-decoration-none row">
             <!--    토글 버튼-->
-            <h5 class=" ms-5 ">Create</h5>
             <button class="sidebar-toggle shadow-none bg-transparent btn btn-toolbar">
                 <img alt="" src="/img/white-burger-menu-icon.png" width="10px" height="10px">
             </button>
+            <h5 class=" ms-5 col">Create</h5>
+            <!-- popper button -->
+            <div class="btn-group col">
+                <div type="button" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="fas fa-bars"></i>
+                </div>
+                <ul class="dropdown-menu">
+                    <li>
+                        <div class="dropdown-item" href="#">객관식</div>
+                    </li>
+                    <li>
+                        <div class="dropdown-item" href="#">2</div>
+                    </li>
+                    <li>
+                        <div class="dropdown-item" href="#">3</div>
+                    </li>
+                    <li>
+                        <div class="dropdown-item" href="#">3</div>
+                    </li>
+                    <li>
+                        <div class="dropdown-item" href="#">3</div>
+                    </li>
+                    <li>
+                        <div class="dropdown-item" href="#">3</div>
+                    </li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                    <li>
+                        <div class="dropdown-item" href="#">4</div>
+                    </li>
+                </ul>
+            </div>
+
         </div>
         <hr>
-        <ul class="sidebar flex-column">
-            <li><a href="#" class="nav-link text-white" aria-current="page"><span class="ms-2">Question1</span> </a></li>
-            <li><a href="#" class="nav-link text-white" aria-current="page"><span class="ms-2">Question1</span> </a></li>
-            <li><a href="#" class="nav-link text-white" aria-current="page"><span class="ms-2">Question1</span> </a></li>
-            <li><a href="#" class="nav-link text-white" aria-current="page"><span class="ms-2">Question1</span> </a></li>
-            <li><a href="#" class="nav-link text-white" aria-current="page"><span class="ms-2">Question1</span> </a></li>
-            <li><a href="#" class="nav-link text-white" aria-current="page"><span class="ms-2">Question1</span> </a></li>
-            <li><a href="#" class="nav-link text-white" aria-current="page"><span class="ms-2">Question1</span> </a></li>
-            <li><a href="#" class="nav-link text-white" aria-current="page"><span class="ms-2">Question1</span> </a></li>
-            <li><a href="#" class="nav-link text-white" aria-current="page"><span class="ms-2">Question1</span> </a></li>
-            <li><a href="#" class="nav-link text-white" aria-current="page"><span class="ms-2">Question1</span> </a></li>
-            <li><a href="#" class="nav-link text-white" aria-current="page"><span class="ms-2">Question1</span> </a></li>
-            <li><a href="#" class="nav-link text-white" aria-current="page"><span class="ms-2">Question1</span> </a></li>
-            <li><a href="#" class="nav-link text-white" aria-current="page"><span class="ms-2">Question1</span> </a></li>
-            <li><a href="#" class="nav-link text-white" aria-current="page"><span class="ms-2">Question1</span> </a></li>
-            <li><a href="#" class="nav-link text-white" aria-current="page"><span class="ms-2">Question1</span> </a></li>
-            <li><a href="#" class="nav-link text-white" aria-current="page"><span class="ms-2">Question1</span> </a></li>
-            <li><a href="#" class="nav-link text-white" aria-current="page"><span class="ms-2">Question1</span> </a></li>
-            <li><a href="#" class="nav-link text-white" aria-current="page"><span class="ms-2">Question1</span> </a></li>
-            <li><a href="#" class="nav-link text-white" aria-current="page"><span class="ms-2">Question1</span> </a></li>
-            <li><a href="#" class="nav-link text-white" aria-current="page"><span class="ms-2">Question1</span> </a></li>
-            <li><a href="#" class="nav-link text-white" aria-current="page"><span class="ms-2">Question1</span> </a></li>
-            <li><a href="#" class="nav-link text-white" aria-current="page"><span class="ms-2">Question1</span> </a></li>
-            <li><a href="#" class="nav-link text-white" aria-current="page"><span class="ms-2">Question1</span> </a></li>
-            <li><a href="#" class="nav-link text-white" aria-current="page"><span class="ms-2">Question1</span> </a></li>
-            <li><a href="#" class="nav-link text-white" aria-current="page"><span class="ms-2">Question1</span> </a></li>
-            <li><a href="#" class="nav-link text-white" aria-current="page"><span class="ms-2">Question1</span> </a></li>
-            <li><a href="#" class="nav-link text-white" aria-current="page"><span class="ms-2">Question1</span> </a></li>
-            <li><a href="#" class="nav-link text-white" aria-current="page"><span class="ms-2">Question1</span> </a></li>
-            <li><a href="#" class="nav-link text-white" aria-current="page"><span class="ms-2">Question1</span> </a></li>
-            <li><a href="#" class="nav-link text-white" aria-current="page"><span class="ms-2">Question1</span> </a></li>
-            <li><a href="#" class="nav-link text-white" aria-current="page"><span class="ms-2">Question1</span> </a></li>
-            <li><a href="#" class="nav-link text-white" aria-current="page"><span class="ms-2">Question1</span> </a></li>
-            <li><a href="#" class="nav-link text-white" aria-current="page"><span class="ms-2">Question1</span> </a></li>
-            <li><a href="#" class="nav-link text-white" aria-current="page"><span class="ms-2">Question1</span> </a></li>
-            <li><a href="#" class="nav-link text-white" aria-current="page"><span class="ms-2">Question1</span> </a></li>
-            <li><a href="#" class="nav-link text-white" aria-current="page"><span class="ms-2">Question1</span> </a></li>
-            <li><a href="#" class="nav-link text-white" aria-current="page"><span class="ms-2">Question1</span> </a></li>
-            <li><a href="#" class="nav-link text-white" aria-current="page"><span class="ms-2">Question1</span> </a></li>
-            <li><a href="#" class="nav-link text-white" aria-current="page"><span class="ms-2">Question1</span> </a></li>
-            <li><a href="#" class="nav-link text-white" aria-current="page"><span class="ms-2">Question1</span> </a></li>
-            <li><a href="#" class="nav-link text-white" aria-current="page"><span class="ms-2">Question1</span> </a></li>
-            <li><a href="#" class="nav-link text-white" aria-current="page"><span class="ms-2">Question1</span> </a></li>
-            <li><a href="#" class="nav-link text-white" aria-current="page"><span class="ms-2">Question1</span> </a></li>
-            <li><a href="#" class="nav-link text-white" aria-current="page"><span class="ms-2">Question1</span> </a></li>
-            <li><a href="#" class="nav-link text-white" aria-current="page"><span class="ms-2">Question1</span> </a></li>
-            <li><a href="#" class="nav-link text-white" aria-current="page"><span class="ms-2">Question1</span> </a></li>
-            <li><a href="#" class="nav-link text-white" aria-current="page"><span class="ms-2">Question1</span> </a></li>
-            <li><a href="#" class="nav-link text-white" aria-current="page"><span class="ms-2">Question1</span> </a></li>
-            <li><a href="#" class="nav-link text-white" aria-current="page"><span class="ms-2">Question1</span> </a></li>
-            <li><a href="#" class="nav-link text-white" aria-current="page"><span class="ms-2">Question1</span> </a></li>
-            <li><a href="#" class="nav-link text-white" aria-current="page"><span class="ms-2">Question1</span> </a></li>
-            <li><a href="#" class="nav-link text-white" aria-current="page"><span class="ms-2">Question1</span> </a></li>
-            <li><a href="#" class="nav-link text-white" aria-current="page"><span class="ms-2">Question1</span> </a></li>
-            <li><a href="#" class="nav-link text-white" aria-current="page"><span class="ms-2">Question1</span> </a></li>
-            <li><a href="#" class="nav-link text-white" aria-current="page"><span class="ms-2">Question1</span> </a></li>
-            <li><a href="#" class="nav-link text-white" aria-current="page"><span class="ms-2">Question1</span> </a></li>
-            <li><a href="#" class="nav-link text-white" aria-current="page"><span class="ms-2">Question1</span> </a></li>
-            <li><a href="#" class="nav-link text-white" aria-current="page"><span class="ms-2">Question1</span> </a></li>
-            <li><a href="#" class="nav-link text-white" aria-current="page"><span class="ms-2">Question1</span> </a></li>
-            <li><a href="#" class="nav-link text-white" aria-current="page"><span class="ms-2">Question1</span> </a></li>
-            <li><a href="#" class="nav-link text-white" aria-current="page"><span class="ms-2">Question1</span> </a></li>
-            <li><a href="#" class="nav-link text-white" aria-current="page"><span class="ms-2">Question1</span> </a></li>
-            <li><a href="#" class="nav-link text-white" aria-current="page"><span class="ms-2">Question1</span> </a></li>
-            <li><a href="#" class="nav-link text-white" aria-current="page"><span class="ms-2">Question1</span> </a></li>
-            <li><a href="#" class="nav-link text-white" aria-current="page"><span class="ms-2">Question1</span> </a></li>
+
+        <ul class="sidebar">
+            <li class="sidebar-item" >
+                <div class="nav-link text-white col ps-0" aria-current="page">
+<!--                    <span class="col-2">-->
+<!--                        <img alt="" src="/img/forklane.png" width="20px" height="20px">-->
+<!--                    </span>-->
+                    <div class="btn-group col-2">
+                        <div type="button" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                            <span class="item-numbering">Q1</span>
+                            <span class="ms-2">tt</span>
+                            <i></i>
+                        </div>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <div class="dropdown-item" href="#">객관식</div>
+                            </li>
+                            <li>
+                                <div class="dropdown-item" href="#">2</div>
+                            </li>
+                            <li>
+                                <div class="dropdown-item" href="#">3</div>
+                            </li>
+                            <li>
+                                <div class="dropdown-item" href="#">3</div>
+                            </li>
+                            <li>
+                                <div class="dropdown-item" href="#">3</div>
+                            </li>
+                            <li>
+                                <div class="dropdown-item" href="#">3</div>
+                            </li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li>
+                                <div class="dropdown-item" href="#">4</div>
+                            </li>
+                        </ul>
+                    </div>
+
+                </div>
+            </li>
+
+            <li class="sidebar-item" draggable="true" ><span class="item-numbering">Q2</span></li>
+            <li class="sidebar-item" draggable="true" ><span class="item-numbering">Q3</span></li>
+            <li class="sidebar-item" draggable="true" ><span class="item-numbering">Q4</span></li>
+            <li class="sidebar-item" draggable="true" ><span class="item-numbering">Q5</span></li>
+            <li class="sidebar-item" draggable="true" ><span class="item-numbering">Q6</span></li>
+            <li class="sidebar-item" draggable="true" ><span class="item-numbering">Q7</span></li>
 
         </ul>
-        <hr>
-        FOOTER
+
 
     </div>
 
+    <script>
+        // Drag and Drop
+        document.addEventListener('DOMContentLoaded', (event) => {
+            let dragSrcEl = null;
+            function handleDragStart(e) {
+                this.style.opacity = '0.4';
+                dragSrcEl = this;
+                e.dataTransfer.effectAllowed = 'move';
+                e.dataTransfer.setData('text/html', this.innerHTML);
+            }
 
+            function handleDragEnd(e) {
+                this.style.opacity = '1';
+
+                items.forEach(function (item) {
+                    item.classList.remove('over');
+                });
+                getQuestionNumbering()
+
+            }
+            function handleDragOver(e) {
+                if (e.preventDefault) {
+                    e.preventDefault();
+                }
+                return false;
+            }
+
+            function handleDragEnter(e) {
+                this.classList.add('over');
+            }
+
+            function handleDragLeave(e) {
+                this.classList.remove('over');
+            }
+            function handleDrop(e) {
+                e.stopPropagation();
+                if(e.target.querySelector('.item-numbering').innerHTML === "Q1"){
+                    alert("첫번째 항목은 이동할 수 없습니다.")
+                    return;
+                }
+
+                if (dragSrcEl !== this) {
+                    dragSrcEl.innerHTML = this.innerHTML;
+                    this.innerHTML = e.dataTransfer.getData('text/html');
+                }
+                return false;
+            }
+
+            let items = document.querySelectorAll('.sidebar-item');
+            items.forEach(function(item) {
+                item.addEventListener('dragstart', handleDragStart);
+                item.addEventListener('dragover', handleDragOver);
+                item.addEventListener('dragenter', handleDragEnter);
+                item.addEventListener('dragleave', handleDragLeave);
+                item.addEventListener('dragend', handleDragEnd);
+                item.addEventListener('drop', handleDrop);
+            });
+        });
+
+        function getQuestionNumbering(e) {
+            let questionNumbering = document.querySelectorAll('.item-numbering');
+            questionNumbering.forEach(function (item, index) {
+                item.innerHTML = "Q" + (index + 1);
+            });
+        }
+
+    </script>
 
     <script>
         // Toggle the side navigation
         const sidebarToggle = document.body.querySelectorAll('.sidebar-toggle');
         sidebarToggle.forEach((toggle) => {
             toggle.addEventListener('click', () => {
-                if(document.querySelector(".sidebar-container").classList.contains("hide"))
+                if (document.querySelector(".sidebar-container").classList.contains("hide"))
                     document.querySelector(".sidebar-container").classList.remove("hide")
                 else document.querySelector(".sidebar-container").classList.add("hide")
 
-                if(document.querySelector(".sidebar-toggle").classList.contains("hide"))
+                if (document.querySelector(".sidebar-toggle").classList.contains("hide"))
                     document.querySelector(".sidebar-toggle").classList.remove("hide")
                 else document.querySelector(".sidebar-toggle").classList.add("hide")
 
-            //     main-content-toggle
-                if(document.querySelector(".main-content-toggle").classList.contains("hide"))
+                //     main-content-toggle
+                if (document.querySelector(".main-content-toggle").classList.contains("hide"))
                     document.querySelector(".main-content-toggle").classList.remove("hide")
                 else document.querySelector(".main-content-toggle").classList.add("hide")
 
