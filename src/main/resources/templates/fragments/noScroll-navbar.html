@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<nav th:fragment="navbar" id="navbar-layout" class="navbar justify-content-end navbar-no-hover navbar-expand-lg fixed-top navbar-default position-relative">
+    <div class="container d-flex justify-content-end position-absolute">
+        <button type="button" class="navbar-toggler shadow-none " data-bs-toggle="collapse" data-bs-target="#resNav">
+<!--            흰색 버거 아이콘-->
+<!--            <span class="navbar-toggler-bugger"> </span>-->
+            <img alt="" src="/img/white-burger-menu-icon.png" width="40" height="40">
+        </button>
+        <div class="collapse navbar-collapse position-absolute top-50" id="resNav">
+<!--            <div th:if="${#authorization.expression('isAuthenticated()')}" class="d-flex align-items-center">-->
+<!--                &lt;!&ndash; 로그인한 사용자만 볼 수 있는 내용 &ndash;&gt;-->
+<!--                <p class="text-white m-0 me-3">Welcome, <span th:text="${#authentication.principal.name}"></span>!</p>-->
+<!--            </div>-->
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a th:href="@{/}" class="nav-link ">Home</a></li>
+                <li class="nav-item"><a th:href="@{/research/list}" class="nav-link ">List</a></li>
+                <li class="nav-item"><a th:href="@{/user/test}" class="nav-link ">UserPage</a></li>
+                <li th:if="${#authorization.expression('isAuthenticated()')}" class="nav-item">
+                    <!-- 로그인한 사용자 -->
+                    <a th:href="@{/auth/profile}" class="nav-link ">Profile</a>
+                </li>
+                <li th:unless="${#authorization.expression('isAuthenticated()')}" class="nav-item">
+                    <!-- 로그인하지 않은 사용자만 볼 수 있는 내용 -->
+                    <a th:href="@{/auth/login}" class="nav-link ">Login</a>
+                </li>
+                <li th:if="${#authorization.expression('isAuthenticated()')}" class="nav-item">
+                    <!-- 로그인한 사용자 -->
+                    <a th:href="@{/auth/logout}" class="nav-link ">Logout</a>
+                </li>
+                <li th:unless="${#authorization.expression('isAuthenticated()')}" class="nav-item">
+                    <!-- 로그인하지 않은 사용자만 볼 수 있는 내용 -->
+                    <a th:href="@{/auth/register}" class="nav-link ">SignIn</a>
+                </li>
+<!--                admin 전용-->
+                <li th:if="${#authorization.expression('hasRole(''ADMIN'')')}" class="nav-item">
+                    <!-- 로그인한 사용자 -->
+                    <a th:href="@{/admin/test}" class="nav-link ">Admin전용</a>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+
+<!--    scroller to top button-->
+<!--    <div class="scroll-to-top" onclick="scrollToTop()">-->
+<!--        <i class="fa fa-angle-up">TOP</i>-->
+<!--    </div>-->
+
+</nav>
+
+</body>
+</html>

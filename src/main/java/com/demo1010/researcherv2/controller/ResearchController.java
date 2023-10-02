@@ -2,16 +2,15 @@ package com.demo1010.researcherv2.controller;
 
 
 import com.demo1010.researcherv2.entity.Rs;
-import com.demo1010.researcherv2.model.ResearchListDTO;
-import com.demo1010.researcherv2.model.ResearchListRequestDTO;
-import com.demo1010.researcherv2.model.ResearchListResponseDTO;
+import com.demo1010.researcherv2.model.RSListDTO;
+import com.demo1010.researcherv2.model.RSListRequestDTO;
+import com.demo1010.researcherv2.model.RSListResponseDTO;
 import com.demo1010.researcherv2.repository.RsRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -35,7 +34,7 @@ public class ResearchController {
     private final RsRepository rsRepository;
 
     @GetMapping("/list")
-    public String list(Model model, ResearchListRequestDTO requestDTO) {
+    public String list(Model model, RSListRequestDTO requestDTO) {
         log.info("[GET] /research/list");
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Set<String> roles = auth.getAuthorities().stream()
@@ -48,7 +47,7 @@ public class ResearchController {
 
     @GetMapping("/list2")
     @ResponseBody
-    public ResearchListResponseDTO list2(ResearchListRequestDTO requestDTO) {
+    public RSListResponseDTO list2(RSListRequestDTO requestDTO) {
         log.info("[GET] /research/list2");
 
         // 페이지와 사이즈를 이용해 데이터를 가져오도록 수정
@@ -64,8 +63,8 @@ public class ResearchController {
 
         Page<Rs> rsPage = rsRepository.findAll(pageable);
 
-        ResearchListResponseDTO responseDTO = new ResearchListResponseDTO();
-        List<ResearchListDTO> rsList = getResearchListDTOS(rsPage);
+        RSListResponseDTO responseDTO = new RSListResponseDTO();
+        List<RSListDTO> rsList = getResearchListDTOS(rsPage);
         responseDTO.setRsList(rsList);
         responseDTO.setTotalPage(rsPage.getTotalPages());
         responseDTO.setCurrentPage(rsPage.getNumber());
@@ -83,10 +82,10 @@ public class ResearchController {
         return responseDTO;
     }
 
-    private static List<ResearchListDTO> getResearchListDTOS(Page<Rs> rsPage) {
-        List<ResearchListDTO> rsList = new ArrayList<>();
+    private static List<RSListDTO> getResearchListDTOS(Page<Rs> rsPage) {
+        List<RSListDTO> rsList = new ArrayList<>();
         for (Rs rs : rsPage.getContent()) {
-            ResearchListDTO researchListDTO = new ResearchListDTO();
+            RSListDTO researchListDTO = new RSListDTO();
             researchListDTO.setRs_seq(rs.getRs_seq());
             researchListDTO.setUsername(rs.getUsername());
             researchListDTO.setRs_title(rs.getRs_title());
@@ -101,6 +100,13 @@ public class ResearchController {
         return rsList;
     }
 
+
+    @GetMapping("/create")
+    public String create(Model model) {
+        log.info("[GET] /research/create");
+
+        return "pages/research/createform";
+    }
 
 
 }

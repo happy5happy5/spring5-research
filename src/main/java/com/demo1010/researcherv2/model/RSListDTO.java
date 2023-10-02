@@ -3,7 +3,7 @@ package com.demo1010.researcherv2.model;
 import lombok.Data;
 
 @Data
-public class ResearchListDTO {
+public class RSListDTO {
 
     private Integer rs_seq;
     private String username;

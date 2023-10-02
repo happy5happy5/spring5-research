@@ -3,7 +3,7 @@ package com.demo1010.researcherv2.model;
 import lombok.Data;
 
 @Data
-public class ResearchListRequestDTO {
+public class RSListRequestDTO {
     private int page;
     private int size;
     private String sort;
@@ -11,7 +11,7 @@ public class ResearchListRequestDTO {
     private String searchType;
     private String searchKeyword;
 
-    public ResearchListRequestDTO() {
+    public RSListRequestDTO() {
         this.page = 0;
         this.size = 10;
         this.sort = "rs_seq";

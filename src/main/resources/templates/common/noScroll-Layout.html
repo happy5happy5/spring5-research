@@ -7,15 +7,14 @@
     <title></title>
 </head>
 <body id="bodyContext">
-<header th:replace="~{fragments/navbar :: navbar}">
+<header th:replace="~{fragments/noScroll-navbar :: navbar}">
 
 </header>
-<div th:replace="~{fragments/spacer :: spacer(15)}"></div>
+<!--<div th:replace="~{fragments/spacer :: spacer(15)}"></div>-->
 
 
-    <div id="layout-content" layout:fragment="content">
+    <div id="layout-content" class="position-absolute top-0" layout:fragment="content">
     </div>
 
-    <div th:replace="~{fragments/footer :: footer}"></div>
 </body>
 </html>

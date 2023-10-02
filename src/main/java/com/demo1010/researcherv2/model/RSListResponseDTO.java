@@ -5,9 +5,9 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class ResearchListResponseDTO {
+public class RSListResponseDTO {
 
-    private List<ResearchListDTO> rsList;
+    private List<RSListDTO> rsList;
     private int totalPage;
     private int currentPage;
     private int totalSize;
