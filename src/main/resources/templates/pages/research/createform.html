@@ -12,23 +12,46 @@
     <script th:inline="javascript">
         /* [[${registrationRSDTO}]] 값을 JavaScript 객체로 파싱 */
         let registrationRSDTO = /*[[${registrationRSDTO}]]*/ {};
-    console.log(registrationRSDTO)
+        console.log(registrationRSDTO)
     </script>
     <div th:replace="~{fragments/sidebar :: sidebar}"></div>
 
 
-<!--    main content-->
-    <div class="container main-content main-content-toggle">
-        <div class="text-white">
-
-        Main Content
+    <!--    main content-->
+    <div class="main-content-container  main-content-toggle">
+        <div class="text-info">
+            Main Content
         </div>
+        <div class="main-content">
+
+
+        </div>
+        <!--    토글 버튼-->
+        <button class="sidebar-toggle shadow-none bg-transparent btn btn-toolbar">
+            <img alt="" src="/img/white-burger-menu-icon.png" width="10px" height="10px">
+        </button>
+
+
     </div>
 
     <script>
+        window.onload = function () {
+            /* sidebar toggle */
+            let sidebarToggle = document.querySelector('.sidebar-toggle');
+            let sidebar = document.querySelector('.sidebar-container');
+            let mainContent = document.querySelector('.main-content-container');
+            sidebarToggle.addEventListener('click', function () {
+                if (sidebar.classList.contains('hide')) {
+                    sidebar.classList.remove('hide');
+                    mainContent.classList.remove('hide');
+                } else {
+                    sidebar.classList.add('hide');
+                    mainContent.classList.add('hide');
+                }
+            });
+        }
 
     </script>
-
 
 
 </div>

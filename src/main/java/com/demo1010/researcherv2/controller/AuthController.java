@@ -21,12 +21,6 @@ public class AuthController {
         return "pages/auth/login";
     }
 
-//    @GetMapping("/logout")
-//    public String logout() {
-//        log.info("[GET] /auth/logout");
-//        return "pages/auth/logout";
-//    }
-
     @GetMapping("/register")
     public String register(Model model) {
         log.info("[GET] /auth/register");
