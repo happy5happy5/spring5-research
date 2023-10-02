@@ -1,11 +1,12 @@
 body{
     margin-top: 10px;
-    background-image: url("../img/toronto_bg.png");
+    /*background-image: url("../img/sky-bg.jpg");*/
     background-size: 100% 130%;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    background-position: top;
-    background-color: rgb(7, 3, 2);
+    /*background-repeat: no-repeat;*/
+    /*background-attachment: fixed;*/
+    /*background-position: top;*/
+    /*background-color: rgb(7, 3, 2);*/
+    background: #dde0e3;
 }
 
 .bottom-10{
@@ -207,12 +208,41 @@ body{
 
 }
 
+.sidebar-toggle{
+    position: absolute;
+    top: 2em;
+    left: 0;
+    width: 2em;
+    height: 2em;
+    background: #0a53be;
+    color: #fff;
+    border-radius: 50px;
+    text-align: center;
+    line-height: 46px;
+    transition: all ease 0.3s;
+    z-index: 99;
+    opacity: 0.8;
+}
 
 .sidebar-toggle.hide{
     top: 2em;
     left: -15em;
 }
 
+
+/*create page*/
+.main-content-toggle{
+    top: 2em;
+    padding-left: 15em;
+    margin-left: 0;
+    transition: all ease 0.4s;
+}
+
+.main-content-toggle.hide{
+    top: 2em;
+    padding-left: 2em;
+    margin-left: 0;
+}
 
 
 

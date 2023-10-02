@@ -13,11 +13,15 @@ window.addEventListener('scroll', function () {
     document.body.style.backgroundPosition = bgPosition;
 
     // Scroll to Top Button
-    if (window.scrollY > 500) {
-        document.querySelector('.scroll-to-top').classList.add('scroll-to-top-show');
-    }
-    if(window.scrollY < 500) {
-        document.querySelector('.scroll-to-top').classList.remove('scroll-to-top-show');
+    try{
+        if (window.scrollY > 500) {
+            document.querySelector('.scroll-to-top').classList.add('scroll-to-top-show');
+        }
+        if(window.scrollY < 500) {
+            document.querySelector('.scroll-to-top').classList.remove('scroll-to-top-show');
+        }
+    }catch(e){
+        // console.log(e);
     }
 });
 
