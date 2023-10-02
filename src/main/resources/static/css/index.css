@@ -180,7 +180,7 @@ body{
     /*background: transparent;*/
     height: 100%;
     left: 0;
-    width: 13em;
+    width: 21em;
     transition: all ease 0.4s;
 }
 /* Side bar */
@@ -192,7 +192,7 @@ body{
     /*position: absolute;*/
     /*top: 10%;*/
     /*left: 0;*/
-    width: 15em;
+    width: 23em;
     /*height: 80%;*/
     /*max-height: 80%; !* 최대 높이를 지정 *!*/
     /*background: #1e2125;*/
@@ -227,7 +227,7 @@ body{
 
 
 .sidebar-container.hide{
-    left: -15em;
+    left: -21em;
 
 }
 
@@ -256,7 +256,7 @@ body{
 /*create page*/
 .main-content-toggle{
     top: 2em;
-    padding-left: 15em;
+    padding-left: 22em;
     margin-left: 0;
     transition: all ease 0.4s;
 }
