@@ -1,6 +1,30 @@
 let dragSrcEl = null;
+let questionCreateAction = false;
+// Toggle Animation control
 
-// Toggle Animation by Class
+
+// .main-content-container.hide{
+//     /*top: 2em;*/
+//     padding-left: 1em;
+//     margin-left: 0;
+// }
+
+// .sidebar-container.hide{
+//     left: -21em;
+// }
+
+// .sidebar-toggle.hide{
+//     top: 2em;
+//     left: -15em;
+// }
+function toggleAnimation(e) {
+    document.querySelector('#layout-content .main-content-container').classList.toggle('hide');
+    document.querySelector('#layout-content .sidebar-container').classList.toggle('hide');
+    document.querySelector('#layout-content .sidebar-toggle').classList.toggle('hide');
+}
+
+
+
 window.addEventListener('scroll', function () {
     // Navbar Animation
     if (window.scrollY > 150) {
@@ -34,6 +58,40 @@ function scrollToTop() {
         behavior: 'smooth'
     });
 }
+
+// text area auto resize
+function autoResizeTextArea(e) {
+    e.style.height = 'auto';
+    e.style.height = e.scrollHeight + 'px';
+}
+
+// onclick sidebar item
+
+function handleSidebarItemClick(e) {
+    const currentNum = document.querySelector('#layout-content #question-number span').textContent;
+    const clickedNum = e.querySelector('.item-numbering').textContent.split('Q')[1];
+    if(currentNum === clickedNum){
+        return;
+    }
+    console.log("이전 문제 번호 : ",currentNum,"클릭한 문제 번호 : ",clickedNum);
+    const sidebarList = document.querySelector('.sidebar').children;
+    // console.log(sidebarList)
+    for (let i = 0; i < sidebarList.length; i++) {
+        sidebarList[i].classList.remove('sidebar-item-active');
+        if(currentNum == i){
+            // console.log(sidebarList[i]);
+            // sidebarList[i].classList.add('sidebar-item-active');
+        }
+
+    }
+
+
+
+
+
+}
+
+
 
 
 // Drag and Drop

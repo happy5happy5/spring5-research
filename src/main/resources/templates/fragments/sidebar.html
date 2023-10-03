@@ -16,34 +16,37 @@
         <hr>
         <!--        sidebar body-->
         <ul class="sidebar">
-            <li class="sidebar-item">
+            <li class="sidebar-item" onclick="handleSidebarItemClick(this)">
                 <!--                data part-->
                 <div data-input="data" class="data-type-input">
-                <button onclick="saveHTML()">save</button>
-                <button onclick="loadHTML()">load</button>
+                    <button onclick="saveHTML(this)">save</button>
+                    <button onclick="loadHTML(this)">load</button>
                     <div class="saveData" style="display: none"></div>
                     <div class="saveHTML" style="display: none"></div>
                     <script>
                         function saveHTML(e){
                         //        main-content-container
-                            let mainContentContainer = document.querySelector('.main-content-container');
+                            let mainContentContainer = document.querySelector('#layout-content').querySelector('.main-content-container')
                             let mainContentContainerHTML = mainContentContainer.innerHTML;
                             let textareas =[];
                             mainContentContainer.querySelectorAll('textarea').forEach(function (item){
                                 textareas.push(item.value);
                             });
                             textareas = JSON.stringify(textareas);
-                            let saveData = e.closest('.data-type-input').querySelector('.saveData');
-                            console.log(saveData)
+                            // <div data-input="data" class="data-type-input"> 의 자식 요소중 saveData 를 찾습니다.
+                            let saveData = e.parentElement.querySelector('.saveData');
+                            let saveHTML = e.parentElement.querySelector('.saveHTML');
                             saveData.value = textareas;
-                            let saveHTML = e.closest('.data-type-input').querySelector('.saveHTML');
                             saveHTML.value = mainContentContainerHTML;
+                            console.log(saveData.value);
+                            console.log(saveHTML.value);
+
                         }
                         function loadHTML(e){
-                            let saveData = e.closest('.data-type-input').querySelector('.saveData');
-                            let saveHTML = e.closest('.data-type-input').querySelector('.saveHTML');
-                            let textareas = JSON.parse(saveData.value);
                             let mainContentContainer = document.querySelector('#layout-content').querySelector('.main-content-container')
+                            let saveData = e.parentElement.querySelector('.saveData');
+                            let saveHTML = e.parentElement.querySelector('.saveHTML');
+                            let textareas = JSON.parse(saveData.value);
                             mainContentContainer.innerHTML = saveHTML.value;
                             let textareasInMainContentContainer = mainContentContainer.querySelectorAll('textarea');
                             textareasInMainContentContainer.forEach(function (item, index){
@@ -164,7 +167,7 @@
         //     리터럴 형식으로?
             let newLiEl =
             `
-            <li class="sidebar-item" draggable="true">
+            <li class="sidebar-item" draggable="true" onclick="handleSidebarItemClick(this)">
                 <div data-input="data" class="data-type-input">
 
                     <!--                    여기에 필요 한 모든 입력값 저장 한다-->
