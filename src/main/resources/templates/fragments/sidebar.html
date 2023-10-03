@@ -17,13 +17,86 @@
         <!--        sidebar body-->
         <ul class="sidebar">
             <li class="sidebar-item">
-<!--                data part-->
+                <!--                data part-->
                 <div data-input="data" class="data-type-input">
                     <!--                    RS INTRO 전용-->
                     <input type="hidden" name="rs_title" value="test">
                     <input type="hidden" name="rs_desc" value="">
                     <input type="hidden" name="rs_start_date" value="">
                     <input type="hidden" name="rs_end_date" value="">
+
+                    <!--                    여기에 필요 한 모든 입력값 저장 한다-->
+                    <!--                    0: 객관식 1: OX 2: likert 3: 주관식 4: 별점 5: 다중선택 -->
+                    <input type="hidden" name="rsi_question" value="test">
+                    <input type="hidden" name="rsi_type" value="5">
+                    <input type="hidden" name="rsi_type0_1" value="">
+                    <input type="hidden" name="rsi_type0_2" value="">
+                    <input type="hidden" name="rsi_type0_3" value="">
+                    <input type="hidden" name="rsi_type0_4" value="">
+                    <input type="hidden" name="rsi_type0_5" value="">
+                    <input type="hidden" name="rsi_type0_etc" value="">
+                    <input type="hidden" name="rsi_type1" value="">
+                    <input type="hidden" name="rsi_type2" value="">
+                    <input type="hidden" name="rsi_type3" value="">
+                    <input type="hidden" name="rsi_type4" value="">
+                    <input type="hidden" name="rsi_type5" value="">
+
+                </div>
+
+
+                <div class="nav-link text-white col ps-0 d-flex justify-content-between align-items-center" aria-current="page">
+                    <span class="item-numbering ">정보 입력</span>
+                    <span class="item-title ms-2">제목제목제목</span>
+                    <div class="btn-group  ">
+                        <!-- popper button -->
+                        <div type="button" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i></i>
+                        </div>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <div class="ms-3">기능</div>
+                            </li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <!--                         0: 객관식 1: OX 2: likert 3: 주관식 4: 별점 5: 다중선택        -->
+                            <li>
+                                <div class="dropdown-item" data-type="0" onclick="actionByType(this)">객관식</div>
+                            </li>
+                            <li>
+                                <div class="dropdown-item" data-type="1" onclick="actionByType(this)">OX</div>
+                            </li>
+                            <li>
+                                <div class="dropdown-item" data-type="2" onclick="actionByType(this)">LIKERT</div>
+                            </li>
+                            <li>
+                                <div class="dropdown-item" data-type="3" onclick="actionByType(this)">주관식</div>
+                            </li>
+                            <li>
+                                <div class="dropdown-item" data-type="4" onclick="actionByType(this)">별점</div>
+                            </li>
+                            <li>
+                                <div class="dropdown-item" data-type="5" onclick="actionByType(this)">다중선택 객관식</div>
+                            </li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li>
+                                <div class="dropdown-item" data-type="delete" onclick="actionByType(this)">삭제</div>
+                            </li>
+
+                        </ul>
+                    </div>
+                </div>
+            </li>
+            <li class="sidebar-item">
+                <!--                data part-->
+                <div data-input="data" class="data-type-input">
+                    <!--                    RS INTRO 전용-->
+<!--                    <input type="hidden" name="rs_title" value="test">-->
+<!--                    <input type="hidden" name="rs_desc" value="">-->
+<!--                    <input type="hidden" name="rs_start_date" value="">-->
+<!--                    <input type="hidden" name="rs_end_date" value="">-->
 
                     <!--                    여기에 필요 한 모든 입력값 저장 한다-->
                     <!--                    0: 객관식 1: OX 2: likert 3: 주관식 4: 별점 5: 다중선택 -->
@@ -96,6 +169,14 @@
             <li class="sidebar-item" draggable="true"><span class="item-numbering me-2">Q4</span>ww</li>
             <li class="sidebar-item" draggable="true"><span class="item-numbering me-2">Q5</span>ee</li>
             <li class="sidebar-item" draggable="true"><span class="item-numbering me-2">Q6</span>rr</li>
+            <li class="sidebar-item" draggable="true"><span class="item-numbering me-2">Q7</span>tt</li>
+            <li class="sidebar-item" draggable="true"><span class="item-numbering me-2">Q8</span>yy</li>
+            <li class="sidebar-item" draggable="true"><span class="item-numbering me-2">Q9</span>uu</li>
+            <li class="sidebar-item" draggable="true"><span class="item-numbering me-2">Q10</span>ii</li>
+            <li class="sidebar-item" draggable="true"><span class="item-numbering me-2">Q11</span>oo</li>
+            <li class="sidebar-item" draggable="true"><span class="item-numbering me-2">Q12</span>pp</li>
+            <li class="sidebar-item" draggable="true"><span class="item-numbering me-2">Q13</span>aa</li>
+            <li class="sidebar-item" draggable="true"><span class="item-numbering me-2">Q14</span>ss</li>
 
         </ul>
 
@@ -202,7 +283,6 @@
         }
 
         document.addEventListener('DOMContentLoaded', (event) => {
-
             let items = document.querySelectorAll('.sidebar-item');
             items.forEach(function (item) {
                 item.addEventListener('dragstart', handleDragStart);

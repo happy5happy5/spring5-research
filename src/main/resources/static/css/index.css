@@ -21,6 +21,12 @@ body{
     background: transparent;
     transition: all ease 0.4s;
 }
+.navbar-nav{
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 .navbar-brand{
     font-size: 22px;
     color: white !important;
@@ -28,6 +34,7 @@ body{
 .navbar .navbar-nav li a{
     font-size: 16px;
     color: white;
+    padding-top: 20px;
 }
 
 .navbar-toggler{
@@ -215,22 +222,18 @@ body{
     /*border-radius: .5em;*/
     cursor: pointer;
 }
-.sidebar-item.over{
-    border: 3px dotted #666;
+.sidebar-item.over {
+    border-top: 3px dotted #666;
+    border-bottom: 3px dotted #666;
 }
-
 
 .item-movable{
-    cursor: move;
+    /*cursor: move;*/
 }
-
 
 .dropdown-menu{
     /*z-index: 100;*/
 }
-
-
-
 
 .sidebar-toggle{
     /*position: absolute;*/
@@ -253,10 +256,10 @@ body{
     left: -15em;
 }
 .item-title{
-    white-space: nowrap; /* 텍스트 줄바꿈 금지 */
-    overflow: hidden; /* 내용이 넘치는 경우 숨김 처리 */
-    text-overflow: ellipsis; /* 넘치는 내용을 생략 부호로 표시 (...) */
-    max-width: 80%; /* 요소의 최대 너비 설정 */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 80%;
     font-size: .7em;
 }
 
@@ -266,39 +269,108 @@ body{
 
 
 /*create page*/
-
+/*main-content*/
 .main-content-container{
     transition: all ease 0.4s;
-    width: 100%;
-}
-
-.main-content-toggle{
     /*top: 2em;*/
     padding-left: 22em;
+    width: 100%;
     padding-right: 1em;
-    transition: all ease 0.4s;
+    z-index: 50;
 }
 
-.main-content-toggle.hide{
-    top: 2em;
+
+.main-content-container.hide{
+    /*top: 2em;*/
     padding-left: 1em;
     margin-left: 0;
 }
 
 .main-content {
-    padding: 10px;
+    padding: 10px 7px 10px 10px;
     transition: all ease 0.4s;
     background-color: rgba(13, 202, 240, 0.4);
-    min-height: 80vh;
+    height: 85vh;
+    width: 100%;
+    overflow-y: scroll;
+    overflow-x: hidden;
     color: #0a58ca;
-    /* 그림자 효과 추가 - 오른쪽 과 아래쪽 만 */
-    box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2); /* 오른쪽 및 아래쪽 그림자 효과만 적용 */
-    /* 모서리 둥글게 만들기 */
-    border-radius: 10px; /* 원하는 모서리 둥글기 정도를 조절 가능 */
-    border: none; /* 테두리 제거 */
+    box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    border: none;
 }
 
 
 
-/* create page popup menu button*/
+
+/* main-content input*/
+
+.title-input{
+    color: #000; /* 검은색 텍스트 색상 */
+    margin-right: 10px; /* 제목과 인풋 사이 간격 설정 */
+    font-weight: bold; /* 굵은 글씨체 */
+}
+
+.transparent-input{
+    background: rgba(255, 255, 255, 0.7);
+    border: 1px solid #000; /* 1px 두께 실선 테두리 */
+    border-bottom: 1px solid #0a58ca;
+    border-radius: 0;
+    box-shadow: none;
+    outline: none;
+    color: #0a58ca;
+    font-size: 1.2em;
+    font-weight: 500;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+}
+
+textarea {
+    /*height: auto;*/
+    resize: none;
+    overflow: hidden;
+    min-width: 80%;
+    /*max-width: 100%;*/
+    min-height: 10px;
+    font-size: 1.2em;
+    white-space: pre-wrap;
+    word-break: break-all;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    border: none;
+    outline: none;
+    padding: 0;
+    margin: 0;
+    background: rgba(255, 255, 255, 0);
+}
+
+.question-list{
+    list-style: none;
+}
+
+
+.question-item{
+    padding: 10px;
+    margin: 10px;
+    border: 1px solid #666;
+    /*background-color: #ddd;*/
+    background: rgba(61, 213, 243, 0.4);
+    /*background: rgba(13, 202, 240, 0.4);*/
+    border-radius: .5em;
+    cursor: pointer;
+}
+.question-item.over,
+.question-item:hover {
+    border-top: 3px dotted #666;
+    border-bottom: 3px dotted #666;
+}
+
+.question-item:hover .question-item-delete{
+    display: flex;
+}
+
+.question-item-delete{
+    display: none;
+}
 
