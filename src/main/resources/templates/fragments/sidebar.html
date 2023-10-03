@@ -26,7 +26,7 @@
                     <script>
                         function saveHTML(e){
                         //        main-content-container
-                            let mainContentContainer = document.querySelector('#layout-content').querySelector('.main-content-container')
+                            let mainContentContainer = document.querySelector('#layout-content .main-content-container');
                             let mainContentContainerHTML = mainContentContainer.innerHTML;
                             let textareas =[];
                             mainContentContainer.querySelectorAll('textarea').forEach(function (item){
@@ -38,8 +38,8 @@
                             let saveHTML = e.parentElement.querySelector('.saveHTML');
                             saveData.value = textareas;
                             saveHTML.value = mainContentContainerHTML;
-                            console.log(saveData.value);
-                            console.log(saveHTML.value);
+                            // console.log(saveData.value);
+                            // console.log(saveHTML.value);
 
                         }
                         function loadHTML(e){
@@ -60,12 +60,12 @@
                 <div class="nav-link text-white col ps-0 d-flex justify-content-between align-items-center" aria-current="page">
                     <span class="item-numbering">Q0</span>
                     <span class="item-title ms-2">제목제목제목</span>
-                    <div class="btn-group  ">
+                    <div class="btn-group" onclick="stopPropagation(event)">
                         <!-- popper button -->
-                        <div type="button" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                        <div type="button" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" onclick="stopPropagation(event)">
                             <i></i>
                         </div>
-                        <ul class="dropdown-menu">
+                        <ul class="dropdown-menu" onclick="stopPropagation(event)">
                             <li>
                                 <div class="ms-3">기능</div>
                             </li>
@@ -108,7 +108,12 @@
     <script>
 
         function handleSideBarCreatButtonByType(element) {
-            // 클릭한 요소 에서 가장 가까운 data-list 속성을 가진 부모 요소를 찾습니다.
+
+            // save content HTML and data when create new element
+            let currentElNum = document.querySelector('#layout-content #question-number span').textContent;
+            saveContentActionWhenCreateNewEl(currentElNum);
+
+
             const currentLiEl = element.closest('.sidebar-item');
             const parentUlEl = currentLiEl.closest('.sidebar');
             // console.log(parentLiEl);
@@ -181,7 +186,7 @@
                 <div class="nav-link text-white col ps-0 d-flex justify-content-between align-items-center" aria-current="page">
                     <span class="item-numbering"></span>
                     <span class="item-title ms-2">${title}</span>
-                    <div class="btn-group  ">
+                    <div class="btn-group" onclick="stopPropagation(event)">
                         <!-- popper button -->
                         <div type="button" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                             <i></i>
@@ -260,7 +265,7 @@
             newMainContentEl = htmlToElement(newMainContentEl);
             // addDragAndDropEvent(newMainContentEl);
             let mainContentDiv = document.querySelector('#layout-content').querySelector('.main-content')
-            console.log(mainContentDiv)
+            // console.log(mainContentDiv)
             // todo: 여기에서 애니메이션 용 클래스를 추가
         //     mainContentDiv 의 내용 삭제 후 newMainContentEl 을 추가 합니다.
             mainContentDiv.innerHTML = '';

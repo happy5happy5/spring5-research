@@ -68,7 +68,7 @@
         /* [[${userRoles}]] 값을 JavaScript 객체로 파싱 */
         let userRoles = /*[[${userRoles}]]*/ {};
 
-        console.log(userRoles);
+        // console.log(userRoles);
         // 사용자 권한 확인 예시
         // if (userRoles.includes('ROLE_ADMIN')) {
 
@@ -213,7 +213,7 @@
 
         function loadMoreData() {
             return $.get("/research/list2?page=" + page + "&size=" + size, function (data) {
-                console.log(data.rsList);
+                // console.log(data.rsList);
                 if (data.rsList.length === 0) {
                     if (!noMoreData) alert("마지막 데이터입니다.");
                     noMoreData = true;
@@ -245,7 +245,7 @@
                 if (!timer) {
                     timer = setTimeout(() => {
                         timer = null;
-                        console.log("hit bottom!");
+                        // console.log("hit bottom!");
                         loadMoreData().then(function () {
                             isLoading = false;
                             handleLoading(isLoading);
@@ -254,7 +254,7 @@
                 } else {
                     isLoading = true;
                     handleLoading(isLoading);
-                    console.log("event ignored");
+                    // console.log("event ignored");
                 }
             }
         });

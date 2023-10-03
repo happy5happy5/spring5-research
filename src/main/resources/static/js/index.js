@@ -68,27 +68,68 @@ function autoResizeTextArea(e) {
 // onclick sidebar item
 
 function handleSidebarItemClick(e) {
+    // console.log("[SIDEBAR] click",e)
     const currentNum = document.querySelector('#layout-content #question-number span').textContent;
     const clickedNum = e.querySelector('.item-numbering').textContent.split('Q')[1];
     if(currentNum === clickedNum){
         return;
     }
-    console.log("이전 문제 번호 : ",currentNum,"클릭한 문제 번호 : ",clickedNum);
+    // console.log("이전 화면 번호 : ",currentNum,"현재 화면 번호 : ",clickedNum);
     const sidebarList = document.querySelector('.sidebar').children;
-    // console.log(sidebarList)
-    for (let i = 0; i < sidebarList.length; i++) {
-        sidebarList[i].classList.remove('sidebar-item-active');
-        if(currentNum == i){
-            // console.log(sidebarList[i]);
-            // sidebarList[i].classList.add('sidebar-item-active');
-        }
+    saveContentAction(sidebarList,currentNum);
+    loadContentAction(sidebarList,clickedNum);
+}
 
-    }
+function saveContentAction(sidebarList,currentNum){
+    let mainContentContainer = document.querySelector('#layout-content .main-content-container');
+    let mainContentContainerHTML = mainContentContainer.innerHTML;
+    let sidebarEl = sidebarList[currentNum];
+    let textareas =[];
+    mainContentContainer.querySelectorAll('textarea').forEach(function (item){
+        textareas.push(item.value);
+    });
+    textareas = JSON.stringify(textareas);
+    let saveData = sidebarEl.querySelector('.saveData')
+    let saveHTML = sidebarEl.querySelector('.saveHTML')
+    saveData.value = textareas;
+    saveHTML.value = mainContentContainerHTML;
+}
+function loadContentAction(sidebarList,clickedNum){
+    let sidebarEl = sidebarList[clickedNum];
+    let saveData = sidebarEl.querySelector('.saveData')
+    let saveHTML = sidebarEl.querySelector('.saveHTML')
+    let textareas = JSON.parse(saveData.value);
+    let mainContentContainer = document.querySelector('#layout-content .main-content-container');
+    mainContentContainer.innerHTML = saveHTML.value;
+    let mainContentContainerTextareas = mainContentContainer.querySelectorAll('textarea');
+    mainContentContainerTextareas.forEach(function (item,index){
+        item.value = textareas[index];
+    });
+    document.querySelector('#layout-content #question-number span').textContent = clickedNum;
+}
+
+
+function saveContentActionWhenCreateNewEl(currentQuestionNum){
+    let mainContentContainer = document.querySelector('#layout-content .main-content-container');
+    let mainContentContainerHTML = mainContentContainer.innerHTML;
+    let sidebarEl = document.querySelector('.sidebar').children[currentQuestionNum];
+    let textareas =[];
+    mainContentContainer.querySelectorAll('textarea').forEach(function (item){
+        textareas.push(item.value);
+    });
+    textareas = JSON.stringify(textareas);
+    let saveData = sidebarEl.querySelector('.saveData')
+    let saveHTML = sidebarEl.querySelector('.saveHTML')
+    saveData.value = textareas;
+    saveHTML.value = mainContentContainerHTML;
+}
 
 
 
 
 
+function stopPropagation(event) {
+    event.stopPropagation();
 }
 
 
@@ -102,7 +143,6 @@ function handleDragStart(e) {
     dragSrcEl = this;
     e.dataTransfer.effectAllowed = 'move';
     e.dataTransfer.setData('text/html', this.innerHTML);
-    console.log(e);
 }
 
 function handleDragEnd(e) {
@@ -113,7 +153,7 @@ function handleDragEnd(e) {
             item.classList.remove('over');
         });
     } catch (e) {
-        console.log(e);
+        // console.log(e);
     }
     setQNumWhenDragOnMainContent(e)
 }
@@ -144,7 +184,7 @@ function handleDrop(e) {
             dragSrcEl.querySelector('textarea').value = e.target.querySelector('textarea').value;
             e.target.querySelector('textarea').value = dragSrcContent;
         } catch (e) {
-            console.log(e);
+            // console.log(e);
         }
     }
     return false;
@@ -176,7 +216,7 @@ function setQNumWhenDeleteOnSideBar(parentUlEl) {
 
 
 function addDragAndDropEvent(e) {
-    console.log("[index.js] add drag event")
+    // console.log("[index.js] add drag event")
     e.addEventListener('dragstart', handleDragStart);
     e.addEventListener('dragover', handleDragOver);
     e.addEventListener('dragenter', handleDragEnter);
