@@ -2,7 +2,6 @@ let dragSrcEl = null;
 let questionCreateAction = false;
 // Toggle Animation control
 
-
 // .main-content-container.hide{
 //     /*top: 2em;*/
 //     padding-left: 1em;
@@ -108,9 +107,18 @@ function loadContentAction(sidebarList,clickedNum){
     let sidebarEl = sidebarList[clickedNum];
     let saveData = sidebarEl.querySelector('.saveData')
     let saveHTML = sidebarEl.querySelector('.saveHTML')
+    // console.log(saveData.value)
+    // console.log(saveHTML.value)
     let textareas = JSON.parse(saveData.value);
     let mainContentContainer = document.querySelector('#layout-content .main-content-container');
     mainContentContainer.innerHTML = saveHTML.value;
+    if(clickedNum !== '0'){
+        let questionList = mainContentContainer.querySelector('.question-list')
+        questionList.querySelectorAll('.question-item').forEach(function (item){
+            addDragAndDropEvent(item,'Q');
+        });
+    }
+
     let mainContentContainerTextareas = mainContentContainer.querySelectorAll('textarea');
     mainContentContainerTextareas.forEach(function (item,index){
         item.value = textareas[index];
@@ -118,29 +126,13 @@ function loadContentAction(sidebarList,clickedNum){
     document.querySelector('#layout-content #question-number span').textContent = clickedNum;
 }
 
-
-function saveContentActionWhenCreateNewEl(currentQuestionNum){
-    let mainContentContainer = document.querySelector('#layout-content .main-content-container');
-    let mainContentContainerHTML = mainContentContainer.innerHTML;
-    let sidebarEl = document.querySelector('.sidebar').children[currentQuestionNum];
-    let textareas =[];
-    mainContentContainer.querySelectorAll('textarea').forEach(function (item){
-        textareas.push(item.value);
-    });
-    textareas = JSON.stringify(textareas);
-    let saveData = sidebarEl.querySelector('.saveData')
-    let saveHTML = sidebarEl.querySelector('.saveHTML')
-    saveData.value = textareas;
-    saveHTML.value = mainContentContainerHTML;
-}
-
-
 function stopPropagation(event) {
     event.stopPropagation();
 }
 
 // Drag and Drop
 function handleDragStart(e) {
+    console.log(e)
     /* global dragSrcEl */
     dragSrcEl = null;
     this.style.opacity = '0.4';
@@ -151,6 +143,7 @@ function handleDragStart(e) {
 
 function handleDragEnd(e) {
     e.target.style.opacity = '1';
+    // main-content-container
     try {
         let items = e.target.closest('.question-list').querySelectorAll('.question-item');
         items.forEach(function (item) {
@@ -159,7 +152,18 @@ function handleDragEnd(e) {
     } catch (e) {
         // console.log(e);
     }
-    setQNumWhenDragOnMainContent(e)
+
+//     sidebar
+    try {
+        let items = e.target.closest('.sidebar').querySelectorAll('.sidebar-item');
+        items.forEach(function (item) {
+            item.classList.remove('over');
+        })
+    }
+    catch (e) {
+        // console.log(e);
+    }
+    saveContentAction(document.querySelector('.sidebar').children,document.querySelector('#layout-content #question-number span').textContent);
 }
 
 function handleDragOver(e) {
@@ -180,31 +184,53 @@ function handleDragLeave(e) {
 function handleDrop(e) {
     e.stopPropagation();
     if (dragSrcEl !== this) {
-        try {
-            // 복원할 내용을 저장
-            let dragSrcContent = dragSrcEl.querySelector('textarea').value;
-            // 드롭 대상의 내용을 저장
-            // 내용 교환
-            dragSrcEl.querySelector('textarea').value = e.target.querySelector('textarea').value;
-            e.target.querySelector('textarea').value = dragSrcContent;
-        } catch (e) {
-            // console.log(e);
-        }
+        // main-content-container
+        // 복원할 내용을 저장
+        let dragSrcContent = dragSrcEl.querySelector('textarea').value;
+
+        // 드롭 대상의 내용을 저장
+        // 내용 교환
+        dragSrcEl.querySelector('textarea').value = e.target.querySelector('textarea').value;
+        e.target.querySelector('textarea').value = dragSrcContent;
+    }
+    return false;
+}
+
+function handleDropForSidebar(e) {
+    e.stopPropagation();
+        // sidebar
+    if (dragSrcEl !== this) {
+
+        let saveData1 = dragSrcEl.querySelector('.saveData').value
+        let saveData2 = e.target.querySelector('.saveData').value
+        let saveHTML1 = dragSrcEl.querySelector('.saveHTML').value
+        let saveHTML2 = e.target.querySelector('.saveHTML').value
+        let saveType1 = dragSrcEl.querySelector('.saveType').value
+        let saveType2 = e.target.querySelector('.saveType').value
+
+        let temp = dragSrcEl.innerHTML;
+        dragSrcEl.innerHTML = e.target.innerHTML;
+        e.target.innerHTML = temp;
+
+        dragSrcEl.querySelector('.saveData').value = saveData2
+        dragSrcEl.querySelector('.saveHTML').value = saveHTML2
+        dragSrcEl.querySelector('.saveType').value = saveType2
+        e.target.querySelector('.saveData').value = saveData1
+        e.target.querySelector('.saveHTML').value = saveHTML1
+        e.target.querySelector('.saveType').value = saveType1
+
+        let parentUlEl = e.target.closest('ul');
+        setQNumWhenAddOnSideBar(parentUlEl);
+        let sidebarList = document.querySelector('.sidebar').children;
+        let currentNum = document.querySelector('#layout-content #question-number span').textContent;
+        loadContentAction(sidebarList,currentNum);
     }
     return false;
 }
 
 // sidebar
-function setQNumWhenDragOnMainContent(event) {
-    let questionList = event.target.closest('.question-list');
-    let questionNumbering = questionList.querySelectorAll('.item-numbering');
-    questionNumbering.forEach(function (item, index) {
-        item.innerHTML = `${index + 1}`;
-    });
-}
 
 function setQNumWhenAddOnSideBar(parentUlEl) {
-    // todo sidebar 인지 question-list 인지 구분해서 처리 지금은 양쪽 다 되어있음
     parentUlEl.querySelectorAll('.item-numbering').forEach(function (item, index) {
                 item.innerHTML = `Q${index}`;
         }
@@ -218,15 +244,18 @@ function setQNumWhenDeleteOnSideBar(parentUlEl) {
     );
 }
 
-
-function addDragAndDropEvent(e) {
+function addDragAndDropEvent(e,str) {
     // console.log("[index.js] add drag event")
     e.addEventListener('dragstart', handleDragStart);
     e.addEventListener('dragover', handleDragOver);
     e.addEventListener('dragenter', handleDragEnter);
     e.addEventListener('dragleave', handleDragLeave);
     e.addEventListener('dragend', handleDragEnd);
-    e.addEventListener('drop', handleDrop);
+    if(str === 'Q'){
+        e.addEventListener('drop', handleDrop);
+    }else if(str === 'S'){
+        e.addEventListener('drop', handleDropForSidebar);
+    }
 }
 
 function htmlToElement(html) {
@@ -273,7 +302,7 @@ function handleQuestionAddButtonOnMainContent(e){
     `;
     let newQuestion = htmlToElement(newQuestionHTML);
     questionList.appendChild(newQuestion);
-    addDragAndDropEvent(newQuestion);
+    addDragAndDropEvent(newQuestion,'Q');
     setQNumWhenAddOnMainContent(e);
 
 }

@@ -1,70 +1,70 @@
-<!--<!DOCTYPE html>-->
-<!--<html lang="en" xmlns:th="http://www.thymeleaf.org">-->
-<!--<head>-->
-<!--    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">-->
-<!--    <title>Title</title>-->
-<!--</head>-->
-<!--<body>-->
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Title</title>
+</head>
+<body>
 
-<!--<div th:fragment="intro">-->
+<div th:fragment="intro">
 
-<!--  &lt;!&ndash;    main content&ndash;&gt;-->
-<!--    <div class="main-content-container">-->
-<!--        <div class="text-info">-->
-<!--            Main Content-->
-<!--        </div>-->
-<!--        <div class="main-content d-flex p-0 m-0 pt-3">-->
-<!--            &lt;!&ndash;                hide scroll bar by cover another div&ndash;&gt;-->
-<!--            <div class="d-flex col">-->
-<!--                <div id="question-number" class="col-1 d-flex justify-content-end me-3">-->
-<!--                    <span>intro</span>-->
-<!--                    <span>-></span>-->
-<!--                </div>-->
+  <!--    main content-->
+    <div class="main-content-container">
+        <div class="text-info">
+            Main Content
+        </div>
+        <div class="main-content d-flex p-0 m-0 pt-3">
+            <!--                hide scroll bar by cover another div-->
+            <div class="d-flex col">
+                <div id="question-number" class="col-1 d-flex justify-content-end me-3">
+                    <span>intro</span>
+                    <span>-></span>
+                </div>
 
-<!--                <div class="col-11 pe-5">-->
-<!--                    <label>-->
-<!--                        <textarea placeholder="설문조사 제목을 입력하세요" oninput="handleQuestionItemType0Input(this)"></textarea>-->
-<!--                    </label>-->
+                <div class="col-11 pe-5">
+                    <label>
+                        <textarea placeholder="설문조사 제목을 입력하세요" oninput="handleQuestionItemType0Input(this)"></textarea>
+                    </label>
 
-<!--                    <ul class="question-list m-0 p-0">-->
-<!--                        <li class="question-item d-flex col justify-content-evenly" draggable="true">-->
-<!--                            <div class="item-numbering col-1">1</div>-->
-<!--                            <textarea class="col-8" placeholder="보기를 입력하세요" oninput="handleQuestionItemType0Input(this)"></textarea>-->
-<!--                            <button class="question-item-delete col-1 btn btn-toolbar shadow-none bg-transparent" onclick="handleQuestionItemDeleteButtonClick(this)">-->
-<!--                                <span>del</span>-->
-<!--                            </button>-->
-<!--                        </li>-->
-<!--                        <li class="question-item d-flex col justify-content-evenly" draggable="true">-->
-<!--                            <div class="item-numbering col-1">2</div>-->
-<!--                            <textarea class="col-8" placeholder="보기를 입력하세요" oninput="handleQuestionItemType0Input(this)"></textarea>-->
-<!--                            <button class="question-item-delete col-1 btn btn-toolbar shadow-none bg-transparent" onclick="handleQuestionItemDeleteButtonClick(this)">-->
-<!--                                <span>del</span>-->
-<!--                            </button>-->
-<!--                        </li>-->
-<!--                        <li class="question-item d-flex col justify-content-evenly" draggable="true">-->
-<!--                            <div class="item-numbering col-1">3</div>-->
-<!--                            <textarea class="col-8" placeholder="보기를 입력하세요" oninput="handleQuestionItemType0Input(this)"></textarea>-->
-<!--                            <button class="question-item-delete col-1 btn btn-toolbar shadow-none bg-transparent" onclick="handleQuestionItemDeleteButtonClick(this)">-->
-<!--                                <span>del</span>-->
-<!--                            </button>-->
-<!--                        </li>-->
-<!--                    </ul>-->
-<!--                    <div onclick="handleQuestionItemAddButtonClick(this)">질문 추가</div>-->
+                    <ul class="question-list m-0 p-0">
+                        <li class="question-item d-flex col justify-content-evenly" draggable="true">
+                            <div class="item-numbering col-1">1</div>
+                            <textarea class="col-8" placeholder="보기를 입력하세요" oninput="handleQuestionItemType0Input(this)"></textarea>
+                            <button class="question-item-delete col-1 btn btn-toolbar shadow-none bg-transparent" onclick="handleQuestionItemDeleteButtonClick(this)">
+                                <span>del</span>
+                            </button>
+                        </li>
+                        <li class="question-item d-flex col justify-content-evenly" draggable="true">
+                            <div class="item-numbering col-1">2</div>
+                            <textarea class="col-8" placeholder="보기를 입력하세요" oninput="handleQuestionItemType0Input(this)"></textarea>
+                            <button class="question-item-delete col-1 btn btn-toolbar shadow-none bg-transparent" onclick="handleQuestionItemDeleteButtonClick(this)">
+                                <span>del</span>
+                            </button>
+                        </li>
+                        <li class="question-item d-flex col justify-content-evenly" draggable="true">
+                            <div class="item-numbering col-1">3</div>
+                            <textarea class="col-8" placeholder="보기를 입력하세요" oninput="handleQuestionItemType0Input(this)"></textarea>
+                            <button class="question-item-delete col-1 btn btn-toolbar shadow-none bg-transparent" onclick="handleQuestionItemDeleteButtonClick(this)">
+                                <span>del</span>
+                            </button>
+                        </li>
+                    </ul>
+                    <div onclick="handleQuestionItemAddButtonClick(this)">질문 추가</div>
 
-<!--                </div>-->
-
-
-<!--            </div>-->
-<!--        </div>-->
+                </div>
 
 
-<!--        &lt;!&ndash;    토글 버튼&ndash;&gt;-->
-<!--        <button class="sidebar-toggle shadow-none bg-transparent btn btn-toolbar">-->
-<!--            <img alt="" src="/img/white-burger-menu-icon.png" width="10px" height="10px">-->
-<!--        </button>-->
-<!--    </div>-->
+            </div>
+        </div>
 
-<!--</div>-->
 
-<!--</body>-->
-<!--</html>-->
+        <!--    토글 버튼-->
+        <button class="sidebar-toggle shadow-none bg-transparent btn btn-toolbar">
+            <img alt="" src="/img/white-burger-menu-icon.png" width="10px" height="10px">
+        </button>
+    </div>
+
+</div>
+
+</body>
+</html>

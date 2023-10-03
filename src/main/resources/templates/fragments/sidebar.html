@@ -25,14 +25,15 @@
 
 
                 <div class="nav-link text-white col ps-0 d-flex justify-content-between align-items-center" aria-current="page">
-                    <span class="item-numbering">Q0</span>
-                    <span class="item-title ms-2">제목제목제목</span>
+                    <span class="item-numbering" style="display: none">Q0</span>
+                    <span>INTRO</span>
+                    <span class="item-title ms-2">제목을 입력하세요</span>
                     <div class="btn-group" onclick="stopPropagation(event)">
                         <!-- popper button -->
-                        <div type="button" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" onclick="stopPropagation(event)">
+                        <div type="button" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                             <i></i>
                         </div>
-                        <ul class="dropdown-menu" onclick="stopPropagation(event)">
+                        <ul class="dropdown-menu">
                             <li>
                                 <div class="ms-3">기능</div>
                             </li>
@@ -75,10 +76,10 @@
     <script>
 
         function handleSideBarCreatButtonByType(element) {
-
             // save content HTML and data when create new element
             let currentElNum = document.querySelector('#layout-content #question-number span').textContent;
-            saveContentActionWhenCreateNewEl(currentElNum);
+            const sidebarList = document.querySelector('.sidebar').children;
+            saveContentAction(sidebarList,currentElNum);
 
 
             const currentLiEl = element.closest('.sidebar-item');
@@ -90,6 +91,16 @@
             // parentUlEl 의 index+1 번째에 새로운 li 요소를 만듭니다.
             const type = element.dataset.type;
             // newLiEL 에 type 따라서 다른 html 넣어줍니다.
+
+
+
+            for(let i=0; i<sidebarList.length; i++){
+                if(i===0)continue;
+                addDragAndDropEvent(sidebarList[i],"S");
+            }
+
+
+
             switch (type) {
                 // 0: 객관식 1: OX 2: likert 3: 주관식 4: 별점 5: 다중선택
                 case '0' :
@@ -126,6 +137,7 @@
                     parentUlEl.removeChild(parentUlEl.children[index]);
                     setQNumWhenDeleteOnSideBar(parentUlEl);
                     break;
+
             }
 
 
@@ -146,9 +158,9 @@
 
                     <!--                    여기에 필요 한 모든 입력값 저장 한다-->
                     <!--                    0: 객관식 1: OX 2: likert 3: 주관식 4: 별점 5: 다중선택 -->
-                    <div class="rsiType" style="display: none">${type}</div>
-                    <div class="saveData" style="display: none"></div>
-                    <div class="saveHTML" style="display: none"></div>
+                    <div class="saveType" style="display: none" value=""></div>
+                    <div class="saveData" style="display: none" value=""></div>
+                    <div class="saveHTML" style="display: none" value=""></div>
                 </div>
 
 
@@ -157,10 +169,10 @@
                     <span class="item-title ms-2">${title}</span>
                     <div class="btn-group" onclick="stopPropagation(event)">
                         <!-- popper button -->
-                        <div type="button" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                        <div type="button" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" onclick="stopPropagation(event)">
                             <i></i>
                         </div>
-                        <ul class="dropdown-menu">
+                        <ul class="dropdown-menu" onclick="stopPropagation(event)">
                             <li>
                                 <div class="ms-3">기능</div>
                             </li>
@@ -199,7 +211,44 @@
             </li>
             `
             newLiEl = htmlToElement(newLiEl);
-            addDragAndDropEvent(newLiEl);
+            addDragAndDropEvent(newLiEl,"S");
+            newLiEl.querySelector('.saveType').value = type;
+            newLiEl.querySelector('.saveHTML').value =`
+            <div class="text-info">
+            Main Content
+        </div>
+        <div class="main-content d-flex p-0 m-0 pt-3"><div class="d-flex col">
+                <div id="question-number" class="col-1 d-flex justify-content-end me-3">
+                    <span>2</span>
+                    <span>-&gt;</span>
+                </div>
+
+                <div class="col-11 pe-5">
+                    <textarea placeholder="질문을 입력하세요" oninput="handleTextAreaInput(this,'Q')"></textarea>
+
+                    <ul class="question-list m-0 p-0">
+<!--                        <li class="question-item d-flex col justify-content-evenly" draggable="true">-->
+<!--                            <div class="item-numbering col-1">1</div>-->
+<!--                            <textarea class="col-8" placeholder="보기를 입력하세요" oninput="handleQuestionItemType0Input(this)"></textarea>-->
+<!--                            <button class="question-item-delete col-1 btn btn-toolbar shadow-none bg-transparent" onclick="handleQuestionItemDeleteButtonClick(this)">-->
+<!--                                <span>del</span>-->
+<!--                            </button>-->
+<!--                        </li>-->
+                    </ul>
+                    <div class="main-content-add-question" onclick="handleQuestionAddButtonOnMainContent(this)">질문 추가</div>
+
+                </div>
+
+            </div></div>
+
+
+        <!--    토글 버튼-->
+        <button class="sidebar-toggle shadow-none bg-transparent btn btn-toolbar" onclick="toggleAnimation(this)">
+            <img alt="" src="/img/white-burger-menu-icon.png" width="10px" height="10px">
+        </button>
+
+            `
+            newLiEl.querySelector('.saveData').value=JSON.stringify([""]);
             parentUlEl.insertBefore(newLiEl, parentUlEl.children[index + 1]);
         }
 
@@ -230,9 +279,9 @@
 
             `
             newMainContentEl = htmlToElement(newMainContentEl);
-            // addDragAndDropEvent(newMainContentEl);
-            let mainContentDiv = document.querySelector('#layout-content').querySelector('.main-content')
-            // console.log(mainContentDiv)
+            // addDragAndDropEvent(newMainContentEl,"Q");
+            let mainContentDiv = document.querySelector('#layout-content .main-content')
+            console.log(mainContentDiv)
             // todo: 여기에서 애니메이션 용 클래스를 추가
         //     mainContentDiv 의 내용 삭제 후 newMainContentEl 을 추가 합니다.
             mainContentDiv.innerHTML = '';
