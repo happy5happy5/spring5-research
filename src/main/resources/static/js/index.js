@@ -65,6 +65,16 @@ function autoResizeTextArea(e) {
     e.style.height = e.scrollHeight + 'px';
 }
 
+function handleTextAreaInput(e, str){
+    autoResizeTextArea(e)
+    if(str === 'Q'){
+        let currentNum = document.querySelector('#layout-content #question-number span').textContent;
+        let sidebarList = document.querySelector('.sidebar').children;
+        let sidebarEl = sidebarList[currentNum];
+        let saveData = sidebarEl.querySelector('.item-title').textContent = e.value;
+    }
+}
+
 // onclick sidebar item
 
 function handleSidebarItemClick(e) {
@@ -125,15 +135,9 @@ function saveContentActionWhenCreateNewEl(currentQuestionNum){
 }
 
 
-
-
-
 function stopPropagation(event) {
     event.stopPropagation();
 }
-
-
-
 
 // Drag and Drop
 function handleDragStart(e) {
@@ -251,12 +255,17 @@ function setQNumWhenAddOnMainContent(e) {
 
 function handleQuestionAddButtonOnMainContent(e){
     let questionList = e.parentElement.querySelector('.question-list');
-    let questionItem = questionList.querySelector('.question-item');
+    // let questionItem = questionList.querySelector('.question-item');
+    if(questionList.children.length !== 0){
+        if(questionList.children.length >4){
+            alert("보기는 최대 5개까지 추가할 수 있습니다.")
+        }
+    }
 //     새로 만들기
     let newQuestionHTML = `
                         <li class="question-item d-flex col justify-content-evenly" draggable="true">
                             <div class="item-numbering col-1">1</div>
-                            <textarea class="col-8" placeholder="보기를 입력하세요" oninput="handleQuestionItemType0Input(this)"></textarea>
+                            <textarea class="col-8" placeholder="보기를 입력하세요" oninput="handleTextAreaInput(this)"></textarea>
                             <button class="question-item-delete col-1 btn btn-toolbar shadow-none bg-transparent" onclick="handleQuestionItemDeleteButtonClick(this)">
                                 <span>del</span>
                             </button>

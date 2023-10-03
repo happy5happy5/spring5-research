@@ -19,41 +19,8 @@
             <li class="sidebar-item" onclick="handleSidebarItemClick(this)">
                 <!--                data part-->
                 <div data-input="data" class="data-type-input">
-                    <button onclick="saveHTML(this)">save</button>
-                    <button onclick="loadHTML(this)">load</button>
                     <div class="saveData" style="display: none"></div>
                     <div class="saveHTML" style="display: none"></div>
-                    <script>
-                        function saveHTML(e){
-                        //        main-content-container
-                            let mainContentContainer = document.querySelector('#layout-content .main-content-container');
-                            let mainContentContainerHTML = mainContentContainer.innerHTML;
-                            let textareas =[];
-                            mainContentContainer.querySelectorAll('textarea').forEach(function (item){
-                                textareas.push(item.value);
-                            });
-                            textareas = JSON.stringify(textareas);
-                            // <div data-input="data" class="data-type-input"> 의 자식 요소중 saveData 를 찾습니다.
-                            let saveData = e.parentElement.querySelector('.saveData');
-                            let saveHTML = e.parentElement.querySelector('.saveHTML');
-                            saveData.value = textareas;
-                            saveHTML.value = mainContentContainerHTML;
-                            // console.log(saveData.value);
-                            // console.log(saveHTML.value);
-
-                        }
-                        function loadHTML(e){
-                            let mainContentContainer = document.querySelector('#layout-content').querySelector('.main-content-container')
-                            let saveData = e.parentElement.querySelector('.saveData');
-                            let saveHTML = e.parentElement.querySelector('.saveHTML');
-                            let textareas = JSON.parse(saveData.value);
-                            mainContentContainer.innerHTML = saveHTML.value;
-                            let textareasInMainContentContainer = mainContentContainer.querySelectorAll('textarea');
-                            textareasInMainContentContainer.forEach(function (item, index){
-                                item.value = textareas[index];
-                            });
-                        }
-                    </script>
                 </div>
 
 
@@ -154,6 +121,8 @@
                         alert('첫번째 항목은 삭제할 수 없습니다.')
                         return;
                     }
+                    // 해당 인덱스 전으로 main-content-container 의 내용을 바꿔줍니다.
+                    loadContentAction(parentUlEl.children, index-1);
                     parentUlEl.removeChild(parentUlEl.children[index]);
                     setQNumWhenDeleteOnSideBar(parentUlEl);
                     break;
@@ -244,9 +213,7 @@
                 </div>
 
                 <div class="col-11 pe-5">
-                    <label>
-                        <textarea placeholder="질문을 입력하세요" oninput="handleQuestionItemType0Input(this)"></textarea>
-                    </label>
+                    <textarea placeholder="질문을 입력하세요" oninput="handleTextAreaInput(this,'Q')"></textarea>
 
                     <ul class="question-list m-0 p-0">
 <!--                        <li class="question-item d-flex col justify-content-evenly" draggable="true">-->
@@ -257,7 +224,7 @@
 <!--                            </button>-->
 <!--                        </li>-->
                     </ul>
-                    <div onclick="handleQuestionAddButtonOnMainContent(this)">질문 추가</div>
+                    <div class="main-content-add-question" onclick="handleQuestionAddButtonOnMainContent(this)">질문 추가</div>
 
                 </div>
 

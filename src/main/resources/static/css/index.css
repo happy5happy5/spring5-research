@@ -301,7 +301,18 @@ body{
     border: none;
 }
 
-
+.main-content-add-question{
+    padding: 10px 7px 10px 10px;
+    transition: all ease 0.4s;
+    background-color: rgba(13, 202, 240, 0.4);
+    color: #0a58ca;
+    box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    border: none;
+    width: 50%;
+    text-align: center;
+    justify-content: center;
+}
 
 
 /* main-content input*/
