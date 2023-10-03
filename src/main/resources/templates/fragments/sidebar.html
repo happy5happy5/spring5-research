@@ -19,33 +19,43 @@
             <li class="sidebar-item">
                 <!--                data part-->
                 <div data-input="data" class="data-type-input">
-                    <!--                    RS INTRO 전용-->
-                    <input type="hidden" name="rs_title" value="test">
-                    <input type="hidden" name="rs_desc" value="">
-                    <input type="hidden" name="rs_start_date" value="">
-                    <input type="hidden" name="rs_end_date" value="">
-
-                    <!--                    여기에 필요 한 모든 입력값 저장 한다-->
-                    <!--                    0: 객관식 1: OX 2: likert 3: 주관식 4: 별점 5: 다중선택 -->
-                    <input type="hidden" name="rsi_question" value="test">
-                    <input type="hidden" name="rsi_type" value="5">
-                    <input type="hidden" name="rsi_type0_1" value="">
-                    <input type="hidden" name="rsi_type0_2" value="">
-                    <input type="hidden" name="rsi_type0_3" value="">
-                    <input type="hidden" name="rsi_type0_4" value="">
-                    <input type="hidden" name="rsi_type0_5" value="">
-                    <input type="hidden" name="rsi_type0_etc" value="">
-                    <input type="hidden" name="rsi_type1" value="">
-                    <input type="hidden" name="rsi_type2" value="">
-                    <input type="hidden" name="rsi_type3" value="">
-                    <input type="hidden" name="rsi_type4" value="">
-                    <input type="hidden" name="rsi_type5" value="">
-
+                <button onclick="saveHTML()">save</button>
+                <button onclick="loadHTML()">load</button>
+                    <div class="saveData" style="display: none"></div>
+                    <div class="saveHTML" style="display: none"></div>
+                    <script>
+                        function saveHTML(e){
+                        //        main-content-container
+                            let mainContentContainer = document.querySelector('.main-content-container');
+                            let mainContentContainerHTML = mainContentContainer.innerHTML;
+                            let textareas =[];
+                            mainContentContainer.querySelectorAll('textarea').forEach(function (item){
+                                textareas.push(item.value);
+                            });
+                            textareas = JSON.stringify(textareas);
+                            let saveData = e.closest('.data-type-input').querySelector('.saveData');
+                            console.log(saveData)
+                            saveData.value = textareas;
+                            let saveHTML = e.closest('.data-type-input').querySelector('.saveHTML');
+                            saveHTML.value = mainContentContainerHTML;
+                        }
+                        function loadHTML(e){
+                            let saveData = e.closest('.data-type-input').querySelector('.saveData');
+                            let saveHTML = e.closest('.data-type-input').querySelector('.saveHTML');
+                            let textareas = JSON.parse(saveData.value);
+                            let mainContentContainer = document.querySelector('#layout-content').querySelector('.main-content-container')
+                            mainContentContainer.innerHTML = saveHTML.value;
+                            let textareasInMainContentContainer = mainContentContainer.querySelectorAll('textarea');
+                            textareasInMainContentContainer.forEach(function (item, index){
+                                item.value = textareas[index];
+                            });
+                        }
+                    </script>
                 </div>
 
 
                 <div class="nav-link text-white col ps-0 d-flex justify-content-between align-items-center" aria-current="page">
-                    <span class="item-numbering ">정보 입력</span>
+                    <span class="item-numbering">Q0</span>
                     <span class="item-title ms-2">제목제목제목</span>
                     <div class="btn-group  ">
                         <!-- popper button -->
@@ -61,239 +71,205 @@
                             </li>
                             <!--                         0: 객관식 1: OX 2: likert 3: 주관식 4: 별점 5: 다중선택        -->
                             <li>
-                                <div class="dropdown-item" data-type="0" onclick="actionByType(this)">객관식</div>
+                                <div class="dropdown-item" data-type="0" onclick="handleSideBarCreatButtonByType(this)">객관식</div>
                             </li>
                             <li>
-                                <div class="dropdown-item" data-type="1" onclick="actionByType(this)">OX</div>
+                                <div class="dropdown-item" data-type="1" onclick="handleSideBarCreatButtonByType(this)">OX</div>
                             </li>
                             <li>
-                                <div class="dropdown-item" data-type="2" onclick="actionByType(this)">LIKERT</div>
+                                <div class="dropdown-item" data-type="2" onclick="handleSideBarCreatButtonByType(this)">LIKERT</div>
                             </li>
                             <li>
-                                <div class="dropdown-item" data-type="3" onclick="actionByType(this)">주관식</div>
+                                <div class="dropdown-item" data-type="3" onclick="handleSideBarCreatButtonByType(this)">주관식</div>
                             </li>
                             <li>
-                                <div class="dropdown-item" data-type="4" onclick="actionByType(this)">별점</div>
+                                <div class="dropdown-item" data-type="4" onclick="handleSideBarCreatButtonByType(this)">별점</div>
                             </li>
                             <li>
-                                <div class="dropdown-item" data-type="5" onclick="actionByType(this)">다중선택 객관식</div>
+                                <div class="dropdown-item" data-type="5" onclick="handleSideBarCreatButtonByType(this)">다중선택 객관식</div>
                             </li>
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
                             <li>
-                                <div class="dropdown-item" data-type="delete" onclick="actionByType(this)">삭제</div>
+                                <div class="dropdown-item" data-type="delete" onclick="handleSideBarCreatButtonByType(this)">삭제</div>
                             </li>
-
                         </ul>
                     </div>
                 </div>
             </li>
-            <li class="sidebar-item">
-                <!--                data part-->
-                <div data-input="data" class="data-type-input">
-                    <!--                    RS INTRO 전용-->
-<!--                    <input type="hidden" name="rs_title" value="test">-->
-<!--                    <input type="hidden" name="rs_desc" value="">-->
-<!--                    <input type="hidden" name="rs_start_date" value="">-->
-<!--                    <input type="hidden" name="rs_end_date" value="">-->
-
-                    <!--                    여기에 필요 한 모든 입력값 저장 한다-->
-                    <!--                    0: 객관식 1: OX 2: likert 3: 주관식 4: 별점 5: 다중선택 -->
-                    <input type="hidden" name="rsi_question" value="test">
-                    <input type="hidden" name="rsi_type" value="5">
-                    <input type="hidden" name="rsi_type0_1" value="">
-                    <input type="hidden" name="rsi_type0_2" value="">
-                    <input type="hidden" name="rsi_type0_3" value="">
-                    <input type="hidden" name="rsi_type0_4" value="">
-                    <input type="hidden" name="rsi_type0_5" value="">
-                    <input type="hidden" name="rsi_type0_etc" value="">
-                    <input type="hidden" name="rsi_type1" value="">
-                    <input type="hidden" name="rsi_type2" value="">
-                    <input type="hidden" name="rsi_type3" value="">
-                    <input type="hidden" name="rsi_type4" value="">
-                    <input type="hidden" name="rsi_type5" value="">
-
-                </div>
-
-
-                <div class="nav-link text-white col ps-0 d-flex justify-content-between align-items-center" aria-current="page">
-                    <span class="item-numbering ">정보 입력</span>
-                    <span class="item-title ms-2">제목제목제목</span>
-                    <div class="btn-group  ">
-                        <!-- popper button -->
-                        <div type="button" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i></i>
-                        </div>
-                        <ul class="dropdown-menu">
-                            <li>
-                                <div class="ms-3">기능</div>
-                            </li>
-                            <li>
-                                <hr class="dropdown-divider">
-                            </li>
-                            <!--                         0: 객관식 1: OX 2: likert 3: 주관식 4: 별점 5: 다중선택        -->
-                            <li>
-                                <div class="dropdown-item" data-type="0" onclick="actionByType(this)">객관식</div>
-                            </li>
-                            <li>
-                                <div class="dropdown-item" data-type="1" onclick="actionByType(this)">OX</div>
-                            </li>
-                            <li>
-                                <div class="dropdown-item" data-type="2" onclick="actionByType(this)">LIKERT</div>
-                            </li>
-                            <li>
-                                <div class="dropdown-item" data-type="3" onclick="actionByType(this)">주관식</div>
-                            </li>
-                            <li>
-                                <div class="dropdown-item" data-type="4" onclick="actionByType(this)">별점</div>
-                            </li>
-                            <li>
-                                <div class="dropdown-item" data-type="5" onclick="actionByType(this)">다중선택 객관식</div>
-                            </li>
-                            <li>
-                                <hr class="dropdown-divider">
-                            </li>
-                            <li>
-                                <div class="dropdown-item" data-type="delete" onclick="actionByType(this)">삭제</div>
-                            </li>
-
-                        </ul>
-                    </div>
-                </div>
-            </li>
-
-            <li class="sidebar-item" draggable="true"><span class="item-numbering me-2">Q1</span>aaaa</li>
-            <li class="sidebar-item" draggable="true"><span class="item-numbering me-2">Q2</span>zz</li>
-            <li class="sidebar-item" draggable="true"><span class="item-numbering me-2">Q3</span>qqq</li>
-            <li class="sidebar-item" draggable="true"><span class="item-numbering me-2">Q4</span>ww</li>
-            <li class="sidebar-item" draggable="true"><span class="item-numbering me-2">Q5</span>ee</li>
-            <li class="sidebar-item" draggable="true"><span class="item-numbering me-2">Q6</span>rr</li>
-            <li class="sidebar-item" draggable="true"><span class="item-numbering me-2">Q7</span>tt</li>
-            <li class="sidebar-item" draggable="true"><span class="item-numbering me-2">Q8</span>yy</li>
-            <li class="sidebar-item" draggable="true"><span class="item-numbering me-2">Q9</span>uu</li>
-            <li class="sidebar-item" draggable="true"><span class="item-numbering me-2">Q10</span>ii</li>
-            <li class="sidebar-item" draggable="true"><span class="item-numbering me-2">Q11</span>oo</li>
-            <li class="sidebar-item" draggable="true"><span class="item-numbering me-2">Q12</span>pp</li>
-            <li class="sidebar-item" draggable="true"><span class="item-numbering me-2">Q13</span>aa</li>
-            <li class="sidebar-item" draggable="true"><span class="item-numbering me-2">Q14</span>ss</li>
-
         </ul>
 
-        <!--        sidebar footer-->
-        <!--        nothing now-->
-
-
     </div>
-    <script>
-        function actionByType(element) {
-            // 클릭한 요소에서 가장 가까운 data-list 속성을 가진 부모 요소를 찾습니다.
-            const parentWithDataList = element.closest('.sidebar-item');
-
-            if (parentWithDataList) {
-                // 부모 요소를 찾았을 경우
-                const dataList = parentWithDataList.querySelector('[data-input="data"]');
-                const dataListInput = dataList.querySelectorAll('input');
-                // const dataListInputType = dataList.querySelector('[name="rsi_type"]');
-
-
-                // 부모요소 삭제
-                // if(element.getAttribute('data-type') === "delete"){
-                //     parentWithDataList.remove();
-                //     return;
-                // }
-                // console.log(dataListInputType)
-            } else {
-                console.log('부모 요소의 data-list 찾을 수 없습니다. 상황이 심각 합니다');
-            }
-        }
-    </script>
-
     <!--Make SideBar Element-->
     <script>
-        function sideBarElementMaker(questionNumber, questionType, questionTitle) {
-            let sidebarItem = document.createElement("li");
-            sidebarItem.classList.add("sidebar-item");
-            sidebarItem.setAttribute("draggable", "true");
-            sidebarItem.innerHTML = "<span class=\"item-numbering me-2\">" + questionNumber + "</span>" + questionTitle;
-            sidebarItem.addEventListener('dragstart', handleDragStart);
-            sidebarItem.addEventListener('dragover', handleDragOver);
-            sidebarItem.addEventListener('dragenter', handleDragEnter);
-            sidebarItem.addEventListener('dragleave', handleDragLeave);
-            sidebarItem.addEventListener('dragend', handleDragEnd);
-            sidebarItem.addEventListener('drop', handleDrop);
-            return sidebarItem;
+
+        function handleSideBarCreatButtonByType(element) {
+            // 클릭한 요소에서 가장 가까운 data-list 속성을 가진 부모 요소를 찾습니다.
+            const currentLiEl = element.closest('.sidebar-item');
+            const parentUlEl = currentLiEl.closest('.sidebar');
+            // console.log(parentLiEl);
+            // UlEl의 parentLiEl의 index를 찾습니다.
+            const index = Array.prototype.indexOf.call(parentUlEl.children, currentLiEl);
+            // console.log(index);
+            // parentUlEl 의 index+1 번째에 새로운 li 요소를 만듭니다.
+            const type = element.dataset.type;
+            console.log(type)
+            // newLiEL 에 type에 따라서 다른 html을 넣어줍니다.
+            // 0: 객관식 1: OX 2: likert 3: 주관식 4: 별점 5: 다중선택
+            switch (type) {
+                // 0: 객관식 1: OX 2: likert 3: 주관식 4: 별점 5: 다중선택
+                case '0' :
+                    let newLiEl = createSideBarElementByType(parentUlEl, index, element.dataset.type, '');
+                    parentUlEl.insertBefore(newLiEl, parentUlEl.children[index + 1]);
+                    setQNumWhenAddOnSideBar(parentUlEl);
+                    console.log('객관식')
+                    break;
+                case '1' :
+                    console.log('OX')
+                    break;
+                case '2' :
+                    console.log('likert')
+                    break;
+                case '3' :
+                    console.log('주관식')
+                    break;
+                case '4' :
+                    console.log('별점')
+                    break;
+                case '5' :
+                    console.log('다중선택')
+                    break;
+                case 'delete' :
+                    console.log('삭제')
+                    // index 번째의 li 요소를 삭제합니다.
+                    if(index === 0){
+                        alert('첫번째 항목은 삭제할 수 없습니다.')
+                        return;
+                    }
+                    parentUlEl.removeChild(parentUlEl.children[index]);
+                    setQNumWhenDeleteOnSideBar(parentUlEl);
+                    break;
+            }
+
+
+            if (currentLiEl) {
+
+            } else {
+                alert('부모 요소의 data-list 찾을 수 없습니다. 상황이 심각 합니다');
+            }
         }
+
+        function createSideBarElementByType(pUl, index, type,title) {
+        //     sidebar-item 를 만든다
+        //     리터럴 형식으로?
+            let newLiEl =
+            `
+            <li class="sidebar-item" draggable="true">
+                <div data-input="data" class="data-type-input">
+
+                    <!--                    여기에 필요 한 모든 입력값 저장 한다-->
+                    <!--                    0: 객관식 1: OX 2: likert 3: 주관식 4: 별점 5: 다중선택 -->
+                    <div class="rsiType" style="display: none">${type}</div>
+                    <div class="saveData" style="display: none"></div>
+                    <div class="saveHTML" style="display: none"></div>
+                </div>
+
+
+                <div class="nav-link text-white col ps-0 d-flex justify-content-between align-items-center" aria-current="page">
+                    <span class="item-numbering"></span>
+                    <span class="item-title ms-2">${title}</span>
+                    <div class="btn-group  ">
+                        <!-- popper button -->
+                        <div type="button" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i></i>
+                        </div>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <div class="ms-3">기능</div>
+                            </li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <!--                         0: 객관식 1: OX 2: likert 3: 주관식 4: 별점 5: 다중선택        -->
+                            <li>
+                                <div class="dropdown-item" data-type="0" onclick="handleSideBarCreatButtonByType(this)">객관식</div>
+                            </li>
+                            <li>
+                                <div class="dropdown-item" data-type="1" onclick="handleSideBarCreatButtonByType(this)">OX</div>
+                            </li>
+                            <li>
+                                <div class="dropdown-item" data-type="2" onclick="handleSideBarCreatButtonByType(this)">LIKERT</div>
+                            </li>
+                            <li>
+                                <div class="dropdown-item" data-type="3" onclick="handleSideBarCreatButtonByType(this)">주관식</div>
+                            </li>
+                            <li>
+                                <div class="dropdown-item" data-type="4" onclick="handleSideBarCreatButtonByType(this)">별점</div>
+                            </li>
+                            <li>
+                                <div class="dropdown-item" data-type="5" onclick="handleSideBarCreatButtonByType(this)">다중선택 객관식</div>
+                            </li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li>
+                                <div class="dropdown-item" data-type="delete" onclick="handleSideBarCreatButtonByType(this)">삭제</div>
+                            </li>
+
+                        </ul>
+                    </div>
+                </div>
+            </li>
+            `
+            newLiEl = htmlToElement(newLiEl);
+            addDragAndDropEvent(newLiEl);
+            return newLiEl;
+        }
+
+        function createMainContentElementType0(index, type, title) {
+            let newMainContentEl =
+            `
+
+            `
+        }
+
+        function createMainContentElementType1(index, type, title){
+            let newMainContentEl =
+                `
+
+            `
+        }
+
+        function createMainContentElementType2(index, type, title){
+            let newMainContentEl =
+                `
+
+            `
+        }
+
+        function createMainContentElementType3(index, type, title){
+            let newMainContentEl =
+                `
+
+            `
+        }
+
+        function createMainContentElementType4(index, type, title){
+            let newMainContentEl =
+                `
+
+            `
+        }
+        function createMainContentElementType5(index, type, title){
+            let newMainContentEl =
+                `
+
+            `
+        }
+
     </script>
 
-    <!--Drag and Drop-->
-    <script>
-        let dragSrcEl = null;
-
-        function handleDragStart(e) {
-            this.style.opacity = '0.4';
-            dragSrcEl = this;
-            e.dataTransfer.effectAllowed = 'move';
-            e.dataTransfer.setData('text/html', this.innerHTML);
-        }
-
-        function handleDragEnd(e) {
-            this.style.opacity = '1';
-            let items = document.querySelectorAll('.sidebar-item');
-            items.forEach(function (item) {
-                item.classList.remove('over');
-            });
-            setQNumWhenDrag()
-        }
-
-        function handleDragOver(e) {
-            if (e.preventDefault) {
-                e.preventDefault();
-            }
-            return false;
-        }
-
-        function handleDragEnter(e) {
-            this.classList.add('over');
-        }
-
-        function handleDragLeave(e) {
-            this.classList.remove('over');
-        }
-
-        function handleDrop(e) {
-            e.stopPropagation();
-            if (e.target.querySelector('.item-numbering').innerHTML === "설문조사 정보 입력") {
-                alert("첫번째 항목은 이동할 수 없습니다.")
-                return;
-            }
-
-            if (dragSrcEl !== this) {
-                dragSrcEl.innerHTML = this.innerHTML;
-                this.innerHTML = e.dataTransfer.getData('text/html');
-            }
-            return false;
-        }
-
-        function setQNumWhenDrag(e) {
-            let questionNumbering = document.querySelectorAll('.item-numbering');
-            questionNumbering.forEach(function (item, index) {
-                if (index !== 0) item.innerHTML = "Q" + (index);
-            });
-        }
-
-        document.addEventListener('DOMContentLoaded', (event) => {
-            let items = document.querySelectorAll('.sidebar-item');
-            items.forEach(function (item) {
-                item.addEventListener('dragstart', handleDragStart);
-                item.addEventListener('dragover', handleDragOver);
-                item.addEventListener('dragenter', handleDragEnter);
-                item.addEventListener('dragleave', handleDragLeave);
-                item.addEventListener('dragend', handleDragEnd);
-                item.addEventListener('drop', handleDrop);
-            });
-        });
-    </script>
 </div>
 
 </body>

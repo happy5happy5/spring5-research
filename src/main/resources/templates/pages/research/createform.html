@@ -16,8 +16,8 @@
     </script>
     <div th:replace="~{fragments/sidebar :: sidebar}"></div>
 
-
     <!--    main content-->
+<!--    여기는 하드코딩으로 바꿔야함-->
     <div class="main-content-container">
         <div class="text-info">
             Main Content
@@ -38,21 +38,21 @@
                     <ul class="question-list m-0 p-0">
                         <li class="question-item d-flex col justify-content-evenly" draggable="true">
                             <div class="item-numbering col-1">1</div>
-                                <textarea class="col-8" placeholder="보기를 입력하세요" oninput="handleQuestionItemType0Input(this)"></textarea>
+                            <textarea class="col-8" placeholder="보기를 입력하세요" oninput="handleQuestionItemType0Input(this)"></textarea>
                             <button class="question-item-delete col-1 btn btn-toolbar shadow-none bg-transparent" onclick="handleQuestionItemDeleteButtonClick(this)">
                                 <span>del</span>
                             </button>
                         </li>
                         <li class="question-item d-flex col justify-content-evenly" draggable="true">
                             <div class="item-numbering col-1">2</div>
-                                <textarea class="col-8" placeholder="보기를 입력하세요" oninput="handleQuestionItemType0Input(this)"></textarea>
+                            <textarea class="col-8" placeholder="보기를 입력하세요" oninput="handleQuestionItemType0Input(this)"></textarea>
                             <button class="question-item-delete col-1 btn btn-toolbar shadow-none bg-transparent" onclick="handleQuestionItemDeleteButtonClick(this)">
                                 <span>del</span>
                             </button>
                         </li>
                         <li class="question-item d-flex col justify-content-evenly" draggable="true">
                             <div class="item-numbering col-1">3</div>
-                                <textarea class="col-8" placeholder="보기를 입력하세요" oninput="handleQuestionItemType0Input(this)"></textarea>
+                            <textarea class="col-8" placeholder="보기를 입력하세요" oninput="handleQuestionItemType0Input(this)"></textarea>
                             <button class="question-item-delete col-1 btn btn-toolbar shadow-none bg-transparent" onclick="handleQuestionItemDeleteButtonClick(this)">
                                 <span>del</span>
                             </button>
@@ -72,175 +72,6 @@
             <img alt="" src="/img/white-burger-menu-icon.png" width="10px" height="10px">
         </button>
     </div>
-
-    <!--sidebar toggle-->
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            let sidebarToggle = document.querySelector('.sidebar-toggle');
-            let sidebar = document.querySelector('.sidebar-container');
-            let mainContent = document.querySelector('.main-content-container');
-            sidebarToggle.addEventListener('click', function () {
-                if (sidebar.classList.contains('hide')) {
-                    sidebar.classList.remove('hide');
-                    mainContent.classList.remove('hide');
-                } else {
-                    sidebar.classList.add('hide');
-                    mainContent.classList.add('hide');
-                }
-            });
-        });
-    </script>
-
-    <!--drag and drop list-->
-    <script>
-        function handleDragStart(e) {
-            this.style.opacity = '0.4';
-            dragSrcEl = this;
-            e.dataTransfer.effectAllowed = 'move';
-            e.dataTransfer.setData('text/html', this.innerHTML);
-        }
-
-        function handleDragEnd(e) {
-            this.style.opacity = '1';
-            let items = document.querySelectorAll('.question-item');
-            items.forEach(function (item) {
-                item.classList.remove('over');
-            });
-            setQNumWhenDrag()
-        }
-
-        function handleDragOver(e) {
-            if (e.preventDefault) {
-                e.preventDefault();
-            }
-            return false;
-        }
-
-        function handleDragEnter(e) {
-            this.classList.add('over');
-        }
-
-        function handleDragLeave(e) {
-            this.classList.remove('over');
-        }
-
-        function handleDrop(e) {
-            e.stopPropagation();
-            if (dragSrcEl !== this) {
-                // 복원할 내용을 저장
-                let dragSrcContent = dragSrcEl.querySelector('textarea').value;
-                // 드롭 대상의 내용을 저장
-                let dropTargetContent = this.querySelector('textarea').value;
-                // 내용 교환
-                dragSrcEl.querySelector('textarea').value = dropTargetContent;
-                this.querySelector('textarea').value = dragSrcContent;
-            }
-            return false;
-        }
-
-        function setQNumWhenDrag(e) {
-            let questionList = document.querySelector('.question-list');
-            let questionNumbering = questionList.querySelectorAll('.item-numbering');
-            questionNumbering.forEach(function (item, index) {
-                item.innerHTML =`${index+1}`;
-            });
-        }
-
-        document.addEventListener('DOMContentLoaded', (event) => {
-            let items = document.querySelectorAll('.question-item');
-            items.forEach(function (item) {
-                addDragAndDropEvent(item);
-            });
-        });
-        function addDragAndDropEvent(e) {
-            e.addEventListener('dragstart', handleDragStart);
-            e.addEventListener('dragover', handleDragOver);
-            e.addEventListener('dragenter', handleDragEnter);
-            e.addEventListener('dragleave', handleDragLeave);
-            e.addEventListener('dragend', handleDragEnd);
-            e.addEventListener('drop', handleDrop);
-        }
-    </script>
-
-<!--    question item list handle-->
-    <script>
-        function handleQuestionItemType0Input(e) {
-        // textarea 높이 자동 조절
-            e.style.height = 'auto';
-            e.style.height = e.scrollHeight + 'px';
-
-        //     현재 입력창이 몇번째 질문의 몇번째 보기 인지 확인
-            let [questionNumber, questionItemNumber] = getQuestionAndQuestionItemNumber(e);
-
-        //     현재 입력창의 내용을 확인
-            let questionItemContent = e.value;
-            // console.log(questionItemContent)
-
-        //     sidebar의 질문 목록에 현재 질문 번호에 해당하는 질문 내용을 변경
-            let sidebarQuestionItemInput = getSidebarType0Input(questionNumber, questionItemNumber);
-            sidebarQuestionItemInput.value = questionItemContent;
-        }
-
-        function getQuestionAndQuestionItemNumber(e){
-            //   현재 입력창이 몇번째 질문의 몇번째 보기 인지 확인
-            let questionItem = e.closest('.question-item');
-            let questionItemList = questionItem.closest('.question-list').querySelectorAll('.question-item');
-            let questionItemNumber = Array.prototype.indexOf.call(questionItemList, questionItem)+1;
-
-            //     현재 입력창이 몇번째 질문 인지 확인
-            let questionNumber = document.querySelector('#question-number').querySelectorAll('span')[0].innerHTML;
-            return [questionNumber, questionItemNumber]
-        }
-        function getSidebarType0Input(questionNumber, questionItemNumber){
-            let sidebarQuestionList = document.querySelectorAll('.sidebar-item');
-            let sidebarQuestionItem = sidebarQuestionList[questionNumber];
-            // sidebarQuestionItem 의  <div data-input="data" class="data-type-input">에 접근
-            let sidebarQuestionItemInput = sidebarQuestionItem.querySelector('.data-type-input');
-            // sidebarQuestionItemInput 의 자식 요소중 <input name="rsi_type0_1" value=""> 에 접근
-            return sidebarQuestionItemInput.querySelector(`[name="rsi_type0_${questionItemNumber}"]`);
-        }
-
-        function handleQuestionItemDeleteButtonClick(e) {
-        //     현재 입력창이 몇번째 질문의 몇번째 보기 인지 확인
-            let [questionNumber, questionItemNumber] = getQuestionAndQuestionItemNumber(e);
-        //     sidebar 의 질문 목록에서 현재 질문 번호에 해당하는 질문 내용을 초기화
-            let sidebarQuestionItemInput = getSidebarType0Input(questionNumber, questionItemNumber);
-            sidebarQuestionItemInput.value = '';
-
-            // 다음 번호에 해당하는 질문 내용을 rsi_type0_questionItemNumber 로 변경
-            let sidebarQuestionItemInputList = document.querySelectorAll('.data-type-input');
-
-
-            // 해당 질문 삭제
-            let questionItem = e.closest('.question-item');
-            questionItem.remove();
-            setQNumWhenDrag()
-
-        }
-
-        function handleQuestionItemAddButtonClick(){
-            // 최대 5개까지만
-            let questionList = document.querySelector('.question-list');
-            let questionNumbering = questionList.querySelectorAll('.item-numbering');
-            if(questionNumbering.length >= 5){
-                alert('최대 5개까지만 추가할 수 있습니다.');
-                return;
-            }
-            let questionItem = document.createElement('li');
-            questionItem.classList.add('question-item','d-flex','col','justify-content-evenly');
-            questionItem.setAttribute('draggable', 'true');
-            questionItem.innerHTML = `
-                <div class="item-numbering col-1">1</div>
-                <textarea class="col-8" placeholder="보기를 입력하세요" oninput="handleQuestionItemType0Input(this)"></textarea>
-                <button class="question-item-delete col-1 btn btn-toolbar shadow-none bg-transparent" onclick="handleQuestionItemDeleteButtonClick(this)">
-                    <span>del</span>
-                </button>
-            `;
-            questionList.appendChild(questionItem);
-            addDragAndDropEvent(questionItem);
-            setQNumWhenDrag()
-        }
-    </script>
 
 </div>
 </body>
