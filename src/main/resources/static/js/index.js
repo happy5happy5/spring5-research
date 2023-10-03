@@ -39,7 +39,6 @@ function scrollToTop() {
 // Drag and Drop
 function handleDragStart(e) {
     /* global dragSrcEl */
-    console.log(1)
     dragSrcEl = null;
     this.style.opacity = '0.4';
     dragSrcEl = this;
@@ -58,7 +57,7 @@ function handleDragEnd(e) {
     } catch (e) {
         console.log(e);
     }
-    setQNumWhenDrag(e)
+    setQNumWhenDragOnMainContent(e)
 }
 
 function handleDragOver(e) {
@@ -84,8 +83,8 @@ function handleDrop(e) {
             let dragSrcContent = dragSrcEl.querySelector('textarea').value;
             // 드롭 대상의 내용을 저장
             // 내용 교환
-            dragSrcEl.querySelector('textarea').value = e.querySelector('textarea').value;
-            e.querySelector('textarea').value = dragSrcContent;
+            dragSrcEl.querySelector('textarea').value = e.target.querySelector('textarea').value;
+            e.target.querySelector('textarea').value = dragSrcContent;
         } catch (e) {
             console.log(e);
         }
@@ -93,27 +92,13 @@ function handleDrop(e) {
     return false;
 }
 
-function setQNumWhenDrag(e, location) {
-    // todo sidebar 인지 question-list 인지 구분해서 처리 지금은 양쪽 다 되어있음
-    try {
-        let questionList = e.target.closest('.question-list');
-        let questionNumbering = questionList.querySelectorAll('.item-numbering');
-        questionNumbering.forEach(function (item, index) {
-            item.innerHTML = `${index + 1}`;
-        });
-    } catch (e) {
-        console.log(e);
-    }
-
-    try {
-        let questionList = e.target.closest('.sidebar');
-        let questionNumbering = questionList.querySelectorAll('.item-numbering');
-        questionNumbering.forEach(function (item, index) {
-            item.innerHTML = `Q${index + 1}`;
-        });
-    } catch (e) {
-        console.log(e);
-    }
+// sidebar
+function setQNumWhenDragOnMainContent(event) {
+    let questionList = event.target.closest('.question-list');
+    let questionNumbering = questionList.querySelectorAll('.item-numbering');
+    questionNumbering.forEach(function (item, index) {
+        item.innerHTML = `${index + 1}`;
+    });
 }
 
 function setQNumWhenAddOnSideBar(parentUlEl) {
@@ -133,7 +118,7 @@ function setQNumWhenDeleteOnSideBar(parentUlEl) {
 
 
 function addDragAndDropEvent(e) {
-    console.log("add event")
+    console.log("[index.js] add drag event")
     e.addEventListener('dragstart', handleDragStart);
     e.addEventListener('dragover', handleDragOver);
     e.addEventListener('dragenter', handleDragEnter);
@@ -146,4 +131,49 @@ function htmlToElement(html) {
     let template = document.createElement('div');
     template.innerHTML = html;
     return template.children[0];
+}
+
+
+// Add Question in main content
+
+function setQNumWhenDeleteOnMainContent(questionList) {
+    let questionNumbering = questionList.querySelectorAll('.item-numbering');
+    questionNumbering.forEach(function (item, index) {
+        item.innerHTML = `${index + 1}`;
+    });
+}
+
+function setQNumWhenAddOnMainContent(e) {
+    let questionList = e.parentElement.querySelector('.question-list');
+    let questionNumbering = questionList.querySelectorAll('.item-numbering');
+    questionNumbering.forEach(function (item, index) {
+        item.innerHTML = `${index + 1}`;
+    });
+}
+
+function handleQuestionAddButtonOnMainContent(e){
+    let questionList = e.parentElement.querySelector('.question-list');
+    let questionItem = questionList.querySelector('.question-item');
+//     새로 만들기
+    let newQuestionHTML = `
+                        <li class="question-item d-flex col justify-content-evenly" draggable="true">
+                            <div class="item-numbering col-1">1</div>
+                            <textarea class="col-8" placeholder="보기를 입력하세요" oninput="handleQuestionItemType0Input(this)"></textarea>
+                            <button class="question-item-delete col-1 btn btn-toolbar shadow-none bg-transparent" onclick="handleQuestionItemDeleteButtonClick(this)">
+                                <span>del</span>
+                            </button>
+                        </li>
+    `;
+    let newQuestion = htmlToElement(newQuestionHTML);
+    questionList.appendChild(newQuestion);
+    addDragAndDropEvent(newQuestion);
+    setQNumWhenAddOnMainContent(e);
+
+}
+
+function handleQuestionItemDeleteButtonClick(e){
+    let questionItem = e.parentElement;
+    let questionList = questionItem.parentElement;
+    questionList.removeChild(questionItem);
+    setQNumWhenDeleteOnMainContent(questionList);
 }

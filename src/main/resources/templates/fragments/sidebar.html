@@ -105,7 +105,7 @@
     <script>
 
         function handleSideBarCreatButtonByType(element) {
-            // 클릭한 요소에서 가장 가까운 data-list 속성을 가진 부모 요소를 찾습니다.
+            // 클릭한 요소 에서 가장 가까운 data-list 속성을 가진 부모 요소를 찾습니다.
             const currentLiEl = element.closest('.sidebar-item');
             const parentUlEl = currentLiEl.closest('.sidebar');
             // console.log(parentLiEl);
@@ -114,15 +114,14 @@
             // console.log(index);
             // parentUlEl 의 index+1 번째에 새로운 li 요소를 만듭니다.
             const type = element.dataset.type;
-            console.log(type)
-            // newLiEL 에 type에 따라서 다른 html을 넣어줍니다.
-            // 0: 객관식 1: OX 2: likert 3: 주관식 4: 별점 5: 다중선택
+            // newLiEL 에 type 따라서 다른 html 넣어줍니다.
             switch (type) {
                 // 0: 객관식 1: OX 2: likert 3: 주관식 4: 별점 5: 다중선택
                 case '0' :
-                    let newLiEl = createSideBarElementByType(parentUlEl, index, element.dataset.type, '');
-                    parentUlEl.insertBefore(newLiEl, parentUlEl.children[index + 1]);
+                    createSideBarElementByType(parentUlEl, index, type, '');
                     setQNumWhenAddOnSideBar(parentUlEl);
+                    // 여기서 main-content-container 에 element를 추가해줍니다.
+                    createMainContentElementType0(index, type, '');
                     console.log('객관식')
                     break;
                 case '1' :
@@ -160,7 +159,7 @@
             }
         }
 
-        function createSideBarElementByType(pUl, index, type,title) {
+        function createSideBarElementByType(parentUlEl, index, type,title) {
         //     sidebar-item 를 만든다
         //     리터럴 형식으로?
             let newLiEl =
@@ -224,14 +223,45 @@
             `
             newLiEl = htmlToElement(newLiEl);
             addDragAndDropEvent(newLiEl);
-            return newLiEl;
+            parentUlEl.insertBefore(newLiEl, parentUlEl.children[index + 1]);
         }
 
         function createMainContentElementType0(index, type, title) {
             let newMainContentEl =
             `
+            <div class="d-flex col">
+                <div id="question-number" class="col-1 d-flex justify-content-end me-3">
+                    <span>${index+1}</span>
+                    <span>-></span>
+                </div>
+
+                <div class="col-11 pe-5">
+                    <label>
+                        <textarea placeholder="질문을 입력하세요" oninput="handleQuestionItemType0Input(this)"></textarea>
+                    </label>
+
+                    <ul class="question-list m-0 p-0">
+<!--                        <li class="question-item d-flex col justify-content-evenly" draggable="true">-->
+<!--                            <div class="item-numbering col-1">1</div>-->
+<!--                            <textarea class="col-8" placeholder="보기를 입력하세요" oninput="handleQuestionItemType0Input(this)"></textarea>-->
+<!--                            <button class="question-item-delete col-1 btn btn-toolbar shadow-none bg-transparent" onclick="handleQuestionItemDeleteButtonClick(this)">-->
+<!--                                <span>del</span>-->
+<!--                            </button>-->
+<!--                        </li>-->
+                    </ul>
+                    <div onclick="handleQuestionAddButtonOnMainContent(this)">질문 추가</div>
+
+                </div>
 
             `
+            newMainContentEl = htmlToElement(newMainContentEl);
+            // addDragAndDropEvent(newMainContentEl);
+            let mainContentDiv = document.querySelector('#layout-content').querySelector('.main-content')
+            console.log(mainContentDiv)
+            // todo: 여기에서 애니메이션 용 클래스를 추가
+        //     mainContentDiv 의 내용 삭제 후 newMainContentEl 을 추가 합니다.
+            mainContentDiv.innerHTML = '';
+            mainContentDiv.appendChild(newMainContentEl);
         }
 
         function createMainContentElementType1(index, type, title){
