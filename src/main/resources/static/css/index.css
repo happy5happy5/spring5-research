@@ -1,12 +1,12 @@
 body{
     margin-top: 10px;
-    /*background-image: url("../img/sky-bg.jpg");*/
+    background-image: url("../img/night_bg.jpg");
     background-size: 100% 130%;
-    /*background-repeat: no-repeat;*/
-    /*background-attachment: fixed;*/
-    /*background-position: top;*/
-    /*background-color: rgb(7, 3, 2);*/
-    background-color: rgba(221, 224, 227, 0.6);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: top;
+    background-color: rgb(7, 3, 2);
+    /*background-color: rgba(221, 224, 227, 0.6);*/
 }
 
 .bottom-10{

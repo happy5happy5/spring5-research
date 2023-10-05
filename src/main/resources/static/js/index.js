@@ -107,8 +107,6 @@ function loadContentAction(sidebarList,clickedNum){
     let sidebarEl = sidebarList[clickedNum];
     let saveData = sidebarEl.querySelector('.saveData')
     let saveHTML = sidebarEl.querySelector('.saveHTML')
-    // console.log(saveData.value)
-    // console.log(saveHTML.value)
     let textareas = JSON.parse(saveData.value);
     let mainContentContainer = document.querySelector('#layout-content .main-content-container');
     mainContentContainer.innerHTML = saveHTML.value;
@@ -118,8 +116,8 @@ function loadContentAction(sidebarList,clickedNum){
             addDragAndDropEvent(item,'Q');
         });
     }
-
     let mainContentContainerTextareas = mainContentContainer.querySelectorAll('textarea');
+    console.log(textareas)
     mainContentContainerTextareas.forEach(function (item,index){
         item.value = textareas[index];
     });

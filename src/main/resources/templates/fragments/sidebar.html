@@ -76,37 +76,27 @@
     <script>
 
         function handleSideBarCreatButtonByType(element) {
-            // save content HTML and data when create new element
             let currentElNum = document.querySelector('#layout-content #question-number span').textContent;
             const sidebarList = document.querySelector('.sidebar').children;
             saveContentAction(sidebarList,currentElNum);
-
-
             const currentLiEl = element.closest('.sidebar-item');
             const parentUlEl = currentLiEl.closest('.sidebar');
-            // console.log(parentLiEl);
             // UlEl의 parentLiEl의 index를 찾습니다.
             const index = Array.prototype.indexOf.call(parentUlEl.children, currentLiEl);
-            // console.log(index);
             // parentUlEl 의 index+1 번째에 새로운 li 요소를 만듭니다.
             const type = element.dataset.type;
             // newLiEL 에 type 따라서 다른 html 넣어줍니다.
-
-
-
             for(let i=0; i<sidebarList.length; i++){
                 if(i===0)continue;
                 addDragAndDropEvent(sidebarList[i],"S");
             }
-
-
 
             switch (type) {
                 // 0: 객관식 1: OX 2: likert 3: 주관식 4: 별점 5: 다중선택
                 case '0' :
                     createSideBarElementByType(parentUlEl, index, type, '');
                     setQNumWhenAddOnSideBar(parentUlEl);
-                    // 여기서 main-content-container 에 element를 추가해줍니다.
+                    // main-content-container 에 element를 추가해줍니다.
                     createMainContentElementType0(index, type, '');
                     console.log('객관식')
                     break;
@@ -137,20 +127,12 @@
                     parentUlEl.removeChild(parentUlEl.children[index]);
                     setQNumWhenDeleteOnSideBar(parentUlEl);
                     break;
-
-            }
-
-
-            if (currentLiEl) {
-
-            } else {
-                alert('부모 요소의 data-list 찾을 수 없습니다. 상황이 심각 합니다');
             }
         }
 
         function createSideBarElementByType(parentUlEl, index, type,title) {
         //     sidebar-item 를 만든다
-        //     리터럴 형식으로?
+        //     리터럴 형식으로
             let newLiEl =
             `
             <li class="sidebar-item" draggable="true" onclick="handleSidebarItemClick(this)">
@@ -213,6 +195,7 @@
             newLiEl = htmlToElement(newLiEl);
             addDragAndDropEvent(newLiEl,"S");
             newLiEl.querySelector('.saveType').value = type;
+            // 기본값 저장
             newLiEl.querySelector('.saveHTML').value =`
             <div class="text-info">
             Main Content
@@ -259,7 +242,7 @@
                 <div id="question-number" class="col-1 d-flex justify-content-end me-3">
                     <span>${index+1}</span>
                     <span>-></span>
-                </div>
+                </div>A
 
                 <div class="col-11 pe-5">
                     <textarea placeholder="질문을 입력하세요" oninput="handleTextAreaInput(this,'Q')"></textarea>
@@ -281,7 +264,8 @@
             newMainContentEl = htmlToElement(newMainContentEl);
             // addDragAndDropEvent(newMainContentEl,"Q");
             let mainContentDiv = document.querySelector('#layout-content .main-content')
-            console.log(mainContentDiv)
+            // console.log("mainContentDiv")
+            // console.log(mainContentDiv)
             // todo: 여기에서 애니메이션 용 클래스를 추가
         //     mainContentDiv 의 내용 삭제 후 newMainContentEl 을 추가 합니다.
             mainContentDiv.innerHTML = '';
