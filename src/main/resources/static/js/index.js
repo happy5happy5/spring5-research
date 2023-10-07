@@ -104,6 +104,7 @@ function saveContentAction(sidebarList,currentNum){
     saveHTML.value = mainContentContainerHTML;
 }
 function loadContentAction(sidebarList,clickedNum){
+    console.log("[index.js] load content action")
     let sidebarEl = sidebarList[clickedNum];
     let saveData = sidebarEl.querySelector('.saveData')
     let saveHTML = sidebarEl.querySelector('.saveHTML')
@@ -112,12 +113,14 @@ function loadContentAction(sidebarList,clickedNum){
     mainContentContainer.innerHTML = saveHTML.value;
     if(clickedNum !== '0'){
         let questionList = mainContentContainer.querySelector('.question-list')
-        questionList.querySelectorAll('.question-item').forEach(function (item){
-            addDragAndDropEvent(item,'Q');
-        });
+        if(questionList !== null){
+            questionList.querySelectorAll('.question-item').forEach(function (item){
+                addDragAndDropEvent(item,'Q');
+            });
+        }
     }
     let mainContentContainerTextareas = mainContentContainer.querySelectorAll('textarea');
-    console.log(textareas)
+    // console.log(textareas)
     mainContentContainerTextareas.forEach(function (item,index){
         item.value = textareas[index];
     });
@@ -130,7 +133,6 @@ function stopPropagation(event) {
 
 // Drag and Drop
 function handleDragStart(e) {
-
     const currentNum = document.querySelector('#layout-content #question-number span').textContent;
     const sidebarList = document.querySelector('.sidebar').children;
     saveContentAction(sidebarList,currentNum);
