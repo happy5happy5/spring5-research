@@ -317,3 +317,6 @@ function handleQuestionItemDeleteButtonClick(e){
     questionList.removeChild(questionItem);
     setQNumWhenDeleteOnMainContent(questionList);
 }
+
+
+// star rating

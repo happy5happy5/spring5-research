@@ -99,7 +99,19 @@
             const parentUlEl = currentLiEl.closest('.sidebar');
             // UlEl의 parentLiEl의 index를 찾습니다.
             const index = Array.prototype.indexOf.call(parentUlEl.children, currentLiEl);
-            console.log('index : ' + index)
+            if(element.dataset.type === 'delete'){
+                // 삭제
+                if(currentLiEl.querySelector('.item-numbering').textContent === 'Q0'){
+                    alert('기본 정보 입력란은 삭제 할 수 없습니다.')
+                    return;
+                }
+                parentUlEl.removeChild(currentLiEl);
+                setQNumWhenDeleteOnSideBar(parentUlEl);
+                loadContentAction(parentUlEl.children, index - 1);
+                return;
+            }
+
+
             // parentUlEl 의 index+1 번째에 새로운 li 요소를 만듭니다.
             const type = element.dataset.type;
             // newLiEL 에 type 따라서 다른 html 넣어줍니다.
@@ -197,7 +209,9 @@
         </button>
 
             `;
-            // default 값 저장 switch 문으로
+            // default 값 저장 (textarea 전용) switch 문으로
+            // 나중에 input 창 데이터 저장 하는 것도 만들어야 함
+
             switch (type){
                 case '0' :
                     newLiElinSideBar.querySelector('.saveData').value = JSON.stringify([""]);
@@ -206,7 +220,7 @@
                     newLiElinSideBar.querySelector('.saveData').value = JSON.stringify(["","O","X"]);
                     break;
                 case '2' :
-                    newLiElinSideBar.querySelector('.saveData').value = JSON.stringify([""]);
+                    newLiElinSideBar.querySelector('.saveData').value = JSON.stringify(["",""]);
                     break;
                 case '3' :
                     newLiElinSideBar.querySelector('.saveData').value = JSON.stringify([""]);
@@ -314,7 +328,7 @@
 
             `
             newMainContentEl = htmlToElement(newMainContentEl);
-            addDragAndDropEvent(newMainContentEl, "Q");
+            // addDragAndDropEvent(newMainContentEl, "Q");
             return newMainContentEl;
         }
         // 0: 객관식 1: OX 2: likert 3: 주관식 4: 별점 5: 다중선택
@@ -372,12 +386,10 @@
                 <div class="col-11 pe-5">
                     <textarea placeholder="질문을 입력하세요" oninput="handleTextAreaInput(this,'Q')">${title}</textarea>
 
-                    <ul class="question-list m-0 p-0">
-
-                    </ul>
-
-                    <div class="main-content-add-question" onclick="handleQuestionAddButtonOnMainContent(this)">질문 추가</div>
-
+                     <div>주관식 입력 할 부분</div>
+<!--                    <ul class="question-list m-0 p-0">-->
+<!--                        <textarea placeholder="주관식 답변" oninput="autoResizeTextArea(this)" readonly></textarea>-->
+<!--                    </ul>-->
                 </div>
             </div>
 
@@ -399,11 +411,21 @@
                     <textarea placeholder="질문을 입력하세요" oninput="handleTextAreaInput(this,'Q')">${title}</textarea>
 
                     <ul class="question-list m-0 p-0">
-
+                        <span class="star-input">
+                          <span class="input">
+                            <input type="radio" name="star-input" id="p1" value="1"><label for="p1">1</label>
+                            <input type="radio" name="star-input" id="p2" value="2"><label for="p2">2</label>
+                            <input type="radio" name="star-input" id="p3" value="3"><label for="p3">3</label>
+                            <input type="radio" name="star-input" id="p4" value="4"><label for="p4">4</label>
+                            <input type="radio" name="star-input" id="p5" value="5"><label for="p5">5</label>
+                            <input type="radio" name="star-input" id="p6" value="6"><label for="p6">6</label>
+                            <input type="radio" name="star-input" id="p7" value="7"><label for="p7">7</label>
+                            <input type="radio" name="star-input" id="p8" value="8"><label for="p8">8</label>
+                            <input type="radio" name="star-input" id="p9" value="9"><label for="p9">9</label>
+                            <input type="radio" name="star-input" id="p10" value="10"><label for="p10">10</label>
+                          </span>
+                        </span>
                     </ul>
-
-                    <div class="main-content-add-question" onclick="handleQuestionAddButtonOnMainContent(this)">질문 추가</div>
-
                 </div>
             </div>
             `
