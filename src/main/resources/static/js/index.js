@@ -104,7 +104,6 @@ function saveContentAction(sidebarList,currentNum){
     saveHTML.value = mainContentContainerHTML;
 }
 function loadContentAction(sidebarList,clickedNum){
-    console.log("[index.js] load content action")
     let sidebarEl = sidebarList[clickedNum];
     let saveData = sidebarEl.querySelector('.saveData')
     let saveHTML = sidebarEl.querySelector('.saveHTML')

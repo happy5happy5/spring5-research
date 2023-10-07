@@ -107,55 +107,16 @@
                 if (i === 0) continue;
                 addDragAndDropEvent(sidebarList[i], "S");
             }
+            createSideBarElementByType(parentUlEl, index, '', type);
+            setQNumWhenAddOnSideBar(parentUlEl);
 
-            switch (type) {
-                // 0: 객관식 1: OX 2: likert 3: 주관식 4: 별점 5: 다중선택
-                case '0' :
-                    createSideBarElementByType(parentUlEl, index, '', type);
-                    setQNumWhenAddOnSideBar(parentUlEl);
-                    // main-content-container 에 element 를 추가 해줍니다.
-                    createMainContentElementType0(index, '', type);
-                    console.log('객관식')
-                    break;
-                case '1' :
-                    createSideBarElementByType(parentUlEl, index, '', type);
-                    setQNumWhenAddOnSideBar(parentUlEl);
-                    // main-content-container 에 element 를 추가 해줍니다.
-                    createMainContentElementType1(index, '', type);
-                    console.log('OX')
-                    break;
-                case '2' :
-                    console.log('likert')
-                    break;
-                case '3' :
-                    console.log('주관식')
-                    break;
-                case '4' :
-                    console.log('별점')
-                    break;
-                case '5' :
-                    console.log('다중선택')
-                    break;
-                case 'delete' :
-                    console.log('삭제')
-                    // index 번째의 li 요소를 삭제합니다.
-                    if (index === 0) {
-                        alert('첫번째 항목은 삭제할 수 없습니다.')
-                        return;
-                    }
-                    // 해당 인덱스 전으로 main-content-container 의 내용을 바꿔줍니다.
-                    loadContentAction(parentUlEl.children, index - 1);
-                    parentUlEl.removeChild(parentUlEl.children[index]);
-                    setQNumWhenDeleteOnSideBar(parentUlEl);
-                    break;
-            }
         }
 
         function createSideBarElementByType(parentUlEl, index, title, type) {
             //     sidebar-item 를 만든다
             //     리터럴 형식으로
             //     타입에 따라 다른 생성 방식 필요
-            let newLiEl =
+            let newLiElinSideBar =
                 `
             <li class="sidebar-item" draggable="true" onclick="handleSidebarItemClick(this)">
                 <div data-input="data" class="data-type-input">
@@ -213,13 +174,13 @@
                 </div>
             </li>
             `
-            newLiEl = htmlToElement(newLiEl);
-            addDragAndDropEvent(newLiEl, "S");
+            newLiElinSideBar = htmlToElement(newLiElinSideBar);
+            addDragAndDropEvent(newLiElinSideBar, "S");
             console.log("[createSideBarElementByType] type : " + type)
-            newLiEl.querySelector('.saveType').value = type;
+            newLiElinSideBar.querySelector('.saveType').value = type;
             // 기본값 저장
-            newLiEl.querySelector('.saveHTML').value = `
-            <div class="text-info">
+            newLiElinSideBar.querySelector('.saveHTML').value = `
+        <div class="text-info">
             Main Content
         </div>
         <div class="main-content d-flex p-0 m-0 pt-3">
@@ -236,13 +197,29 @@
         </button>
 
             `;
-            if( type === '1'){
-                newLiEl.querySelector('.saveData').value = JSON.stringify(["","O","X"]);
-            }else{
-                newLiEl.querySelector('.saveData').value = JSON.stringify([""]);
+            // default 값 저장 switch 문으로
+            switch (type){
+                case '0' :
+                    newLiElinSideBar.querySelector('.saveData').value = JSON.stringify([""]);
+                    break;
+                case '1' :
+                    newLiElinSideBar.querySelector('.saveData').value = JSON.stringify(["","O","X"]);
+                    break;
+                case '2' :
+                    newLiElinSideBar.querySelector('.saveData').value = JSON.stringify([""]);
+                    break;
+                case '3' :
+                    newLiElinSideBar.querySelector('.saveData').value = JSON.stringify([""]);
+                    break;
+                case '4' :
+                    newLiElinSideBar.querySelector('.saveData').value = JSON.stringify([""]);
+                    break;
+                case '5' :
+                    newLiElinSideBar.querySelector('.saveData').value = JSON.stringify([""]);
+                    break;
             }
-            // newLiEl.querySelector('.saveData').value = JSON.stringify([""]);
-            parentUlEl.insertBefore(newLiEl, parentUlEl.children[index + 1]);
+
+            parentUlEl.insertBefore(newLiElinSideBar, parentUlEl.children[index + 1]);
             loadContentAction(parentUlEl.children, index + 1);
         }
 
@@ -344,6 +321,39 @@
         function createMainContentElementType2(index, title, type) {
             let newMainContentEl =
                 `
+            <div class="d-flex col">
+                <div id="question-number" class="col-1 d-flex justify-content-end me-3">
+                    <span>${index + 1}</span>
+                    <span>-></span>
+                </div>
+
+                <div class="col-11 pe-5 ">
+                    <textarea placeholder="질문을 입력하세요" oninput="handleTextAreaInput(this,'Q')">${title}</textarea>
+
+                    <ul class="question-list m-0 p-0 likert">
+                        <li>
+                          <input type="radio" name="likert" value="1">
+                          <label>매우 비동의</label>
+                        </li>
+                        <li>
+                          <input type="radio" name="likert" value="2">
+                          <label>비동의</label>
+                        </li>
+                        <li>
+                          <input type="radio" name="likert" value="3">
+                          <label>보통</label>
+                        </li>
+                        <li>
+                          <input type="radio" name="likert" value="4">
+                          <label>동의</label>
+                        </li>
+                        <li>
+                          <input type="radio" name="likert" value="5">
+                          <label>매우 동의</label>
+                        </li>
+                    </ul>
+                </div>
+            </div>
 
             `
             newMainContentEl = htmlToElement(newMainContentEl);
@@ -353,6 +363,23 @@
         function createMainContentElementType3(index, title, type) {
             let newMainContentEl =
                 `
+            <div class="d-flex col">
+                <div id="question-number" class="col-1 d-flex justify-content-end me-3">
+                    <span>${index + 1}</span>
+                    <span>-></span>
+                </div>
+
+                <div class="col-11 pe-5">
+                    <textarea placeholder="질문을 입력하세요" oninput="handleTextAreaInput(this,'Q')">${title}</textarea>
+
+                    <ul class="question-list m-0 p-0">
+
+                    </ul>
+
+                    <div class="main-content-add-question" onclick="handleQuestionAddButtonOnMainContent(this)">질문 추가</div>
+
+                </div>
+            </div>
 
             `
             newMainContentEl = htmlToElement(newMainContentEl);
@@ -362,7 +389,23 @@
         function createMainContentElementType4(index, title, type) {
             let newMainContentEl =
                 `
+            <div class="d-flex col">
+                <div id="question-number" class="col-1 d-flex justify-content-end me-3">
+                    <span>${index + 1}</span>
+                    <span>-></span>
+                </div>
 
+                <div class="col-11 pe-5">
+                    <textarea placeholder="질문을 입력하세요" oninput="handleTextAreaInput(this,'Q')">${title}</textarea>
+
+                    <ul class="question-list m-0 p-0">
+
+                    </ul>
+
+                    <div class="main-content-add-question" onclick="handleQuestionAddButtonOnMainContent(this)">질문 추가</div>
+
+                </div>
+            </div>
             `
             newMainContentEl = htmlToElement(newMainContentEl);
             return newMainContentEl;
@@ -371,9 +414,26 @@
         function createMainContentElementType5(index, title, type) {
             let newMainContentEl =
                 `
+            <div class="d-flex col">
+                <div id="question-number" class="col-1 d-flex justify-content-end me-3">
+                    <span>${index + 1}</span>
+                    <span>-></span>
+                </div>
 
+                <div class="col-11 pe-5">
+                    <textarea placeholder="질문을 입력하세요" oninput="handleTextAreaInput(this,'Q')">${title}</textarea>
+
+                    <ul class="question-list m-0 p-0">
+
+                    </ul>
+
+                    <div class="main-content-add-question" onclick="handleQuestionAddButtonOnMainContent(this)">질문 추가</div>
+
+                </div>
+            </div>
             `
             newMainContentEl = htmlToElement(newMainContentEl);
+
             return newMainContentEl;
         }
 
