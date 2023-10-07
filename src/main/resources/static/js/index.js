@@ -97,9 +97,16 @@ function saveContentAction(sidebarList,currentNum){
     mainContentContainer.querySelectorAll('textarea').forEach(function (item){
         textareas.push(item.value);
     });
+    let input = [];
+    mainContentContainer.querySelectorAll('input').forEach(function (item){
+        input.push(item.value);
+    });
+    input = JSON.stringify(input);
     textareas = JSON.stringify(textareas);
+    let saveData_input = sidebarEl.querySelector('.saveData_input')
     let saveData = sidebarEl.querySelector('.saveData')
     let saveHTML = sidebarEl.querySelector('.saveHTML')
+    saveData_input.value = input;
     saveData.value = textareas;
     saveHTML.value = mainContentContainerHTML;
 }
@@ -107,22 +114,36 @@ function loadContentAction(sidebarList,clickedNum){
     let sidebarEl = sidebarList[clickedNum];
     let saveData = sidebarEl.querySelector('.saveData')
     let saveHTML = sidebarEl.querySelector('.saveHTML')
+    let saveType = sidebarEl.querySelector('.saveType')
+    let saveData_input = sidebarEl.querySelector('.saveData_input')
     let textareas = JSON.parse(saveData.value);
+    // console.log(saveData.value)
+    // console.log(saveData_input.value)
+    let input = JSON.parse(saveData_input.value);
     let mainContentContainer = document.querySelector('#layout-content .main-content-container');
     mainContentContainer.innerHTML = saveHTML.value;
     if(clickedNum !== '0'){
-        let questionList = mainContentContainer.querySelector('.question-list')
-        if(questionList !== null){
-            questionList.querySelectorAll('.question-item').forEach(function (item){
-                addDragAndDropEvent(item,'Q');
-            });
+        if(saveType.value === '0'|| saveType.value === '5'){
+            let questionList = mainContentContainer.querySelector('.question-list')
+            if(questionList !== null){
+                questionList.querySelectorAll('.question-item').forEach(function (item){
+                    addDragAndDropEvent(item,'Q');
+                });
+            }
         }
     }
     let mainContentContainerTextareas = mainContentContainer.querySelectorAll('textarea');
-    // console.log(textareas)
     mainContentContainerTextareas.forEach(function (item,index){
         item.value = textareas[index];
     });
+    let mainContentContainerInputs = mainContentContainer.querySelectorAll('input');
+    if (mainContentContainerInputs.length === 0){
+
+    }else {
+        mainContentContainerInputs.forEach(function (item,index){
+            item.value = input[index];
+        });
+    }
     document.querySelector('#layout-content #question-number span').textContent = clickedNum;
 }
 

@@ -21,7 +21,12 @@
                 <div data-input="data" class="data-type-input">
                     <div class="saveType" style="display: none"></div>
                     <div class="saveData" style="display: none"></div>
+                    <div class="saveData_input" style="display: none"></div>
                     <div class="saveHTML" style="display: none"></div>
+                    <script>
+                        document.querySelector('.saveType').value = 'header';
+                        // document.querySelector('.saveData_input').value = ["","",""];
+                    </script>
                 </div>
 
 
@@ -85,11 +90,43 @@
                     </div>
                 </div>
             </li>
+            <li class="sidebar-footer">
+<!--                제출 버튼-->
+                <div class="sidebar-submit-button" onclick="handleSidebarSubmitButtonClick(this)">제출</div>
+            </li>
         </ul>
 
     </div>
     <!--Make SideBar Element-->
     <script>
+        function handleSidebarSubmitButtonClick(element) {
+            const sidebarList = document.querySelector('.sidebar').children;
+            const currentElNum = document.querySelector('#layout-content #question-number span').textContent;
+            console.log("[handleSidebarSubmitButtonClick] currentElNum : " + currentElNum)
+            saveContentAction(sidebarList, currentElNum);
+
+
+            const surveyData = {
+                // title: surveyTitle,
+                // description: surveyDescription,
+                content: []
+            }
+            for (let i = 0; i < sidebarList.length-1; i++) {
+                // -1 해주는 이유는 footer 의 존재 때문
+                const type = sidebarList[i].querySelector('.saveType').value;
+                const data = sidebarList[i].querySelector('.saveData').value;
+                const html = sidebarList[i].querySelector('.saveHTML').value;
+                const data_input = sidebarList[i].querySelector('.saveData_input').value;
+                const content = {
+                    type: type,
+                    data: data,
+                    html: html,
+                    data_input: data_input
+                }
+                surveyData.content.push(content);
+            }
+            console.log(surveyData);
+        }
 
         function handleSideBarCreatButtonByType(element) {
             let currentElNum = document.querySelector('#layout-content #question-number span').textContent;
@@ -137,6 +174,7 @@
                     <!--                    0: 객관식 1: OX 2: likert 3: 주관식 4: 별점 5: 다중선택 -->
                     <div class="saveType" style="display: none" value=""></div>
                     <div class="saveData" style="display: none" value=""></div>
+                    <div class="saveData_input" style="display: none"></div>
                     <div class="saveHTML" style="display: none" value=""></div>
                 </div>
 
@@ -211,25 +249,32 @@
             `;
             // default 값 저장 (textarea 전용) switch 문으로
             // 나중에 input 창 데이터 저장 하는 것도 만들어야 함
+            // input 초기값 수정 필요
 
             switch (type){
                 case '0' :
                     newLiElinSideBar.querySelector('.saveData').value = JSON.stringify([""]);
+                    newLiElinSideBar.querySelector('.saveData_input').value = JSON.stringify([""]);
                     break;
                 case '1' :
                     newLiElinSideBar.querySelector('.saveData').value = JSON.stringify(["","O","X"]);
+                    newLiElinSideBar.querySelector('.saveData_input').value = JSON.stringify([""]);
                     break;
                 case '2' :
                     newLiElinSideBar.querySelector('.saveData').value = JSON.stringify(["",""]);
+                    newLiElinSideBar.querySelector('.saveData_input').value = JSON.stringify([""]);
                     break;
                 case '3' :
                     newLiElinSideBar.querySelector('.saveData').value = JSON.stringify([""]);
+                    newLiElinSideBar.querySelector('.saveData_input').value = JSON.stringify([""]);
                     break;
                 case '4' :
                     newLiElinSideBar.querySelector('.saveData').value = JSON.stringify([""]);
+                    newLiElinSideBar.querySelector('.saveData_input').value = JSON.stringify([""]);
                     break;
                 case '5' :
                     newLiElinSideBar.querySelector('.saveData').value = JSON.stringify([""]);
+                    newLiElinSideBar.querySelector('.saveData_input').value = JSON.stringify([""]);
                     break;
             }
 

@@ -181,7 +181,7 @@ body{
     color: #a5aec0
 }
 
-/* Side bar */
+/* Sidebar */
 .sidebar-container{
     background: #1e2125;
     opacity: 0.8;
@@ -264,6 +264,16 @@ body{
     font-size: .7em;
 }
 
+.sidebar-footer{
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    padding: 10px;
+    text-align: center;
+    color: #fff;
+    font-size: 0.8em;
+    background: #1e2125;
+}
 
 
 
