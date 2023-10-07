@@ -130,7 +130,12 @@ function stopPropagation(event) {
 
 // Drag and Drop
 function handleDragStart(e) {
-    console.log(e)
+
+    const currentNum = document.querySelector('#layout-content #question-number span').textContent;
+    const sidebarList = document.querySelector('.sidebar').children;
+    saveContentAction(sidebarList,currentNum);
+    // loadContentAction(sidebarList,clickedNum);
+
     /* global dragSrcEl */
     dragSrcEl = null;
     this.style.opacity = '0.4';
