@@ -353,6 +353,16 @@ body {
     justify-content: center;
 }
 
+.main-content-footer{
+    margin-left: 2rem;
+    margin-bottom: 2rem;
+    position: absolute;
+    display: flex;
+    bottom: 10%;
+    width: 90%;
+    justify-content: space-between
+}
+
 
 /* main-content input*/
 

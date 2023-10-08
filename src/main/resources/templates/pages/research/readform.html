@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{common/noScroll-Layout}">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div layout:fragment="content">
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    const rsiList = [[${rsiList}]];
+    const userName = [[${username}]];
+    const userRole = [[${userRoles}]];
+    const research = [[${research}]];
+    console.log(rsiList);
+    console.log(userName);
+    console.log(userRole);
+    console.log(research);
+    /*]]>*/
+</script>
+
+        <div class="main-content-container hide">
+            <span class="text-danger">
+                설문 조사
+            </span>
+            <span>
+                <span th:text="${rsiList.get(0).rsi_no}"></span>
+                <span>/</span>
+                <span th:text="${research.rs_cnt}"></span>
+            </span>
+            <div class="main-content d-flex p-0 m-0 pt-3">
+                <!--                hide scroll bar by cover another div-->
+                <div class="d-flex col">
+                    <div id="question-number" class="col-1 d-flex justify-content-end me-3">
+                        <span style="display: none">0</span>
+
+                        <span class="text-white">설문 내용</span>
+                        <span>-></span>
+                    </div>
+
+                    <div class="col-11 pe-5">
+                        <div th:text="${research.rs_title}"></div>
+                        <div th:text="${research.rs_desc}"></div>
+
+                        <div class="d-flex col">
+                            <div class="col-6">
+                                <div class="col">
+                                    <div class="col-4">
+                                        <span class="text-white">시작일</span>
+                                    </div>
+                                    <div class="col-8">
+                                        <span type="date" th:text="${research.rs_start_date}" readonly>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="col">
+                                    <div class="col-4">
+                                        <span class="text-white">종료일</span>
+                                    </div>
+                                    <div class="col-8">
+                                        <span type="date" th:text="${research.rs_end_date}" readonly>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="main-content-footer">
+                        <button> 이전</button>
+                    <button> 다음</button>
+                </div>
+            </div>
+
+
+        </div>
+
+
+
+    <script>
+        // createMainContentElementByType(rsiList.rsi_type, research, rsiList, userName, userRole)
+    </script>
+</div>
+</body>
+</html>

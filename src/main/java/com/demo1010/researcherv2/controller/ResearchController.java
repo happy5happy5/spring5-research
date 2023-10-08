@@ -2,8 +2,10 @@ package com.demo1010.researcherv2.controller;
 
 
 import com.demo1010.researcherv2.entity.Rs;
+import com.demo1010.researcherv2.entity.Rsi;
 import com.demo1010.researcherv2.model.*;
 import com.demo1010.researcherv2.repository.RsRepository;
+import com.demo1010.researcherv2.repository.RsiRepository;
 import com.demo1010.researcherv2.service.ResearchService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,7 +24,6 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -31,6 +32,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @RequestMapping("/research")
 public class ResearchController {
+    private final RsiRepository rsiRepository;
 
     private final RsRepository rsRepository;
     private final ResearchService researchService;
@@ -119,5 +121,22 @@ public class ResearchController {
         return new ApiResponse<>(200, "success", null, LocalDateTime.now());
     }
 
+    @GetMapping("/read/{rs_seq}")
+    public String detail(Model model, @PathVariable int rs_seq) {
+        log.info("[GET] /research/read/{}", rs_seq);
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Set<String> roles = auth.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
+                .collect(Collectors.toSet());
+        model.addAttribute("userRoles", roles);
+        model.addAttribute("username", auth.getName());
+
+        List<Rsi> rsiList = rsiRepository.findByRsSeqOrderByRsiNoAsc(rs_seq);
+        Rs rs = rsRepository.findById(rs_seq).orElseThrow(() -> new IllegalArgumentException("해당 연구가 없습니다. rs_seq=" + rs_seq));
+        model.addAttribute("research", rs);
+        model.addAttribute("rsiList", rsiList);
+
+        return "pages/research/readform";
+    }
 
 }
