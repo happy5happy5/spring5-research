@@ -9,30 +9,6 @@
 </head>
 <body>
 <div layout:fragment="content">
-    <script th:inline="javascript">
-        /*<![CDATA[*/
-        const rsiList = [[${rsiList}]];
-        const userName = [[${username}]];
-        const userRole = [[${userRoles}]];
-        const research = [[${research}]];
-        console.log(rsiList);
-        console.log(userName);
-        console.log(userRole);
-        console.log(research);
-        /*]]>*/
-        let answerList = [
-            {
-                rs_seq: research.rs_seq,
-                username: userName
-            },
-            {
-                type: "0",
-                no: "1",
-                answerList: []
-            }
-        ];
-    </script>
-
     <div class="main-content-container hide d-flex justify-content-center mt-5">
         <div class="answer-content-header d-flex justify-content-start">
             <span class="text-danger">
@@ -63,6 +39,29 @@
         </div>
 
     </div>
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        const rsiList = [[${rsiList}]];
+        const userName = [[${username}]];
+        const userRole = [[${userRoles}]];
+        const research = [[${research}]];
+        console.log(rsiList);
+        console.log(userName);
+        console.log(userRole);
+        console.log(research);
+        /*]]>*/
+        let answerList = [
+            {
+                rs_seq: research.rs_seq,
+                username: userName
+            },
+            // {
+            //     type: "0",
+            //     no: "1",
+            //     answerList: []
+            // }
+        ];
+    </script>
 <!--    scroll wheel event-->
     <script>
         let isScrolling = false;
@@ -89,6 +88,21 @@
 
         document.querySelector(".answer-content-body").innerHTML = createIntroHTML();
         function handleAnswerPage(direction) {
+            let isAnswered = false;
+            let notAnswered = true;
+            answerList.forEach((item)=>{
+                if(item.no === currentRsiNo){
+                    notAnswered = false;
+                    isAnswered = true;
+                }
+            })
+            if(notAnswered){
+                isAnswered = saveAnswer();
+            }
+            if(!isAnswered && currentRsiNo !== 0 && direction !== '<'){
+                alert("답변을 선택해주세요.")
+                return false;
+            }
             let answerContent = document.querySelector(".answer-content-body");
             if (direction === '>') {
                 if (currentRsiNo < rsiList.length) {
@@ -101,6 +115,76 @@
             }
             setCurrentQNum();
             answerContent.innerHTML = createAnswerContentHTMLByPage(currentRsiNo);
+        //     type 에 따라 답을 여기서 넣어 줘야 한다.
+            answerList.forEach((item)=>{
+                if(item.no === currentRsiNo){
+                    setAnswerBySavedValue(answerContent,currentRsiNo)
+                }
+            })
+            console.log(answerList)
+        }
+        function setAnswerBySavedValue(answerContent,num){
+            if(answerList.length > num){
+                let type = answerList[num].type
+                if(type === "3"){
+                    answerContent.querySelector("input[name='choice']").value = answerList[num].rsi_answer;
+                }
+                // todo: 다중 선택 항목은 다른 로직이 필요함
+                else{
+                    answerContent.querySelectorAll("input[name='choice']").forEach((item)=>{
+                        if(item.value === answerList[num].rsi_answer){
+                            item.checked = true;
+                        }
+                    })
+                }
+            }
+        }
+
+        function saveAnswer(){
+            let temp = document.querySelector("#question-number");
+            let type = temp.querySelector("span").innerText;
+            let rsi_answer = saveAnswerByType(type);
+            if(rsi_answer === null){
+                return false;
+            }
+
+            let answerObj = {
+                rs_seq: research.rs_seq,
+                username: userName,
+                no : currentRsiNo,
+                type: type,
+                rsi_answer: rsi_answer.value,
+                // rsi_likert: likert !== null ? likert.value : null
+            }
+            answerList.push(answerObj);
+            return true;
+        }
+
+        function saveAnswerByType(type){
+            let answer = null;
+            let answerContentBody = document.querySelector(".answer-content-body");
+            // 0: 객관식 1: OX 2: likert 3: 주관식 4: 별점 5: 다중선택
+            switch (type) {
+                case "0":
+                    answer = answerContentBody.querySelector("input[name='choice']:checked");
+                    break;
+                case "1":
+                    answer = answerContentBody.querySelector("input[name='choice']:checked");
+                    break;
+                case "2":
+                    answer = answerContentBody.querySelector("input[name='choice']:checked");
+                    break;
+                case "3":
+                    answer = answerContentBody.querySelector("input[name='choice'].value");
+                    break;
+                case "4":
+                    answer = answerContentBody.querySelector("input[name='choice']:checked");
+                    break;
+                case "5":
+                    answer = answerContentBody.querySelectorAll("input[name='choice']:checked");
+                    break;
+            }
+            return answer;
         }
 
         function setCurrentQNum() {
@@ -184,10 +268,8 @@
                     </div>
                 `
 
-
-
             return `
-               <div class="d-flex col">
+               <div class="d-flex col h-100">
                 <div id="question-number" class="col-2 d-flex justify-content-end me-3">
                     <span style="display: none">${rsiList[index].rsi_type}</span>
 
@@ -211,8 +293,9 @@
         }
 
         function createType1HTML(index) {
+            // 0: 객관식 1: OX 2: likert 3: 주관식 4: 별점 5: 다중선택
             return `
-               <div class="d-flex col">
+               <div class="d-flex col h-100">
                 <div id="question-number" class="col-2 d-flex justify-content-end me-3">
                     <span style="display: none">${rsiList[index].rsi_type}</span>
 
@@ -225,16 +308,23 @@
                     <span>${rsiList[index].rsi_question}</span>
 
                     <div class="d-flex row">
-                        type1
-                    </div>
+                        <div class="row-cols-6 mt-5">
+                            <input type="radio" name="choice" value="1">
+                            <span>O</span>
+                        </div>
+                        <div class="row-cols-6 mt-5">
+                            <input type="radio" name="choice" value="2">
+                            <span>X</span>
+                        </div>
                 </div>
             </div>
                 `
         }
 
         function createType2HTML(index) {
+            // 0: 객관식 1: OX 2: likert 3: 주관식 4: 별점 5: 다중선택
             return `
-               <div class="d-flex col">
+               <div class="d-flex col h-100">
                 <div id="question-number" class="col-2 d-flex justify-content-end me-3">
                     <span style="display: none">${rsiList[index].rsi_type}</span>
                     <span class="text-white">설문 내용</span>
@@ -245,9 +335,28 @@
                     <span>Q${currentRsiNo}</span>
                     <span>${rsiList[index].rsi_question}</span>
 
-                    <div class="d-flex row">
-                        type2
-                    </div>
+                    <ul class="question-list m-0 p-0 pt-5 likert">
+                        <li>
+                          <input type="radio" name="choice" value="1">
+                          <label>매우 비동의</label>
+                        </li>
+                        <li>
+                          <input type="radio" name="choice" value="2">
+                          <label>비동의</label>
+                        </li>
+                        <li>
+                          <input type="radio" name="choice" value="3">
+                          <label>보통</label>
+                        </li>
+                        <li>
+                          <input type="radio" name="choice" value="4">
+                          <label>동의</label>
+                        </li>
+                        <li>
+                          <input type="radio" name="choice" value="5">
+                          <label>매우 동의</label>
+                        </li>
+                    </ul>
                 </div>
             </div>
                 `
