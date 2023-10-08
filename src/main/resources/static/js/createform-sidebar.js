@@ -6,11 +6,9 @@ function handleSidebarSubmitButtonClick(element) {
 
 
     const surveyData = {
-        // title: surveyTitle,
-        // description: surveyDescription,
         content: []
     }
-    for (let i = 0; i < sidebarList.length-1; i++) {
+    for (let i = 0; i < sidebarList.length - 1; i++) {
         // -1 해주는 이유는 footer 의 존재 때문
         const type = sidebarList[i].querySelector('.saveType').value;
         const data = sidebarList[i].querySelector('.saveData').value;
@@ -22,9 +20,20 @@ function handleSidebarSubmitButtonClick(element) {
             html: html,
             data_input: data_input
         }
+        console.log("[handleSidebarSubmitButtonClick] content : " + content)
         surveyData.content.push(content);
     }
     console.log(surveyData);
+    axios.post('/research/create', surveyData)
+        .then(function (response) {
+                console.log(response);
+                // location.href = '/research/list';
+                alert("설문이 생성 되었습니다.");
+            })
+        .catch(function (error) {
+                console.log(error);
+                alert("설문 생성에 실패하였습니다.");
+            });
 }
 
 function handleSideBarCreatButtonByType(element) {
@@ -35,9 +44,9 @@ function handleSideBarCreatButtonByType(element) {
     const parentUlEl = currentLiEl.closest('.sidebar');
     // UlEl의 parentLiEl의 index를 찾습니다.
     const index = Array.prototype.indexOf.call(parentUlEl.children, currentLiEl);
-    if(element.dataset.type === 'delete'){
+    if (element.dataset.type === 'delete') {
         // 삭제
-        if(currentLiEl.querySelector('.item-numbering').textContent === 'Q0'){
+        if (currentLiEl.querySelector('.item-numbering').textContent === 'Q0') {
             alert('기본 정보 입력란은 삭제 할 수 없습니다.')
             return;
         }
@@ -151,30 +160,30 @@ function createSideBarElementByType(parentUlEl, index, title, type) {
     // input 초기값 수정 필요
     <!--                    0: 객관식 1: OX 2: likert 3: 주관식 4: 별점 5: 다중선택 -->
 
-    switch (type){
+    switch (type) {
         case '0' :
-            newLiElinSideBar.querySelector('.saveData').value = JSON.stringify([""]);
-            newLiElinSideBar.querySelector('.saveData_input').value = JSON.stringify([""]);
+            newLiElinSideBar.querySelector('.saveData').value = [""];
+            newLiElinSideBar.querySelector('.saveData_input').value = [""];
             break;
         case '1' :
-            newLiElinSideBar.querySelector('.saveData').value = JSON.stringify(["","O","X"]);
-            newLiElinSideBar.querySelector('.saveData_input').value = JSON.stringify([""]);
+            newLiElinSideBar.querySelector('.saveData').value = ["", "O", "X"];
+            newLiElinSideBar.querySelector('.saveData_input').value = [""];
             break;
         case '2' :
-            newLiElinSideBar.querySelector('.saveData').value = JSON.stringify(["","","","",""]);
-            newLiElinSideBar.querySelector('.saveData_input').value = JSON.stringify([""]);
+            newLiElinSideBar.querySelector('.saveData').value = ["", "", ""];
+            newLiElinSideBar.querySelector('.saveData_input').value = [""];
             break;
         case '3' :
-            newLiElinSideBar.querySelector('.saveData').value = JSON.stringify(["",""]);
-            newLiElinSideBar.querySelector('.saveData_input').value = JSON.stringify([""]);
+            newLiElinSideBar.querySelector('.saveData').value = ["", ""];
+            newLiElinSideBar.querySelector('.saveData_input').value = [""];
             break;
         case '4' :
-            newLiElinSideBar.querySelector('.saveData').value = JSON.stringify([""]);
-            newLiElinSideBar.querySelector('.saveData_input').value = JSON.stringify([""]);
+            newLiElinSideBar.querySelector('.saveData').value = [""];
+            newLiElinSideBar.querySelector('.saveData_input').value = [""];
             break;
         case '5' :
-            newLiElinSideBar.querySelector('.saveData').value = JSON.stringify([""]);
-            newLiElinSideBar.querySelector('.saveData_input').value = JSON.stringify(["",""]);
+            newLiElinSideBar.querySelector('.saveData').value = [""];
+            newLiElinSideBar.querySelector('.saveData_input').value = ["", ""];
             break;
     }
 
@@ -182,27 +191,26 @@ function createSideBarElementByType(parentUlEl, index, title, type) {
     loadContentAction(parentUlEl.children, index + 1);
 }
 
-function createMainContentElementByType(index,title,type){
+function createMainContentElementByType(index, title, type) {
     let newMainContentEl = '';
-    switch (type)
-    {
+    switch (type) {
         case '0' :
-            newMainContentEl = createMainContentElementType0(index,title,type);
+            newMainContentEl = createMainContentElementType0(index, title, type);
             break;
         case '1' :
-            newMainContentEl = createMainContentElementType1(index,title,type);
+            newMainContentEl = createMainContentElementType1(index, title, type);
             break;
         case '2' :
-            newMainContentEl = createMainContentElementType2(index,title,type);
+            newMainContentEl = createMainContentElementType2(index, title, type);
             break;
         case '3' :
-            newMainContentEl = createMainContentElementType3(index,title,type);
+            newMainContentEl = createMainContentElementType3(index, title, type);
             break;
         case '4' :
-            newMainContentEl = createMainContentElementType4(index,title,type);
+            newMainContentEl = createMainContentElementType4(index, title, type);
             break;
         case '5' :
-            newMainContentEl = createMainContentElementType5(index,title,type);
+            newMainContentEl = createMainContentElementType5(index, title, type);
             break;
     }
     return newMainContentEl;
@@ -275,6 +283,7 @@ function createMainContentElementType1(index, title, type) {
     // addDragAndDropEvent(newMainContentEl, "Q");
     return newMainContentEl;
 }
+
 // 0: 객관식 1: OX 2: likert 3: 주관식 4: 별점 5: 다중선택
 function createMainContentElementType2(index, title, type) {
     let newMainContentEl =
@@ -317,6 +326,7 @@ function createMainContentElementType2(index, title, type) {
     newMainContentEl = htmlToElement(newMainContentEl);
     return newMainContentEl;
 }
+
 // 0: 객관식 1: OX 2: likert 3: 주관식 4: 별점 5: 다중선택
 function createMainContentElementType3(index, title, type) {
     let newMainContentEl =
@@ -340,6 +350,7 @@ function createMainContentElementType3(index, title, type) {
     newMainContentEl = htmlToElement(newMainContentEl);
     return newMainContentEl;
 }
+
 // 0: 객관식 1: OX 2: likert 3: 주관식 4: 별점 5: 다중선택
 function createMainContentElementType4(index, title, type) {
     let newMainContentEl =
@@ -375,6 +386,7 @@ function createMainContentElementType4(index, title, type) {
     newMainContentEl = htmlToElement(newMainContentEl);
     return newMainContentEl;
 }
+
 // 0: 객관식 1: OX 2: likert 3: 주관식 4: 별점 5: 다중선택
 function createMainContentElementType5(index, title, type) {
     let newMainContentEl =

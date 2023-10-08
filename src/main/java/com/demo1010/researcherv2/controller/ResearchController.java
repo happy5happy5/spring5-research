@@ -17,13 +17,11 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -106,16 +104,24 @@ public class ResearchController {
     @GetMapping("/create")
     public String create(Model model) {
         log.info("[GET] /research/create");
-        RegistrationRSDTO registrationRSDTO = new RegistrationRSDTO();
-        model.addAttribute("registrationRSDTO", registrationRSDTO);
         return "pages/research/createform";
     }
 
     @PostMapping("/create")
-    public String create(RegistrationRSDTO registrationRSDTO) {
+    @ResponseBody
+    public String create(@RequestBody RegistrationRSDTO registrationRSDTO) {
         log.info("[POST] /research/create");
-        log.info("registrationRSDTO: " + registrationRSDTO);
-        return null;
+
+        try {
+
+            log.info("registrationRSDTO: " + registrationRSDTO.toString());
+            // 성공적으로 처리된 경우 응답 반환
+            return "Success";
+        } catch (Exception e) {
+            // 예외 처리
+            log.error("Error processing JSON data: " + e.getMessage());
+            return "Error";
+        }
     }
 
 

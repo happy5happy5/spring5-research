@@ -101,8 +101,6 @@ function saveContentAction(sidebarList,currentNum){
     mainContentContainer.querySelectorAll('input').forEach(function (item){
         input.push(item.value);
     });
-    input = JSON.stringify(input);
-    textareas = JSON.stringify(textareas);
     let saveData_input = sidebarEl.querySelector('.saveData_input')
     let saveData = sidebarEl.querySelector('.saveData')
     let saveHTML = sidebarEl.querySelector('.saveHTML')
@@ -116,7 +114,7 @@ function loadContentAction(sidebarList,clickedNum){
     let saveHTML = sidebarEl.querySelector('.saveHTML')
     let saveType = sidebarEl.querySelector('.saveType')
     let saveData_input = sidebarEl.querySelector('.saveData_input')
-    let textareas = JSON.parse(saveData? saveData.value : [""]);
+    let textareas = saveData? saveData.value : "";
 
 
     let mainContentContainer = document.querySelector('#layout-content .main-content-container');
@@ -133,13 +131,14 @@ function loadContentAction(sidebarList,clickedNum){
     }
     let mainContentContainerTextareas = mainContentContainer.querySelectorAll('textarea');
     mainContentContainerTextareas.forEach(function (item,index){
+        console.log(textareas[index]);
         item.value = textareas[index];
     });
     let mainContentContainerInputs = mainContentContainer.querySelectorAll('input');
     if (mainContentContainerInputs.length === 0){
 
     }else {
-        let input = JSON.parse(saveData_input? saveData_input.value : [""]);
+        let input = saveData_input? saveData_input.value : [""];
         mainContentContainerInputs.forEach(function (item,index){
             item.value = input[index];
         });
