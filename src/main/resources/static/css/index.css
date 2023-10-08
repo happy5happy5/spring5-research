@@ -330,7 +330,7 @@ body {
     padding: 10px 7px 10px 10px;
     transition: all ease 0.4s;
     background-color: rgba(13, 202, 240, 0.4);
-    height: 85vh;
+    height: 80vh;
     width: 100%;
     overflow-y: scroll;
     overflow-x: hidden;
@@ -353,15 +353,6 @@ body {
     justify-content: center;
 }
 
-.main-content-footer{
-    margin-left: 2rem;
-    margin-bottom: 2rem;
-    position: absolute;
-    display: flex;
-    bottom: 10%;
-    width: 90%;
-    justify-content: space-between
-}
 
 
 /* main-content input*/
@@ -597,4 +588,43 @@ textarea {
 .star-input > output > b {
     font: bold 18px Helvetica, Arial, sans-serif;
     vertical-align: middle;
+}
+
+/*answer page*/
+
+.answer-content-body{
+    position: absolute;
+    padding: 2.5rem;
+    margin: 1.5rem 0 0;
+    width: 75%;
+    height:75%;
+    /*padding: 0 20px;*/
+    box-sizing: border-box;
+    overflow: hidden;
+    background-color: #86b7fe;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0,0,0,.1);
+}
+
+.answer-content-footer{
+    margin-left: 2rem;
+    margin-bottom: 2rem;
+    position: absolute;
+    bottom: 30%;
+    width: 80%;
+    /*justify-content: center;*/
+}
+
+.answer-content > .back{
+    position: absolute;
+    background-color: red;
+    opacity: .5;
+    z-index: 1;
+}
+
+.answer-content > .after{
+    position: absolute;
+    background-color: green;
+    opacity: .5;
+    z-index: 1;
 }
