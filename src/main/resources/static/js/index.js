@@ -116,10 +116,9 @@ function loadContentAction(sidebarList,clickedNum){
     let saveHTML = sidebarEl.querySelector('.saveHTML')
     let saveType = sidebarEl.querySelector('.saveType')
     let saveData_input = sidebarEl.querySelector('.saveData_input')
-    let textareas = JSON.parse(saveData.value);
-    // console.log(saveData.value)
-    // console.log(saveData_input.value)
-    let input = JSON.parse(saveData_input.value);
+    let textareas = JSON.parse(saveData? saveData.value : [""]);
+
+
     let mainContentContainer = document.querySelector('#layout-content .main-content-container');
     mainContentContainer.innerHTML = saveHTML.value;
     if(clickedNum !== '0'){
@@ -140,6 +139,7 @@ function loadContentAction(sidebarList,clickedNum){
     if (mainContentContainerInputs.length === 0){
 
     }else {
+        let input = JSON.parse(saveData_input? saveData_input.value : [""]);
         mainContentContainerInputs.forEach(function (item,index){
             item.value = input[index];
         });
@@ -313,6 +313,7 @@ function handleQuestionAddButtonOnMainContent(e){
     if(questionList.children.length !== 0){
         if(questionList.children.length >4){
             alert("보기는 최대 5개까지 추가할 수 있습니다.")
+            return;
         }
     }
 //     새로 만들기
