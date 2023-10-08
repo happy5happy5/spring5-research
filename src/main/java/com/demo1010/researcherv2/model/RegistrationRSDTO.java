@@ -1,26 +1,31 @@
 package com.demo1010.researcherv2.model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.core.JsonParser;
+import com.demo1010.researcherv2.entity.Rs;
 import lombok.Data;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Data
 public class RegistrationRSDTO {
-    private List<ContentsDTO> content;
-
-}
-
-@Data
-class ContentsDTO {
-    private String type;
-
-    @JsonFormat(with = JsonFormat.Feature.ACCEPT_SINGLE_VALUE_AS_ARRAY)
+    private String username;
     private List<String> data_input;
-
-    @JsonFormat(with = JsonFormat.Feature.ACCEPT_SINGLE_VALUE_AS_ARRAY)
     private List<String> data_textarea;
     private String html;
+    private List<RSIDTO> content;
+
+    public Rs toEntity() {
+        Rs rs = new Rs();
+        rs.setUsername(username);
+        rs.setHtml_data(html);
+        rs.setRs_title(data_textarea.get(0));
+        rs.setRs_desc(data_textarea.get(1));
+        rs.setRs_start_date(data_input.get(0));
+        rs.setRs_end_date(data_input.get(1));
+        rs.setRs_cnt(content.size());
+        rs.setHits(0);
+        rs.setUse_yn("N");
+        return rs;
+    }
 }
+
+

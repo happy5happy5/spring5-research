@@ -2,23 +2,24 @@ package com.demo1010.researcherv2.controller;
 
 
 import com.demo1010.researcherv2.entity.Rs;
-import com.demo1010.researcherv2.model.RSDTO;
-import com.demo1010.researcherv2.model.RSListRequestDTO;
-import com.demo1010.researcherv2.model.RSListResponseDTO;
-import com.demo1010.researcherv2.model.RegistrationRSDTO;
+import com.demo1010.researcherv2.model.*;
 import com.demo1010.researcherv2.repository.RsRepository;
+import com.demo1010.researcherv2.service.ResearchService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -32,6 +33,7 @@ import java.util.stream.Collectors;
 public class ResearchController {
 
     private final RsRepository rsRepository;
+    private final ResearchService researchService;
 
     @GetMapping("/list")
     public String list(Model model, RSListRequestDTO requestDTO) {
@@ -53,15 +55,11 @@ public class ResearchController {
         // 페이지와 사이즈를 이용해 데이터를 가져오도록 수정
         int page = requestDTO.getPage() - 1; // 페이지 번호는 0부터 시작하므로 1을 빼줍니다.
         int size = requestDTO.getSize();
-        String sort = requestDTO.getSort();
-        String order = requestDTO.getOrder();
+        Sort sort = Sort.by(Sort.Direction.DESC, "rs_seq");
 
-        // 정렬 관련 처리 추가
-//        Sort.Direction sortDirection = Sort.Direction.fromString(order);
-//        Pageable pageable = PageRequest.of(page, size, sortDirection, sort);
-        Pageable pageable = PageRequest.of(page, size);
+        Pageable pageable = PageRequest.of(page, size, sort);
 
-        Page<Rs> rsPage = rsRepository.findAll(pageable);
+        Page<Rs> rsPage = rsRepository.searchList(pageable);
 
         RSListResponseDTO responseDTO = new RSListResponseDTO();
         List<RSDTO> rsList = getResearchListDTOS(rsPage);
@@ -109,19 +107,15 @@ public class ResearchController {
 
     @PostMapping("/create")
     @ResponseBody
-    public String create(@RequestBody RegistrationRSDTO registrationRSDTO) {
+    public ApiResponse<String> create(@RequestBody RegistrationRSDTO registrationRSDTO) {
         log.info("[POST] /research/create");
 
-        try {
-
-            log.info("registrationRSDTO: " + registrationRSDTO.toString());
-            // 성공적으로 처리된 경우 응답 반환
-            return "Success";
-        } catch (Exception e) {
-            // 예외 처리
-            log.error("Error processing JSON data: " + e.getMessage());
-            return "Error";
-        }
+        SecurityContext securityContext = SecurityContextHolder.getContext();
+        String username = securityContext.getAuthentication().getName();
+        registrationRSDTO.setUsername(username);
+        log.info("registrationRSDTO: {}", registrationRSDTO);
+        researchService.createResearch(registrationRSDTO);
+        return new ApiResponse<>(200, "success", null, LocalDateTime.now());
     }
 
 

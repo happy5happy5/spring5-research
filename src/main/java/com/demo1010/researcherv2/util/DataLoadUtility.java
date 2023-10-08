@@ -92,7 +92,7 @@ public class DataLoadUtility implements CommandLineRunner {
             rs.setRs_desc("여기는 설문 내용이 없음"+i);
             rs.setRs_title("무한 스크롤 테스트용"+i);
             rs.setUsername(registeredUser1.getUsername());
-            rs.setUser(registeredUser1);
+//            rs.setUser(registeredUser1);
             rsRepository.save(rs);
         }
 

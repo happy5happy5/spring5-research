@@ -6,9 +6,12 @@ function handleSidebarSubmitButtonClick(element) {
 
 
     const surveyData = {
+        html: sidebarList[0].querySelector('.saveHTML').value,
+        data_input: sidebarList[0].querySelector('.saveData_input').value,
+        data_textarea: sidebarList[0].querySelector('.saveData').value,
         content: []
     }
-    for (let i = 0; i < sidebarList.length - 1; i++) {
+    for (let i = 1; i < sidebarList.length - 1; i++) {
         // -1 해주는 이유는 footer 의 존재 때문
         const type = sidebarList[i].querySelector('.saveType').value;
         const data = sidebarList[i].querySelector('.saveData').value;

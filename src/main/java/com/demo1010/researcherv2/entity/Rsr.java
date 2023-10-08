@@ -1,17 +1,14 @@
 package com.demo1010.researcherv2.entity;
 
 import javax.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+
+import lombok.*;
 
 
 @Entity
 @Getter
 @Setter
-@AllArgsConstructor
-@NoArgsConstructor
+@RequiredArgsConstructor
 public class Rsr {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,9 +31,9 @@ public class Rsr {
     private Integer rsr_type4;
 
     // 다대일 관계 설정
-    @ManyToOne
-    @JoinColumn(name = "rs_seq", referencedColumnName = "rs_seq", insertable = false, updatable = false)
-    private Rs rs;
+//    @ManyToOne
+//    @JoinColumn(name = "rs_seq", referencedColumnName = "rs_seq", insertable = false, updatable = false)
+//    private Rs rs;
 
 }
 

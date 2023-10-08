@@ -17,8 +17,8 @@ import java.util.Set;
 @Getter
 @Setter
 @ToString
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
 @Table(name = "users")
 public class ApplicationUser implements UserDetails {

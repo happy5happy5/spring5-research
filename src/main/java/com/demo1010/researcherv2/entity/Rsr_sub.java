@@ -1,17 +1,13 @@
 package com.demo1010.researcherv2.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Entity
 @Getter
 @Setter
-@AllArgsConstructor
-@NoArgsConstructor
+@RequiredArgsConstructor
 public class Rsr_sub {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,14 +20,14 @@ public class Rsr_sub {
     private String rsr_sub_type3;
 
     // 다대일 관계 설정
-    @ManyToOne
-    @JoinColumn(name = "rs_seq", referencedColumnName = "rs_seq", insertable = false, updatable = false)
-    private Rs rs;
-
-    // 다대일 관계 설정
-    @ManyToOne
-    @JoinColumn(name = "rsi_seq", referencedColumnName = "rsi_seq", insertable = false, updatable = false)
-    private Rsi rsi;
+//    @ManyToOne
+//    @JoinColumn(name = "rs_seq", referencedColumnName = "rs_seq", insertable = false, updatable = false)
+//    private Rs rs;
+//
+//     다대일 관계 설정
+//    @ManyToOne
+//    @JoinColumn(name = "rsi_seq", referencedColumnName = "rsi_seq", insertable = false, updatable = false)
+//    private Rsi rsi;
 
 }
 
