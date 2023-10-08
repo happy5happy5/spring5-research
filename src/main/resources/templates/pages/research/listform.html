@@ -186,16 +186,15 @@
                 `<div>`
             )
 
-            // todo 여기 조건에 설문 날짜에 대한 조건을 추가해야함
             temp.push(
-                userRoles.includes('ROLE_USER') ?
+                (userRoles.includes('ROLE_USER')&&  elapsedTime >= 0 )|| userRoles.includes('ROLE_ADMIN') ?
                     `
                             <a href="/research/read/${rs.rs_seq}" class="btn btn-info"><span>참여</span></a>
-<!--                            <a href="/research/delete/${rs.rs_seq}" class="btn btn-info"><span>수정</span></a>-->
                     `
                     : ``
             )
             // 현재 접속한 사용자의 아이디와 게시글의 작성자 아이디가 같은 경우에만 수정 삭제 버튼이 보이도록 함
+            // todo 수정이 안되는 조건 추가 필요
             if (userNames === rs.username||userRoles.includes('ROLE_ADMIN')) {
                 temp.push(
                     `
@@ -210,11 +209,6 @@
                 </div>
                 `
             )
-
-
-
-
-
             // tail
             temp.push(
                 `
