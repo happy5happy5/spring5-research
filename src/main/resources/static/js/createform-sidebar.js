@@ -26,12 +26,12 @@ function handleSidebarSubmitButtonClick(element) {
         console.log("[handleSidebarSubmitButtonClick] content : " + content)
         surveyData.content.push(content);
     }
-    console.log(surveyData);
+    // console.log(surveyData);
     axios.post('/research/create', surveyData)
         .then(function (response) {
                 console.log(response);
-                // location.href = '/research/list';
-                alert("설문이 생성 되었습니다.");
+                location.href = '/research/list';
+                // alert("설문이 생성 되었습니다.");
             })
         .catch(function (error) {
                 console.log(error);

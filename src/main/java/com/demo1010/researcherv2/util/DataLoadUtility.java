@@ -16,6 +16,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Set;
 import java.util.logging.Logger;
 
@@ -60,21 +62,36 @@ public class DataLoadUtility implements CommandLineRunner {
         registerUser( "admin", "password", "관리자", "test@test.com", "01012345678", roles3);
 
 //        insert Rs dummy data
+//        현재 시간 구하기 yyyy-MM-dd 형태로 변경
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDateTime now = LocalDateTime.now();
+        String present = LocalDateTime.now().format(formatter);
+//        현재 날짜에서 10일 지난 날짜 구하기
+        String plus10 = now.plusDays(10).format(formatter);
+//        현재 날짜에서 20일 지난 날짜 구하기
+        String plus20 = now.plusDays(20).format(formatter);
+//        현재 날짜에서 30일 지난 날짜 구하기
+        String plus30 = now.plusDays(30).format(formatter);
+//        현재 날짜에서 40일 지난 날짜 구하기
+        String plus40 = now.plusDays(40).format(formatter);
+
 
         Rs rs1 = new Rs();
         rs1.setRs_cnt(0);
         rs1.setRs_desc("test desc1111111111");
         rs1.setRs_title("test title1111111111111111");
+        rs1.setRs_start_date(present);
+        rs1.setRs_end_date(plus10);
         rs1.setUsername(registeredUser1.getUsername());
-//        rs1.setUser(registeredUser1);
         Rs registeredRs1=rsRepository.save(rs1);
 
         Rs rs2 = new Rs();
         rs2.setRs_cnt(0);
         rs2.setRs_desc("test desc2222222222");
         rs2.setRs_title("test title22222222222222222222");
+        rs2.setRs_start_date(plus10);
+        rs2.setRs_end_date(plus20);
         rs2.setUsername(registeredUser2.getUsername());
-//        rs2.setUser(registeredUser2);
         Rs registeredRs2=rsRepository.save(rs2);
 
         Rs rs3 = new Rs();
@@ -82,6 +99,8 @@ public class DataLoadUtility implements CommandLineRunner {
         rs3.setRs_desc("test desc33333333333333");
         rs3.setRs_title("test title33333333333333333");
         rs3.setUsername(registeredUser3.getUsername());
+        rs3.setRs_start_date(plus20);
+        rs3.setRs_end_date(plus30);
 //        rs3.setUser(registeredUser3);
         Rs registeredRs3=rsRepository.save(rs3);
 
@@ -92,6 +111,8 @@ public class DataLoadUtility implements CommandLineRunner {
             rs.setRs_desc("여기는 설문 내용이 없음"+i);
             rs.setRs_title("무한 스크롤 테스트용"+i);
             rs.setUsername(registeredUser1.getUsername());
+            rs.setRs_start_date(plus10);
+            rs.setRs_end_date(plus40);
 //            rs.setUser(registeredUser1);
             rsRepository.save(rs);
         }

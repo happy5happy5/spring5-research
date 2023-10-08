@@ -67,6 +67,7 @@
     <script th:inline="javascript">
         /* [[${userRoles}]] 값을 JavaScript 객체로 파싱 */
         let userRoles = /*[[${userRoles}]]*/ {};
+        let userNames = /*[[${userNames}]]*/ '';
 
         // console.log(userRoles);
         // 사용자 권한 확인 예시
@@ -83,6 +84,28 @@
         function createCard(rs) {
 
             let temp = []
+            const currentDate = new Date();
+
+            const startDate = new Date(rs.rs_start_date);
+            const endDate = new Date(rs.rs_end_date);
+
+            const totalTime = endDate - startDate;
+
+            const elapsedTime = currentDate - startDate;
+
+            const progress = (elapsedTime / totalTime) * 100;
+
+            let daysAgo = Math.floor((currentDate - startDate) / (1000 * 60 * 60 * 24));
+            if(daysAgo === 0)
+                daysAgo = '오늘'
+            else if(daysAgo === 1)
+                daysAgo = '어제'
+                else if (daysAgo > 1)
+                daysAgo = daysAgo + '일 전'
+            else
+                // 음수인 경우 양수로 변경
+                daysAgo = daysAgo * -1 + '일 후'
+
             // head
             temp.push(
                 `
@@ -97,18 +120,49 @@
                             <div class="d-flex flex-row align-items-center">
                                 <div class="ms-2 c-details">
                                     <h6 class="mb-0">${rs.rs_title}</h6>
-                                    <span>1 days ago</span>
+                                    <span>${daysAgo}</span>
                                 </div>
                             </div>
                         </div>
                 `
             )
+
+
             temp.push(
                 `
                         <div class="mt-1">
-                            <div class="badge badge-bg-almost"> <span>마감임박</span> </div>
-                            <div class="badge badge-bg-progress"> <span>작성중</span> </div>
+                `
+            )
+
+            if(progress >= 100)
+                temp.push(
+                    `
                             <div class="badge badge-bg-end"> <span>종료됨</span> </div>
+                    `
+                )
+            else if(progress >= 80)
+                temp.push(
+                    `
+                            <div class="badge badge-bg-almost"> <span>마감임박</span> </div>
+                    `
+                )
+            else if(progress >= 0)
+                temp.push(
+                    `
+                            <div class="badge badge-bg-progress"> <span>조사중</span> </div>
+                    `
+                )
+            else
+                temp.push(
+                    `
+                            <div class="badge badge-bg-end"> <span>시작전</span> </div>
+                    `
+                )
+
+
+
+            temp.push(
+                `
                         </div>
                 `
             )
@@ -116,15 +170,15 @@
 
             temp.push(
                 `
+                    <div class="mt-5">
+                        <h3 class="heading">${rs.rs_desc}</h3>
                         <div class="mt-5">
-                            <h3 class="heading">${rs.rs_desc}</h3>
-                            <div class="mt-5">
-                                <div class="progress">
-                                    <div class="progress-bar" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-                                </div>
-                                <div class="mt-3"> <span class="text1"> <span class="text2">${rs.rs_start_date} - ${rs.rs_end_date}</span></span> </div>
+                            <div class="progress">
+                                <div class="progress-bar" role="progressbar" style="width: ${progress}%" aria-valuenow="${progress}" aria-valuemin="0" aria-valuemax="100"></div>
                             </div>
+                            <div class="mt-3"> <span class="text1"> <span class="text2">${rs.rs_start_date} - ${rs.rs_end_date}</span></span> </div>
                         </div>
+                    </div>
                 `
             )
 
@@ -132,25 +186,24 @@
                 `<div>`
             )
 
-
+            // todo 여기 조건에 설문 날짜에 대한 조건을 추가해야함
             temp.push(
-                userRoles.includes('ROLE_ADMIN') ?
+                userRoles.includes('ROLE_USER') ?
                     `
-                            <a href="/research/update/${rs.rs_seq}" class="btn btn-primary"><span>수정</span></a>
-                            <a href="/research/delete/${rs.rs_seq}" class="btn btn-secondary"><span>삭제</span></a>
+                            <a href="/research/read/${rs.rs_seq}" class="btn btn-info"><span>참여</span></a>
+<!--                            <a href="/research/delete/${rs.rs_seq}" class="btn btn-info"><span>수정</span></a>-->
                     `
                     : ``
             )
-
-            temp.push(
-                userRoles.includes('ROLE_USER') ||userRoles.includes('ROLE_ADMIN') ?
+            // 현재 접속한 사용자의 아이디와 게시글의 작성자 아이디가 같은 경우에만 수정 삭제 버튼이 보이도록 함
+            if (userNames === rs.username||userRoles.includes('ROLE_ADMIN')) {
+                temp.push(
                     `
-                            <a href="/research/update/${rs.rs_seq}" class="btn btn-danger"><span>결과</span></a>
-                            <a href="/research/delete/${rs.rs_seq}" class="btn btn-info"><span>수정</span></a>
+                        <a href="/research/update/${rs.rs_seq}" class="btn btn-primary">수정</a>
+                        <a href="/research/delete/${rs.rs_seq}" class="btn btn-danger">삭제</a>
                     `
-                    : ``
-            )
-
+                )
+            }
 
             temp.push(
                 `
@@ -169,43 +222,6 @@
                 </div>
                 `)
 
-
-
-
-//             temp.push(
-//                 `
-//             <div class="card">
-//               <div class="card-body">
-//                 <h5 class="card-title">${rs.rs_title}</h5>
-//                 <p class="card-text">${rs.rs_desc}</p>
-//
-// `
-//             )
-//
-//             temp.push(
-//                 userRoles.includes('ROLE_ADMIN') ?
-//                     `
-//                     <a href="/research/updateform/${rs.rs_seq}" class="btn btn-primary">수정</a>
-//                     <a href="/research/delete/${rs.rs_seq}" class="btn btn-primary">삭제</a>
-//                     `
-//                     : ``
-//             )
-//
-//             temp.push(
-//                 userRoles.includes('ROLE_USER') ?
-//                     `
-//                     <a href="/research/updateform/${rs.rs_seq}" class="btn btn-primary">결과</a>
-//                     <a href="/research/delete/${rs.rs_seq}" class="btn btn-primary">수정</a>
-//                     `
-//                     : ``
-//             )
-//
-//             temp.push(
-//                 `
-//               </div>
-//             </div>
-// `
-//             )
             return temp.join('')
         }
 
@@ -227,15 +243,6 @@
             });
         }
 
-        // 쓰로틀링을 적용한 스크롤 이벤트 핸들러
-        // if (window.innerHeight + window.scrollY >= document.body.scrollHeight) {
-        //     if (!timer) {
-        //         timer = setTimeout(() => {
-        //             timer = null;
-        //             console.log("End Of Document");
-        //         }, 500);
-        //     }
-        // }
         let isLoading = false;
         let timer;
         $(window).scroll(function () {
@@ -245,7 +252,6 @@
                 if (!timer) {
                     timer = setTimeout(() => {
                         timer = null;
-                        // console.log("hit bottom!");
                         loadMoreData().then(function () {
                             isLoading = false;
                             handleLoading(isLoading);
@@ -254,7 +260,6 @@
                 } else {
                     isLoading = true;
                     handleLoading(isLoading);
-                    // console.log("event ignored");
                 }
             }
         });

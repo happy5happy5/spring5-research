@@ -43,6 +43,7 @@ public class ResearchController {
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.toSet());
         model.addAttribute("userRoles", roles);
+        model.addAttribute("username", auth.getName());
 
         return "pages/research/listform";
     }
