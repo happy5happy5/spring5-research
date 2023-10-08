@@ -19,9 +19,19 @@ public class RSIDTO {
         rsi.setRsi_no(no);
         rsi.setRsi_type(type);
         rsi.setHtml_data(html);
+
+
+
         // 0: 객관식 1: OX 2: likert 3: 주관식 4: 별점 5: 다중선택
         switch (type) {
             case "0", "5":
+                //        data_textarea 에 비어있는 값이 존재한다면 삭제 한다
+                for (int i = 0; i < data_textarea.size(); i++) {
+                    if (data_textarea.get(i).isEmpty()) {
+                        data_textarea.remove(i);
+                        i--;
+                    }
+                }
 //                                rsi.setRsi_type("객관식");
                 for (int i = 0; i < data_textarea.size(); i++) {
                     switch (i) {
