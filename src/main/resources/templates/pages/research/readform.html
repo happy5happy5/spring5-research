@@ -87,21 +87,14 @@
         let currentRsiNo = 0;
 
         document.querySelector(".answer-content-body").innerHTML = createIntroHTML();
+
+
+
         function handleAnswerPage(direction) {
-            let isAnswered = false;
-            let notAnswered = true;
-            answerList.forEach((item)=>{
-                if(item.no === currentRsiNo){
-                    notAnswered = false;
-                    isAnswered = true;
-                }
-            })
-            if(notAnswered){
-                isAnswered = saveAnswer();
-            }
-            if(!isAnswered && currentRsiNo !== 0 && direction !== '<'){
-                alert("답변을 선택해주세요.")
-                return false;
+            // 현재의 답변이 작성 되었는 지 확인
+            if(!isAnswered() && direction === '>' && currentRsiNo !== 0){
+                alert("답변을 작성해 주세요.");
+                return;
             }
             let answerContent = document.querySelector(".answer-content-body");
             if (direction === '>') {
@@ -121,8 +114,31 @@
                     setAnswerBySavedValue(answerContent,currentRsiNo)
                 }
             })
-            console.log(answerList)
+            // 여기서 이벤트 다는 것이 합리적인 선택 인가?
+            setEventListenersOnInputs();
         }
+
+        function setEventListenersOnInputs(){
+            let answerContent = document.querySelector(".answer-content-body");
+            let inputs = answerContent.querySelectorAll("input[name='choice']");
+            // todo 주관식은 따로 처리 해야 한다.
+            inputs.forEach((item)=>{
+                item.addEventListener("change",()=>{
+                    saveAnswerOnChange();
+                })
+            })
+        }
+
+        function isAnswered(){
+            let isAnswered = false;
+            answerList.forEach((item)=>{
+                if(item.no === currentRsiNo){
+                    isAnswered = true;
+                }
+            })
+            return isAnswered;
+        }
+
         function setAnswerBySavedValue(answerContent,num){
             if(answerList.length > num){
                 let type = answerList[num].type
@@ -132,6 +148,7 @@
                 // todo: 다중 선택 항목은 다른 로직이 필요함
                 else{
                     answerContent.querySelectorAll("input[name='choice']").forEach((item)=>{
+                        // 여기서 rsi_answer 의 형태 확인 해야 한다.
                         if(item.value === answerList[num].rsi_answer){
                             item.checked = true;
                         }
@@ -140,7 +157,7 @@
             }
         }
 
-        function saveAnswer(){
+        function saveAnswerOnChange(){
             let temp = document.querySelector("#question-number");
             let type = temp.querySelector("span").innerText;
             let rsi_answer = saveAnswerByType(type);
@@ -148,15 +165,25 @@
                 return false;
             }
 
+            // 여기서 해당 번호가 있으면 업데이트 없다면 생성
+
             let answerObj = {
                 rs_seq: research.rs_seq,
                 username: userName,
                 no : currentRsiNo,
                 type: type,
                 rsi_answer: rsi_answer.value,
-                // rsi_likert: likert !== null ? likert.value : null
             }
-            answerList.push(answerObj);
+
+            let isExist = false;
+            answerList.forEach((item,index)=>{
+                if(item.no === currentRsiNo){
+                    item.rsi_answer = rsi_answer.value;
+                    isExist = true;
+                    answerList[index]=answerObj;
+                }
+            })
+            if(!isExist) answerList.push(answerObj);
             return true;
         }
 
