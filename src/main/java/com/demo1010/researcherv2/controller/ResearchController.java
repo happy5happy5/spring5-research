@@ -144,6 +144,7 @@ public class ResearchController {
     public ApiResponse<String> detail(@RequestBody RegistrationRSRDTO registrationRSRDTO) {
         log.info("[POST] /research/response");
 //        rsRepository.updateHits(rs_seq);
+        researchService.createResponse(registrationRSRDTO);
         return new ApiResponse<>(200, "success", null, LocalDateTime.now());
     }
 }

@@ -38,6 +38,7 @@ function handleAnswerPage(direction) {
             currentRsiNo-=1;
         }
     }
+    console.log("currentRsiNo: "+currentRsiNo)
     let type = rsiList[currentRsiNo-1].rsi_type;
     setCurrentQNum();
     answerContent.innerHTML = createAnswerContentHTMLByPage(currentRsiNo);
@@ -70,7 +71,7 @@ function handleAnswerPage(direction) {
         })
     }
 
-    if(answerList.length-1 === currentRsiNo){
+    if(answerList.length-1 === rsiList.length){
 
             let isSubmit = true;
             answerList.forEach((item)=>{
@@ -84,13 +85,14 @@ function handleAnswerPage(direction) {
                     let data = {
                         rs_seq: research.rs_seq,
                         username: userName,
-                        answerList: answerList
+                        answerList: answerList.slice(1),
                     }
                     axios.post("/research/response",data)
                         .then((res)=>{
-                            if(res.data === "success"){
+                            console.log(res)
+                            if(res.data.message === "success"){
                                 alert("제출 되었습니다.");
-                                window.location.href="/research/read/"+research.rs_seq;
+                                window.location.href="/research/list";
                             }
                         })
                         .catch((err)=>{

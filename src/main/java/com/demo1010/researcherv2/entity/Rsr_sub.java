@@ -1,8 +1,13 @@
 package com.demo1010.researcherv2.entity;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 @Entity
 @Getter
@@ -13,6 +18,7 @@ public class Rsr_sub {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer rsr_sub_seq;
 
+    private Integer rsr_seq;
     private Integer rs_seq;
     private Integer rsi_seq;
     private String rsi_no;
