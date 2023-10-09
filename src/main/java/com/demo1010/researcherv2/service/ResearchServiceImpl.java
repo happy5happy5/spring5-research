@@ -2,6 +2,7 @@ package com.demo1010.researcherv2.service;
 
 import com.demo1010.researcherv2.entity.Rs;
 import com.demo1010.researcherv2.entity.Rsr;
+import com.demo1010.researcherv2.model.RSRDTO;
 import com.demo1010.researcherv2.model.RegistrationRSDTO;
 import com.demo1010.researcherv2.model.RegistrationRSRDTO;
 import com.demo1010.researcherv2.repository.RsRepository;
@@ -40,7 +41,10 @@ public class ResearchServiceImpl implements ResearchService {
         Integer rs_seq = registrationRSRDTO.getRs_seq();
         String username = registrationRSRDTO.getUsername();
         List<Rsr> answerList = rsrRepository.findAllByRsSeqOrderByRsi_noAsc(rs_seq);
-//        log.info("answerList: {}", answerList);
+        for (int i = 0; i < answerList.size(); i++) {
+            RSRDTO rsrdto = registrationRSRDTO.getAnswerList().get(i);
+
+        }
 
     }
 }

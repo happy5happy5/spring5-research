@@ -19,7 +19,6 @@ public class RSRDTO {
 //            // }
 //            ];
     private Integer rs_seq;
-    private String username;
     private String type;
     private String no;
     private String[] answerList;

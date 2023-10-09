@@ -83,6 +83,7 @@ public class DataLoadUtility implements CommandLineRunner {
         rs1.setRs_start_date(present);
         rs1.setRs_end_date(plus10);
         rs1.setUsername(registeredUser1.getUsername());
+        rs1.setAnswers(Set.of(registeredUser1));
         Rs registeredRs1=rsRepository.save(rs1);
 
         Rs rs2 = new Rs();
@@ -92,6 +93,7 @@ public class DataLoadUtility implements CommandLineRunner {
         rs2.setRs_start_date(plus10);
         rs2.setRs_end_date(plus20);
         rs2.setUsername(registeredUser2.getUsername());
+        rs2.setAnswers(Set.of(registeredUser2));
         Rs registeredRs2=rsRepository.save(rs2);
 
         Rs rs3 = new Rs();
@@ -101,7 +103,7 @@ public class DataLoadUtility implements CommandLineRunner {
         rs3.setUsername(registeredUser3.getUsername());
         rs3.setRs_start_date(plus20);
         rs3.setRs_end_date(plus30);
-//        rs3.setUser(registeredUser3);
+        rs3.setAnswers(Set.of(registeredUser3));
         Rs registeredRs3=rsRepository.save(rs3);
 
 //        Rs 를 for문으로 많이 만들기
@@ -113,6 +115,7 @@ public class DataLoadUtility implements CommandLineRunner {
             rs.setUsername(registeredUser1.getUsername());
             rs.setRs_start_date(plus10);
             rs.setRs_end_date(plus40);
+            rs.setAnswers(Set.of(registeredUser1));
 //            rs.setUser(registeredUser1);
             rsRepository.save(rs);
         }

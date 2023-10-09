@@ -3,6 +3,7 @@ package com.demo1010.researcherv2.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -25,6 +26,10 @@ public class Rs {
     @Column(columnDefinition = "text")
     private String html_data; // html 데이터
 
+    // 다대일 관계 설정
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "user_rs_junction", joinColumns = @JoinColumn(name="rs_seq") , inverseJoinColumns = @JoinColumn(name="user_id"))
+    private Set<ApplicationUser> answers;
 
 }
 
