@@ -106,42 +106,6 @@ public class DataLoadUtility implements CommandLineRunner {
         rs3.setAnswers(Set.of(registeredUser3));
         Rs registeredRs3=rsRepository.save(rs3);
 
-//        Rs 를 for문으로 많이 만들기
-        for(int i=0; i<100; i++){
-            Rs rs = new Rs();
-            rs.setRs_cnt(0);
-            rs.setRs_desc("여기는 설문 내용이 없음"+i);
-            rs.setRs_title("무한 스크롤 테스트용"+i);
-            rs.setUsername(registeredUser1.getUsername());
-            rs.setRs_start_date(plus10);
-            rs.setRs_end_date(plus40);
-            rs.setAnswers(Set.of(registeredUser1));
-//            rs.setUser(registeredUser1);
-            rsRepository.save(rs);
-        }
-
-
-        questionMaker(5, "0", registeredRs1);
-        questionMaker(2, "1", registeredRs1);
-        questionMaker(5, "2", registeredRs1);
-        questionMaker(5, "3", registeredRs1);
-        questionMaker(4, "4", registeredRs1);
-        questionMaker(5, "5", registeredRs1);
-
-        questionMaker(5, "0", registeredRs2);
-        questionMaker(5, "1", registeredRs2);
-        questionMaker(2, "2", registeredRs2);
-        questionMaker(5, "3", registeredRs2);
-        questionMaker(5, "4", registeredRs2);
-        questionMaker(3, "5", registeredRs2);
-
-        questionMaker(5, "0", registeredRs3);
-        questionMaker(5, "1", registeredRs3);
-        questionMaker(2, "2", registeredRs3);
-        questionMaker(5, "3", registeredRs3);
-        questionMaker(4, "4", registeredRs3);
-        questionMaker(5, "5", registeredRs3);
-
     }
     private ApplicationUser registerUser(String username, String password, String name, String email, String phone, Set<Role> role) {
         RegistrationDTO dto = new RegistrationDTO();
@@ -171,7 +135,7 @@ public class DataLoadUtility implements CommandLineRunner {
                     rsi.setRsi_type0_3("객관식 3번");
                     rsi.setRsi_type0_4("객관식 4번");
                     rsi.setRsi_type0_5("객관식 5번");
-                    rsi.setRsi_type0_etc("YES");
+                    rsi.setRsi_type5("2");
                 }
                 case "1" -> rsi.setRsi_type1("OX");
                 case "2" -> rsi.setRsi_type2("likert");
