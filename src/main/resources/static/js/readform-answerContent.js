@@ -71,10 +71,38 @@ function handleAnswerPage(direction) {
     }
 
     if(answerList.length-1 === currentRsiNo){
-        let confirms = confirm("설문을 완료 하시겠습니까?");
-        console.log(confirms);
-        //     여기서 제출 해야함
+
+            let isSubmit = true;
+            answerList.forEach((item)=>{
+                if(item.rsi_answer === null){
+                    isSubmit = false;
+                }
+            })
+            if(isSubmit){
+                let submit = confirm("제출 하시겠습니까?");
+                if(submit){
+                    let data = {
+                        rs_seq: research.rs_seq,
+                        username: userName,
+                        answerList: answerList
+                    }
+                    axios.post("/research/response",data)
+                        .then((res)=>{
+                            if(res.data === "success"){
+                                alert("제출 되었습니다.");
+                                window.location.href="/research/read/"+research.rs_seq;
+                            }
+                        })
+                        .catch((err)=>{
+                            console.log(err);
+                        })
+                }
+            }
+            else{
+                alert("답변을 모두 작성해 주세요.");
+            }
     }
+
 
 }
 

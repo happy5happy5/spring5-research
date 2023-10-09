@@ -139,4 +139,11 @@ public class ResearchController {
         return "pages/research/readform";
     }
 
+    @PostMapping("/response")
+    @ResponseBody
+    public ApiResponse<String> detail(@RequestBody RegistrationRSRDTO registrationRSRDTO) {
+        log.info("[POST] /research/response");
+//        rsRepository.updateHits(rs_seq);
+        return new ApiResponse<>(200, "success", null, LocalDateTime.now());
+    }
 }
