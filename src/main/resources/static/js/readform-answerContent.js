@@ -21,6 +21,7 @@ if (window.location.href.indexOf("research/read/") !== -1) {
 }
 
 function handleAnswerPage(direction) {
+    let currentPageNum = document.querySelector('#question-number').nextElementSibling.querySelector("span").innerText;
     // 현재의 답변이 작성 되었는 지 확인
     if (!isAnswered() && direction === '>' && currentRsiNo !== 0) {
         alert("답변을 작성해 주세요.");
@@ -74,37 +75,39 @@ function handleAnswerPage(direction) {
         })
     }
 
-    if (currentRsiNo === rsiList.length && answerList.length - 1 === rsiList.length) {
+    if (currentRsiNo === rsiList.length && direction === '>' && answerList.length-1 === rsiList.length && currentPageNum === "Q"+currentRsiNo) {
 
-        let isSubmit = true;
-        answerList.forEach((item) => {
-            if (item.rsi_answer === null) {
-                isSubmit = false;
+        let isAllAnswered = true;
+        answerList.forEach((item,index) => {
+            if(index===0) return;
+            if (item.rsi_answer === null||item.rsi_answer===""||item.rsi_answer===undefined) {
+                isAllAnswered = false;
             }
         })
-        if (isSubmit) {
-            let submit = confirm("제출 하시겠습니까?");
-            if (submit) {
-                let data = {
-                    rs_seq: research.rs_seq,
-                    username: userName,
-                    answerList: answerList.slice(1),
-                }
-                axios.post("/research/response", data)
-                    .then((res) => {
-                        console.log(res)
-                        if (res.data.message === "success") {
-                            alert("제출 되었습니다.");
-                            window.location.href = "/research/list";
-                        }
-                    })
-                    .catch((err) => {
-                        console.log(err);
-                    })
-            }
-        } else {
+        if (!isAllAnswered) {
             alert("답변을 모두 작성해 주세요.");
+            return;
         }
+        let submit = confirm("제출 하시겠습니까?");
+        if (submit) {
+            let data = {
+                rs_seq: research.rs_seq,
+                username: userName,
+                answerList: answerList.slice(1),
+            }
+            axios.post("/research/response", data)
+                .then((res) => {
+                    console.log(res)
+                    if (res.data.message === "success") {
+                        alert("제출 되었습니다.");
+                        window.location.href = "/research/list";
+                    }
+                })
+                .catch((err) => {
+                    console.log(err);
+                })
+        }
+
     }
 
 
@@ -113,7 +116,6 @@ function handleAnswerPage(direction) {
 function setEventListenersOnInputs(flag) {
     let answerContent = document.querySelector(".answer-content-body");
     if (flag === 3) {
-        // todo 주관식은 따로 처리 해야 한다.
         let textarea = answerContent.querySelector("textarea[name='choice']");
         textarea.addEventListener("input", () => {
             saveAnswerOnChange();
@@ -132,8 +134,8 @@ function setEventListenersOnInputs(flag) {
 function isAnswered() {
     let isAnswered = false;
     answerList.forEach((item) => {
-        if (item.no === currentRsiNo && item.rsi_answer) {
-            isAnswered = true;
+        if (item.no === currentRsiNo) {
+            if(item.rsi_answer!==null) isAnswered = true;
         }
     })
     return isAnswered;
@@ -168,7 +170,6 @@ function saveAnswerOnChange() {
     let temp = document.querySelector("#question-number");
     let type = temp.querySelector("span").innerText;
     let rsi_answer = saveAnswerByType(type);
-    console.log(rsi_answer)
     if (rsi_answer === null) return;
 
     // 여기서 해당 번호가 있으면 업데이트 없다면 생성
