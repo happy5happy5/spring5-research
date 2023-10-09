@@ -404,10 +404,10 @@ function createMainContentElementType5(index, title, type) {
                     <textarea placeholder="질문을 입력하세요" oninput="handleTextAreaInput(this,'Q')">${title}</textarea>
                     
 <!--                    숫자 입력만 넣을 수 있는 1의 기본 값을 가지고 최대 question-list의 개수만큼 지정 할수 있는 인풋 만들기-->
-<div>
-최대 질문 개수 설정
-<input type="number" min="1" max="5" value="1">
-</div>
+                    <div>
+                    최대 질문 개수 설정
+                    <input type="number" min="1" max="5" value="1">
+                    </div>
 
                     <ul class="question-list m-0 p-0">
 

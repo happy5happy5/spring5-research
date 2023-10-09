@@ -23,7 +23,6 @@
             <ul class="navbar-nav ms-auto pt-1">
                 <li class="nav-item"><a th:href="@{/}" class="nav-link ">Home</a></li>
                 <li class="nav-item"><a th:href="@{/research/list}" class="nav-link ">List</a></li>
-                <li class="nav-item"><a th:href="@{/user/test}" class="nav-link ">UserPage</a></li>
                 <li th:if="${#authorization.expression('isAuthenticated()')}" class="nav-item">
                     <!-- 로그인한 사용자 -->
                     <a th:href="@{/auth/profile}" class="nav-link ">Profile</a>
@@ -40,10 +39,13 @@
                     <!-- 로그인하지 않은 사용자만 볼 수 있는 내용 -->
                     <a th:href="@{/auth/register}" class="nav-link ">SignIn</a>
                 </li>
+<!--                user 전용-->
+                <li th:if="${#authorization.expression('hasRole(''USER'')')}" class="nav-item">
+                    <a th:href="@{/user}" class="nav-link ">User 전용</a>
+                </li>
 <!--                admin 전용-->
                 <li th:if="${#authorization.expression('hasRole(''ADMIN'')')}" class="nav-item">
-                    <!-- 로그인한 사용자 -->
-                    <a th:href="@{/admin/test}" class="nav-link ">Admin전용</a>
+                    <a th:href="@{/admin}" class="nav-link ">Admin전용</a>
                 </li>
 
             </ul>
