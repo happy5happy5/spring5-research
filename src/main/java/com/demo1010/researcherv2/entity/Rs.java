@@ -26,10 +26,7 @@ public class Rs {
     @Column(columnDefinition = "text")
     private String html_data; // html 데이터
 
-    // 다대일 관계 설정
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "user_rs_junction", joinColumns = @JoinColumn(name="rs_seq") , inverseJoinColumns = @JoinColumn(name="user_id"))
-    private Set<ApplicationUser> answers;
+
 
 }
 

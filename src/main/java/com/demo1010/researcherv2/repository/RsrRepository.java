@@ -12,4 +12,7 @@ public interface RsrRepository extends JpaRepository<Rsr, Integer> {
     @Query(value = "select * from rsr where rs_seq = ?1 order by rsi_no", nativeQuery = true)
     List<Rsr> findAllByRsSeqOrderByRsi_noAsc(int rs_seq);
 
+    @Query(value = "select * from rsr where rs_seq = ?1 and rsi_no = ?2", nativeQuery = true)
+    Rsr findByRsSeqAndRsiNo(int rs_seq, int rsi_no);
+
 }

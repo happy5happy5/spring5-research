@@ -20,8 +20,7 @@ public class Rsr_sub {
 
     private Integer rsr_seq;
     private Integer rs_seq;
-    private Integer rsi_seq;
-    private String rsi_no;
+    private Integer rsi_no;
     private String rsr_sub_etc;
     private String rsr_sub_type3;
 

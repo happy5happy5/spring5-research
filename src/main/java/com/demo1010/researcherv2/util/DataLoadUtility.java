@@ -83,17 +83,17 @@ public class DataLoadUtility implements CommandLineRunner {
         rs1.setRs_start_date(present);
         rs1.setRs_end_date(plus10);
         rs1.setUsername(registeredUser1.getUsername());
-        rs1.setAnswers(Set.of(registeredUser1));
+        rs1.setUse_yn("N");
         Rs registeredRs1=rsRepository.save(rs1);
 
         Rs rs2 = new Rs();
         rs2.setRs_cnt(0);
         rs2.setRs_desc("test desc2222222222");
         rs2.setRs_title("test title22222222222222222222");
-        rs2.setRs_start_date(plus10);
-        rs2.setRs_end_date(plus20);
+        rs2.setRs_start_date(present);
+        rs2.setRs_end_date(plus30);
         rs2.setUsername(registeredUser2.getUsername());
-        rs2.setAnswers(Set.of(registeredUser2));
+        rs2.setUse_yn("N");
         Rs registeredRs2=rsRepository.save(rs2);
 
         Rs rs3 = new Rs();
@@ -101,9 +101,9 @@ public class DataLoadUtility implements CommandLineRunner {
         rs3.setRs_desc("test desc33333333333333");
         rs3.setRs_title("test title33333333333333333");
         rs3.setUsername(registeredUser3.getUsername());
-        rs3.setRs_start_date(plus20);
+        rs3.setRs_start_date(plus10);
         rs3.setRs_end_date(plus30);
-        rs3.setAnswers(Set.of(registeredUser3));
+        rs3.setUse_yn("N");
         Rs registeredRs3=rsRepository.save(rs3);
 
     }
@@ -119,33 +119,6 @@ public class DataLoadUtility implements CommandLineRunner {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setAuthorities(role);
         return userRepository.save(user);
-    }
-
-    private void questionMaker(int num, String type, Rs rs){
-        for(int no=1; no<=num; no++){
-            Rsi rsi = new Rsi();
-            rsi.setRs_seq(rs.getRs_seq());
-            rsi.setRsi_no(no);
-            rsi.setRsi_question("Q"+no+" : "+"test question hi there");
-            rsi.setRsi_type(type);
-            switch (type) {
-                case "0", "5" -> {
-                    rsi.setRsi_type0_1("객관식 1번");
-                    rsi.setRsi_type0_2("객관식 2번");
-                    rsi.setRsi_type0_3("객관식 3번");
-                    rsi.setRsi_type0_4("객관식 4번");
-                    rsi.setRsi_type0_5("객관식 5번");
-                    rsi.setRsi_type5("2");
-                }
-                case "1" -> rsi.setRsi_type1("OX");
-                case "2" -> rsi.setRsi_type2("likert");
-                case "3" -> rsi.setRsi_type3("주관식");
-                case "4" -> rsi.setRsi_type4("별점");
-            }
-            rsiRepository.save(rsi);
-        }
-        rs.setRs_cnt(rs.getRs_cnt()+num);
-        rsRepository.save(rs);
     }
 }
 

@@ -4,6 +4,8 @@ import javax.persistence.*;
 
 import lombok.*;
 
+import java.util.Set;
+
 
 @Entity
 @Getter
@@ -17,7 +19,7 @@ public class Rsr {
     private Integer rs_seq;
     private Integer rsi_no;
     private String rsi_type;
-    private String rsr_total;
+    private Integer rsr_total;
     private Integer rsr_type0_1;
     private Integer rsr_type0_2;
     private Integer rsr_type0_3;
@@ -31,9 +33,8 @@ public class Rsr {
     private Integer rsr_type4;
 
     // 다대일 관계 설정
-//    @ManyToOne
-//    @JoinColumn(name = "rs_seq", referencedColumnName = "rs_seq", insertable = false, updatable = false)
-//    private Rs rs;
-
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "user_rsr_junction", joinColumns = @JoinColumn(name="rs_seq") , inverseJoinColumns = @JoinColumn(name="user_id"))
+    private Set<ApplicationUser> answers;
 }
 

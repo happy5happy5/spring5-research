@@ -25,10 +25,6 @@ public class Rsi {
     private String rsi_type0_4; // 객관식 4번 실제 질문 내용
     private String rsi_type0_5; // 객관식 5번 실제 질문 내용
     private String rsi_type0_etc; // 기타 입력란이 있는지 여부
-    private String rsi_type1; // OX 인지 여부
-    private String rsi_type2; // likert 인지 여부
-    private String rsi_type3; // 주관식 인지 여부
-    private String rsi_type4; // 별점 인지 여부
     private String rsi_type5; // 다중 선택 몇개?
     @Column(columnDefinition = "text")
     private String html_data; // html 데이터
