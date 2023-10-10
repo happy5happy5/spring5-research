@@ -44,14 +44,13 @@
         /*<![CDATA[*/
         const rsiList = [[${rsiList}]];
         const rsrList = [[${rsrList}]];
+        const rsrSubList = [[${rsrSubList}]];
         const userName = [[${username}]];
-        // const userRole = [[${userRoles}]];
         const research = [[${research}]];
         console.log("research", research);
         console.log("rsiList", rsiList);
         console.log("rsrList", rsrList);
-        // console.log(userName);
-        // console.log(userRole);
+        console.log("rsrSubList", rsrSubList);
         /*]]>*/
     </script>
     <script type="text/javascript">
@@ -112,15 +111,37 @@
         function createType0(index) {
             let element = createDefaultElement(index);
             let chartPart = element.querySelector('.result-content-chart')
+            // let total = 0;
+            // if(rsrList[index].rsr_type0_1 !== null)total+=1;
+            // if(rsrList[index].rsr_type0_2 !== null)total+=1;
+            // if(rsrList[index].rsr_type0_3 !== null)total+=1;
+            // if(rsrList[index].rsr_type0_4 !== null)total+=1;
+            // if(rsrList[index].rsr_type0_5 !== null)total+=1;
+
+
+
             let dataArray = [
-                ['Task', 'Hours per Day'],
-                ['Work', 11],
-                ['Eat', 2],
-                ['Commute', 2],
-                ['Watch TV', 2],
-                ['Sleep', 7]
+                ['', ''],
+                [rsiList[index].rsi_type0_1, rsrList[index].rsr_type0_1],
+                [rsiList[index].rsi_type0_2, rsrList[index].rsr_type0_2],
+                [rsiList[index].rsi_type0_3, rsrList[index].rsr_type0_3],
+                [rsiList[index].rsi_type0_4, rsrList[index].rsr_type0_4],
+                [rsiList[index].rsi_type0_5, rsrList[index].rsr_type0_5]
             ]
+
+
+            // let dataArray = [
+            //     ['', ''],
+            //     ['1번', 11],
+            //     ['2번', 2],
+            //     ['3번', 2],
+            //     ['4번', 2],
+            //     ['5번', 7]
+            // ]
             createPieChart(index, chartPart, dataArray);
+// #layout-content > div > div:nth-child(5) > div.result-content-chart > div > div:nth-child(1) > div > svg > g:nth-child(2) > g:nth-child(3) > g > text
+            element.querySelector('.result-content-chart')
+            // element.querySelector
             return element;
         }
 
@@ -128,11 +149,12 @@
             let element = createDefaultElement(index);
             let chartPart = element.querySelector('.result-content-chart')
             let dataArray = [
-                ['Task', 'Hours per Day'],
-                ['O', 11],
-                ['X', 2],
+                ['', ''],
+                ['O', rsrList[index].rsr_type1_o],
+                ['X', rsrList[index].rsr_type1_x],
             ]
             createPieChart(index, chartPart, dataArray);
+
             return element;
         }
 
@@ -140,8 +162,8 @@
             let element = createDefaultElement(index);
             let chartPart = element.querySelector('.result-content-chart')
             let dataArray = [
-                ['Year', 'Sales', 'Expenses', 'Profit'],
-                ['2014', 1000, 400, 200],
+                ['Likert', '매우 비동의', '비동의', '보통', "동의", "매우 동의"],
+                ['Likert', rsrList[index].rsr_type0_1, rsrList[index].rsr_type0_2, rsrList[index].rsr_type0_3, rsrList[index].rsr_type0_4, rsrList[index].rsr_type0_5],
             ]
             createBarChart(index, chartPart, dataArray);
             return element;
@@ -150,12 +172,15 @@
         function createType3(index) {
             let element = createDefaultElement(index);
             let chartPart = element.querySelector('.result-content-chart')
-            let dataArray =[
-                "aaaaaaaa",
-                "bbbbbbbb",
-                "cccccccc",
-            ]
-            createModal(index, chartPart, dataArray);
+            let rs_seq = rsiList[index].rsi_seq;
+            let rs_sub_list = rsrSubList.filter(item => item.rs_seq === rs_seq).map(item => item.rsr_sub_type3);
+            // console.log("rs_sub_list", rs_sub_list);
+            // let dataArray =[
+            //     "aaaaaaaa",
+            //     "bbbbbbbb",
+            //     "cccccccc",
+            // ]
+            createModal(index, chartPart, rs_sub_list);
 
             return element;
         }
@@ -164,8 +189,8 @@
             let element = createDefaultElement(index);
             let chartPart = element.querySelector('.result-content-chart')
 
-            let dataArray =[8]
-            createStarChart(index, chartPart, dataArray);
+            let star = rsrList[index].rsr_type4/rsrList[index].rsr_total;
+            createStarChart(index, chartPart, star);
             return element;
         }
 
@@ -173,12 +198,12 @@
             let element = createDefaultElement(index);
             let chartPart = element.querySelector('.result-content-chart')
             let dataArray = [
-                ['Task', 'Hours per Day'],
-                ['Work', 11],
-                ['Eat', 2],
-                ['Commute', 2],
-                ['Watch TV', 2],
-                ['Sleep', 7]
+                ['', ''],
+                [rsiList[index].rsi_type0_1, rsrList[index].rsr_type0_1],
+                [rsiList[index].rsi_type0_2, rsrList[index].rsr_type0_2],
+                [rsiList[index].rsi_type0_3, rsrList[index].rsr_type0_3],
+                [rsiList[index].rsi_type0_4, rsrList[index].rsr_type0_4],
+                [rsiList[index].rsi_type0_5, rsrList[index].rsr_type0_5]
             ]
             createPieChart(index, chartPart, dataArray);
             return element;
@@ -229,7 +254,7 @@
             let newModal = `
 <div>
     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-      Launch demo modal
+      답변 보기
     </button>
 
     <!-- Modal -->
@@ -237,7 +262,7 @@
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+            <h5 class="modal-title" id="exampleModalLabel">객관식 답변</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
@@ -245,7 +270,6 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Save changes</button>
           </div>
         </div>
       </div>
@@ -257,8 +281,10 @@
 
         }
 
-        function createStarChart(index, chartPart, dataArray) {
-            dataArray[0] = Math.round(dataArray[0]);
+        function createStarChart(index, chartPart, data) {
+            // data 소수점 한자리까지 표현
+            data = data.toFixed(1);
+            let data2 = Math.round(data);
             let newStarChart = `
                     <ul class="question-list m-0 p-0">
                         <span class="star-input">
@@ -276,14 +302,14 @@
                           </span>
                         </span>
                         <span>
-                            <small>${dataArray[0]}점</small>
+                            <small>${data}점</small>
                             <small>/10점</small>
                         </span>
                     </ul>
             `
             newStarChart = htmlToElement(newStarChart);
 
-            newStarChart.querySelectorAll('input')[dataArray[0]-1].checked = true;
+            newStarChart.querySelectorAll('input')[data2-1].checked = true;
             chartPart.appendChild(newStarChart);
         }
 

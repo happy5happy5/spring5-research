@@ -1,13 +1,12 @@
 package com.demo1010.researcherv2.controller;
 
 
-import com.demo1010.researcherv2.entity.Rs;
-import com.demo1010.researcherv2.entity.Rsi;
-import com.demo1010.researcherv2.entity.Rsr;
+import com.demo1010.researcherv2.entity.*;
 import com.demo1010.researcherv2.model.*;
 import com.demo1010.researcherv2.repository.RsRepository;
 import com.demo1010.researcherv2.repository.RsiRepository;
 import com.demo1010.researcherv2.repository.RsrRepository;
+import com.demo1010.researcherv2.repository.RsrSubRepository;
 import com.demo1010.researcherv2.service.ResearchService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -36,6 +35,7 @@ import java.util.stream.Collectors;
 public class ResearchController {
     private final RsrRepository rsrRepository;
     private final RsiRepository rsiRepository;
+    private final RsrSubRepository rsrSubRepository;
 
     private final RsRepository rsRepository;
     private final ResearchService researchService;
@@ -165,9 +165,11 @@ public class ResearchController {
         List<Rsi> rsiList = rsiRepository.findByRsSeqOrderByRsiNoAsc(rs_seq);
         Rs rs = rsRepository.findById(rs_seq).orElseThrow(() -> new IllegalArgumentException("해당 설문조사가 없습니다. rs_seq=" + rs_seq));
         List<Rsr> rsrList = rsrRepository.findAllByRsSeqOrderByRsi_noAsc(rs_seq);
+        List<Rsr_sub> rsrSubList = rsrSubRepository.findAllByRsSeqOrderByRsi_noAsc(rs_seq);
         model.addAttribute("research", rs);
         model.addAttribute("rsiList", rsiList);
         model.addAttribute("rsrList", rsrList);
+        model.addAttribute("rsrSubList", rsrSubList);
 
         return "pages/research/resultform";
     }

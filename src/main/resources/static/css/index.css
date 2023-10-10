@@ -646,3 +646,13 @@ textarea {
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0,0,0,.1);
 }
+
+.result-content{
+    margin-left: 2rem;
+    margin-bottom: 2rem;
+    /*position: absolute;*/
+    bottom: 30%;
+    width: initial;
+    z-index: -1;
+    /*justify-content: center;*/
+}
