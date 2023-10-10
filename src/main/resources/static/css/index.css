@@ -629,3 +629,20 @@ textarea {
     opacity: .5;
     z-index: 1;
 }
+
+
+/*result page*/
+.result-container{
+    /*position: absolute;*/
+    padding: 2.5rem;
+    margin: auto;
+    width: 75%;
+    height: auto;
+    /*height:75%;*/
+    /*padding: 0 20px;*/
+    box-sizing: border-box;
+    /*overflow: hidden;*/
+    background-color: #86b7fe;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0,0,0,.1);
+}

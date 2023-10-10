@@ -193,6 +193,14 @@
                     `
                     : ``
             )
+
+            temp.push(
+                (progress >= 100||userRoles.includes('ROLE_ADMIN'))?
+                `
+                            <a href="/research/result/${rs.rs_seq}" class="btn btn-dark"><span>결과</span></a>
+                `:``
+            )
+
             // 현재 접속한 사용자의 아이디와 게시글의 작성자 아이디가 같은 경우에만 수정 삭제 버튼이 보이도록 함
             // todo 수정이 안되는 조건 추가 필요
             if (userNames === rs.username||userRoles.includes('ROLE_ADMIN')) {

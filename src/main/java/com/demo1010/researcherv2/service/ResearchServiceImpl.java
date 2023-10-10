@@ -44,7 +44,7 @@ public class ResearchServiceImpl implements ResearchService {
         List<RSRDTO> answerList = registrationRSRDTO.getAnswerList();
         List<Rsr> existAnswerList = rsrRepository.findAllByRsSeqOrderByRsi_noAsc(rs_seq);
         log.info("[createResponse] answerList : {}", answerList);
-//        전부 있거나 전부 없는 경우 뿐이다
+//        전부 있거나 전부 없는 경우 뿐이다 -> 중간 수정이 안되기 때문임 ㅇㅇ -> 수정이 필요 하면 삭제 후 재작성을 해야함
 //        전부 없는 경우
         if (existAnswerList.isEmpty()) {
             for (int i = 0; i < answerList.size(); i++) {

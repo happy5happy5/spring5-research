@@ -34,7 +34,7 @@ window.addEventListener('scroll', function () {
 
     // Parallax Effect
     const scrolled = window.scrollY;
-    const bgPosition = `0 ${-(scrolled / 5)}px`;
+    const bgPosition = `0 ${-(scrolled / 2)}px`;
     document.body.style.backgroundPosition = bgPosition;
 
     // Scroll to Top Button

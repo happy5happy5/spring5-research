@@ -3,9 +3,11 @@ package com.demo1010.researcherv2.controller;
 
 import com.demo1010.researcherv2.entity.Rs;
 import com.demo1010.researcherv2.entity.Rsi;
+import com.demo1010.researcherv2.entity.Rsr;
 import com.demo1010.researcherv2.model.*;
 import com.demo1010.researcherv2.repository.RsRepository;
 import com.demo1010.researcherv2.repository.RsiRepository;
+import com.demo1010.researcherv2.repository.RsrRepository;
 import com.demo1010.researcherv2.service.ResearchService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -32,6 +34,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @RequestMapping("/research")
 public class ResearchController {
+    private final RsrRepository rsrRepository;
     private final RsiRepository rsiRepository;
 
     private final RsRepository rsRepository;
@@ -147,4 +150,27 @@ public class ResearchController {
         researchService.createResponse(registrationRSRDTO);
         return new ApiResponse<>(200, "success", null, LocalDateTime.now());
     }
+
+
+    @GetMapping("/result/{rs_seq}")
+    public String result(Model model, @PathVariable int rs_seq) {
+        log.info("[GET] /research/result/{}", rs_seq);
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Set<String> roles = auth.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
+                .collect(Collectors.toSet());
+        model.addAttribute("username", auth.getName());
+        model.addAttribute("userRoles", roles);
+
+        List<Rsi> rsiList = rsiRepository.findByRsSeqOrderByRsiNoAsc(rs_seq);
+        Rs rs = rsRepository.findById(rs_seq).orElseThrow(() -> new IllegalArgumentException("해당 설문조사가 없습니다. rs_seq=" + rs_seq));
+        List<Rsr> rsrList = rsrRepository.findAllByRsSeqOrderByRsi_noAsc(rs_seq);
+        model.addAttribute("research", rs);
+        model.addAttribute("rsiList", rsiList);
+        model.addAttribute("rsrList", rsrList);
+
+        return "pages/research/resultform";
+    }
+
+
 }

@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{common/defaultLayout}">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div layout:fragment="content">
+
+    <div class="result-container">
+        <h3 class="result-title">설문조사 결과</h3>
+        <div class="result-content">
+            <h1 class="result-content-title" th:text="${research.rs_title}"></h1>
+            <h3 class="result-content-title" th:text="${research.rs_desc}"></h3>
+
+        </div>
+        <div class="result-content">
+            <!--            설문 조사 기간 -->
+            <div class="result-content-period">
+                <div class="result-content-period-title">설문조사 기간</div>
+                <div class="result-content-period-content">
+                    <span class="result-content-period-content-start" th:text="${research.rs_start_date}"></span>
+                    <span>~</span>
+                    <span class="result-content-period-content-end" th:text="${research.rs_end_date}"></span>
+                </div>
+            </div>
+        </div>
+        <hr>
+
+        <!--type0-->
+        <!--type1-->
+        <!--type2-->
+        <!--type3-->
+        <!--type4-->
+        <!--type5-->
+    </div>
+
+
+    <script type="text/javascript" th:src="@{/js/google-chart.js}"></script>
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        const rsiList = [[${rsiList}]];
+        const rsrList = [[${rsrList}]];
+        const userName = [[${username}]];
+        // const userRole = [[${userRoles}]];
+        const research = [[${research}]];
+        console.log("research", research);
+        console.log("rsiList", rsiList);
+        console.log("rsrList", rsrList);
+        // console.log(userName);
+        // console.log(userRole);
+        /*]]>*/
+    </script>
+    <script type="text/javascript">
+
+        const resultContainer = document.querySelector('.result-container');
+        // 만든 차례 대로 resultContainer 에 appendChild 한다
+        createResultHTML()
+
+        function createResultHTML() {
+
+            for (let i = 0; i < rsiList.length; i++) {
+                let type = rsiList[i].rsi_type;
+                let newElement;
+                switch (type) {
+                    case "0":
+                        newElement = createType0(i);
+                        break;
+                    case "1":
+                        newElement = createType1(i);
+                        break;
+                    case "2":
+                        newElement = createType2(i);
+                        break;
+                    case "3":
+                        newElement = createType3(i);
+                        break;
+                    case "4":
+                        newElement = createType4(i);
+                        break;
+                    case "5":
+                        newElement = createType5(i);
+                        break;
+                    default:
+                        console.log("type error");
+                }
+                resultContainer.appendChild(newElement);
+            }
+        }
+
+        function createDefaultElement(index) {
+            let element = `
+                    <!--type0-->
+        <div class="result-content">
+            <div class="question-info">
+                <span>Q${rsiList[index].rsi_no}</span>
+                <span>${rsiList[index].rsi_question}</span>
+                <div>${rsiList[index].rsi_type}</div>
+            </div>
+            <div class="result-content-chart">
+            </div>
+            <hr>
+        </div>
+            `
+            element = htmlToElement(element);
+            return element;
+        }
+
+        function createType0(index) {
+            let element = createDefaultElement(index);
+            let chartPart = element.querySelector('.result-content-chart')
+            let dataArray = [
+                ['Task', 'Hours per Day'],
+                ['Work', 11],
+                ['Eat', 2],
+                ['Commute', 2],
+                ['Watch TV', 2],
+                ['Sleep', 7]
+            ]
+            createPieChart(index, chartPart, dataArray);
+            return element;
+        }
+
+        function createType1(index) {
+            let element = createDefaultElement(index);
+            let chartPart = element.querySelector('.result-content-chart')
+            let dataArray = [
+                ['Task', 'Hours per Day'],
+                ['O', 11],
+                ['X', 2],
+            ]
+            createPieChart(index, chartPart, dataArray);
+            return element;
+        }
+
+        function createType2(index) {
+            let element = createDefaultElement(index);
+            let chartPart = element.querySelector('.result-content-chart')
+            let dataArray = [
+                ['Year', 'Sales', 'Expenses', 'Profit'],
+                ['2014', 1000, 400, 200],
+            ]
+            createBarChart(index, chartPart, dataArray);
+            return element;
+        }
+
+        function createType3(index) {
+            let element = createDefaultElement(index);
+            let chartPart = element.querySelector('.result-content-chart')
+            let dataArray =[
+                "aaaaaaaa",
+                "bbbbbbbb",
+                "cccccccc",
+            ]
+            createModal(index, chartPart, dataArray);
+
+            return element;
+        }
+
+        function createType4(index) {
+            let element = createDefaultElement(index);
+            let chartPart = element.querySelector('.result-content-chart')
+
+            let dataArray =[8]
+            createStarChart(index, chartPart, dataArray);
+            return element;
+        }
+
+        function createType5(index) {
+            let element = createDefaultElement(index);
+            let chartPart = element.querySelector('.result-content-chart')
+            let dataArray = [
+                ['Task', 'Hours per Day'],
+                ['Work', 11],
+                ['Eat', 2],
+                ['Commute', 2],
+                ['Watch TV', 2],
+                ['Sleep', 7]
+            ]
+            createPieChart(index, chartPart, dataArray);
+            return element;
+        }
+
+
+        //     각종 차트 만드는 함수
+        function createPieChart(index, chartPart, dataArray) {
+            google.charts.load("current", {packages: ["corechart"]});
+            google.charts.setOnLoadCallback(() => {
+                let data = google.visualization.arrayToDataTable(dataArray);
+                let options = {
+                    is3D: true,
+                    backgroundColor: 'transparent',
+                    legend: {position: 'right', textStyle: {color: 'black', fontSize: 16}},
+                    // chartArea: {width: '100%', height: '100%'},
+                    pieSliceText: 'label',
+                    pieSliceTextStyle: {color: 'black', fontSize: 16},
+                };
+                let chart = new google.visualization.PieChart(chartPart);
+                chart.draw(data, options);
+            });
+        }
+
+        function createBarChart(index, chartPart, dataArray) {
+            google.charts.load('current', {'packages':['bar']});
+            google.charts.setOnLoadCallback(()=>{
+                let data = google.visualization.arrayToDataTable(dataArray);
+
+                let options = {
+                    bars: 'horizontal', // Required for Material Bar Charts.
+                    backgroundColor: 'transparent',
+                    legend: {position: 'right', textStyle: {color: 'black', fontSize: 16}},
+                    // chartArea: {width: '100%', height: '100%'},
+                    pieSliceText: 'label',
+                    pieSliceTextStyle: {color: 'black', fontSize: 16},
+                };
+
+                let chart = new google.charts.Bar(chartPart);
+
+                chart.draw(data, google.charts.Bar.convertOptions(options));
+            });
+
+        }
+
+        function createModal(index, chartPart, dataArray) {
+
+            let newModal = `
+<div>
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+      Launch demo modal
+    </button>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            ${dataArray.map(item => `<div>${item}</div>`).join('')}
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary">Save changes</button>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+`
+            newModal = htmlToElement(newModal);
+            chartPart.appendChild(newModal);
+
+        }
+
+        function createStarChart(index, chartPart, dataArray) {
+            dataArray[0] = Math.round(dataArray[0]);
+            let newStarChart = `
+                    <ul class="question-list m-0 p-0">
+                        <span class="star-input">
+                          <span class="input">
+                            <input type="radio" name="star-input" id="p1" value="1" readonly disabled><label for="p1">1</label>
+                            <input type="radio" name="star-input" id="p2" value="2" readonly disabled><label for="p2">2</label>
+                            <input type="radio" name="star-input" id="p3" value="3" readonly disabled><label for="p3">3</label>
+                            <input type="radio" name="star-input" id="p4" value="4" readonly disabled><label for="p4">4</label>
+                            <input type="radio" name="star-input" id="p5" value="5" readonly disabled><label for="p5">5</label>
+                            <input type="radio" name="star-input" id="p6" value="6" readonly disabled><label for="p6">6</label>
+                            <input type="radio" name="star-input" id="p7" value="7" readonly disabled><label for="p7">7</label>
+                            <input type="radio" name="star-input" id="p8" value="8" readonly disabled><label for="p8">8</label>
+                            <input type="radio" name="star-input" id="p9" value="9" readonly disabled><label for="p9">9</label>
+                            <input type="radio" name="star-input" id="p10" value="10" readonly disabled><label for="p10">10</label>
+                          </span>
+                        </span>
+                        <span>
+                            <small>${dataArray[0]}점</small>
+                            <small>/10점</small>
+                        </span>
+                    </ul>
+            `
+            newStarChart = htmlToElement(newStarChart);
+
+            newStarChart.querySelectorAll('input')[dataArray[0]-1].checked = true;
+            chartPart.appendChild(newStarChart);
+        }
+
+
+
+    </script>
+
+</div>
+
+</body>
+</html>

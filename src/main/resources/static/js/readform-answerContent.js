@@ -135,7 +135,10 @@ function isAnswered() {
     let isAnswered = false;
     answerList.forEach((item) => {
         if (item.no === currentRsiNo) {
-            if(item.rsi_answer!==null) isAnswered = true;
+            if(item.rsi_answer!==null) {
+                // console.log(item.rsi_answer)
+                isAnswered = true;
+            }
         }
     })
     return isAnswered;
