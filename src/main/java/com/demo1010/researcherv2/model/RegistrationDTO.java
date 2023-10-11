@@ -2,13 +2,20 @@ package com.demo1010.researcherv2.model;
 
 
 import javax.validation.constraints.*;
+
+import com.demo1010.researcherv2.entity.ApplicationUser;
+import com.demo1010.researcherv2.entity.Role;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
+
+import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
+@ToString
 //@PasswordMatches(message = "비밀번호가 일치하지 않습니다.")
 public class RegistrationDTO {
     @NotEmpty(message = "아이디는 필수 입력 값 입니다.")
@@ -34,5 +41,16 @@ public class RegistrationDTO {
 
     public void setPhone(String phone) {
         this.phone = phone.replaceAll("-", "");
+    }
+
+    public ApplicationUser toEntity(RegistrationDTO dto, Set<Role> role){
+        ApplicationUser user = new ApplicationUser();
+        user.setUsername(dto.getUsername());
+        user.setEmail(dto.getEmail());
+        user.setPassword(dto.getPassword());
+        user.setName(dto.getName());
+        user.setPhone(dto.getPhone());
+        user.setAuthorities(role);
+        return user;
     }
 }

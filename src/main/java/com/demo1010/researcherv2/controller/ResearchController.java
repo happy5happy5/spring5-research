@@ -175,4 +175,22 @@ public class ResearchController {
     }
 
 
+    @GetMapping("/update/{rs_seq}")
+    public String update(Model model, @PathVariable int rs_seq) {
+        log.info("[GET] /research/update/{}", rs_seq);
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Set<String> roles = auth.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
+                .collect(Collectors.toSet());
+        model.addAttribute("userRoles", roles);
+        model.addAttribute("username", auth.getName());
+
+        List<Rsi> rsiList = rsiRepository.findByRsSeqOrderByRsiNoAsc(rs_seq);
+        Rs rs = rsRepository.findById(rs_seq).orElseThrow(() -> new IllegalArgumentException("해당 연구가 없습니다. rs_seq=" + rs_seq));
+        model.addAttribute("research", rs);
+        model.addAttribute("rsiList", rsiList);
+
+        return "pages/research/updateform";
+    }
+
 }

@@ -25,8 +25,7 @@ public class Rs {
     private Integer hits;
     @Column(columnDefinition = "text")
     private String html_data; // html 데이터
-
-
+    private String topic_arn; // SNS 토픽 ARN
 
 }
 

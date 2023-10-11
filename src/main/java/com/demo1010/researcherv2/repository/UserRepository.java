@@ -15,5 +15,4 @@ public interface UserRepository extends JpaRepository<ApplicationUser, Integer> 
 
     //    Optional<ApplicationUser> findUserByName(String name);
 
-
 }
