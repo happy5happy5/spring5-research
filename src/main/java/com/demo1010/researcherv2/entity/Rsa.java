@@ -15,7 +15,6 @@ public class Rsa {
     private Integer rsa_seq;
     private Integer rs_seq;
     private String username;
-    private String sms_arn;
     private String email_arn;
     private String topic_arn;
 

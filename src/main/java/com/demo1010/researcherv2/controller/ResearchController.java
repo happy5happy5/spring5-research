@@ -114,27 +114,26 @@ public class ResearchController {
 
     @PostMapping("/create")
     @ResponseBody
-    public ApiResponse<String> create(@RequestBody RegistrationRSDTO registrationRSDTO) {
+    public ApiResponse<Rs> create(@RequestBody RegistrationRSDTO registrationRSDTO) {
         log.info("[POST] /research/create");
         SecurityContext securityContext = SecurityContextHolder.getContext();
         String username = securityContext.getAuthentication().getName();
         registrationRSDTO.setUsername(username);
         Rs rs = researchService.createResearch(registrationRSDTO);
-        return new ApiResponse<>(200, "success", null, LocalDateTime.now());
+        return new ApiResponse<>(200, "success", rs, LocalDateTime.now());
     }
 
     @GetMapping("/read/{rs_seq}")
     public String detail(Model model, @PathVariable int rs_seq) {
         log.info("[GET] /research/read/{}", rs_seq);
-
         // 응답을 이미 했는지 확인
-        Boolean isAnsweredBefore = rsaRepository.findByRsSeqAndUsername(rs_seq, SecurityContextHolder.getContext().getAuthentication().getName())
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        boolean isAnsweredBefore = rsaRepository.findByRsSeqAndUsername(rs_seq, auth.getName())
                 .isPresent();
         if(isAnsweredBefore) {
-            return "redirect:/research/listform?error=이미 응답한 설문조사입니다." ;
+            return "redirect:/research/list?error=answered" ;
         }
 
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Set<String> roles = auth.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.toSet());

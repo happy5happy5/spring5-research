@@ -10,5 +10,5 @@ public interface SnsService {
 
     String sendMessage(String topicArn, String message);
 
-    List<String> createSubscription(String topicArn, String username);
+    String createSubscription(String topicArn, String username);
 }

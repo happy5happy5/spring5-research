@@ -279,14 +279,12 @@ public class ResearchServiceImpl implements ResearchService {
                 rsrRepository.save(rsr);
             }
         }
-
         Rsa rsa = new Rsa();
         rsa.setRs_seq(rs_seq);
         rsa.setUsername(username);
         rsa.setTopic_arn(rsRepository.findByRsSeq(rs_seq).getTopic_arn());
-        List<String> arns = snsService.createSubscription(rsa.getTopic_arn(), username);
-        rsa.setEmail_arn(arns.get(0));
-        rsa.setSms_arn(arns.get(1));
+        String arn = snsService.createSubscription(rsa.getTopic_arn(), username);
+        rsa.setEmail_arn(arn);
         rsaRepository.save(rsa);
     }
 }

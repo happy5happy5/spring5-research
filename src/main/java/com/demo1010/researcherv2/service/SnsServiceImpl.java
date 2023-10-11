@@ -3,6 +3,7 @@ package com.demo1010.researcherv2.service;
 
 import com.amazonaws.services.sns.AmazonSNSClient;
 import com.amazonaws.services.sns.model.*;
+import com.demo1010.researcherv2.entity.ApplicationUser;
 import com.demo1010.researcherv2.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -33,22 +34,15 @@ public class SnsServiceImpl implements SnsService {
     }
 
     @Override
-    public List<String> createSubscription(String topicArn, String username) {
+    public String createSubscription(String topicArn, String username) {
 
-//        ApplicationUser user = userRepository.findByUsername(username).orElseThrow();
-
-        SubscribeRequest subscribeRequest = new SubscribeRequest(topicArn, "sms", "+821090281679");
-        amazonSNSClient.subscribe(subscribeRequest);
-        return null;
-//        SubscribeRequest subscribeRequest = new SubscribeRequest();
-//        subscribeRequest.withTopicArn(topicArn)
-//                .withProtocol("email")
-//                .withEndpoint(user.getEmail());
-//        SubscribeResult emailSubscribeResult = amazonSNSClient.subscribe(subscribeRequest);
-//        subscribeRequest.withProtocol("sms")
-//                .withEndpoint(user.getPhone().replaceFirst("0", "+82"));
-//        SubscribeResult smsSubscribeResult = amazonSNSClient.subscribe(subscribeRequest);
-//        return List.of(emailSubscribeResult.getSubscriptionArn(), smsSubscribeResult.getSubscriptionArn());
+        ApplicationUser user = userRepository.findByUsername(username).orElseThrow();
+        SubscribeRequest subscribeRequest = new SubscribeRequest();
+        subscribeRequest.withTopicArn(topicArn)
+                .withProtocol("email")
+                .withEndpoint(user.getEmail());
+        SubscribeResult emailSubscribeResult = amazonSNSClient.subscribe(subscribeRequest);
+        return emailSubscribeResult.getSubscriptionArn();
     }
 
 //    public void pubTextSMS(String message, String phoneNumber) {
