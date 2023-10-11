@@ -16,4 +16,7 @@ public interface RsRepository extends JpaRepository<Rs, Integer> {
 
     @Query(value = "SELECT * FROM rs ORDER BY rs_seq DESC", nativeQuery = true)
     Page<Rs> searchList(Pageable pageable);
+
+    @Query(value = "SELECT * FROM rs WHERE rs_seq = ?1", nativeQuery = true)
+    Rs findByRsSeq(Integer rsSeq);
 }

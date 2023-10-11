@@ -3,11 +3,9 @@ package com.demo1010.researcherv2.controller;
 
 import com.demo1010.researcherv2.entity.*;
 import com.demo1010.researcherv2.model.*;
-import com.demo1010.researcherv2.repository.RsRepository;
-import com.demo1010.researcherv2.repository.RsiRepository;
-import com.demo1010.researcherv2.repository.RsrRepository;
-import com.demo1010.researcherv2.repository.RsrSubRepository;
+import com.demo1010.researcherv2.repository.*;
 import com.demo1010.researcherv2.service.ResearchService;
+import com.demo1010.researcherv2.service.SnsService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -33,15 +31,17 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @RequestMapping("/research")
 public class ResearchController {
+    private final RsaRepository rsaRepository;
     private final RsrRepository rsrRepository;
     private final RsiRepository rsiRepository;
     private final RsrSubRepository rsrSubRepository;
+    private final SnsService snsService;
 
     private final RsRepository rsRepository;
     private final ResearchService researchService;
 
     @GetMapping("/list")
-    public String list(Model model, RSListRequestDTO requestDTO) {
+    public String list(Model model, RSListRequestDTO requestDTO, @RequestParam(required = false) String error) {
         log.info("[GET] /research/list");
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Set<String> roles = auth.getAuthorities().stream()
@@ -49,6 +49,7 @@ public class ResearchController {
                 .collect(Collectors.toSet());
         model.addAttribute("userRoles", roles);
         model.addAttribute("username", auth.getName());
+        model.addAttribute("error", error);
 
         return "pages/research/listform";
     }
@@ -115,18 +116,24 @@ public class ResearchController {
     @ResponseBody
     public ApiResponse<String> create(@RequestBody RegistrationRSDTO registrationRSDTO) {
         log.info("[POST] /research/create");
-
         SecurityContext securityContext = SecurityContextHolder.getContext();
         String username = securityContext.getAuthentication().getName();
         registrationRSDTO.setUsername(username);
-        log.info("registrationRSDTO: {}", registrationRSDTO);
-        researchService.createResearch(registrationRSDTO);
+        Rs rs = researchService.createResearch(registrationRSDTO);
         return new ApiResponse<>(200, "success", null, LocalDateTime.now());
     }
 
     @GetMapping("/read/{rs_seq}")
     public String detail(Model model, @PathVariable int rs_seq) {
         log.info("[GET] /research/read/{}", rs_seq);
+
+        // 응답을 이미 했는지 확인
+        Boolean isAnsweredBefore = rsaRepository.findByRsSeqAndUsername(rs_seq, SecurityContextHolder.getContext().getAuthentication().getName())
+                .isPresent();
+        if(isAnsweredBefore) {
+            return "redirect:/research/listform?error=이미 응답한 설문조사입니다." ;
+        }
+
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Set<String> roles = auth.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
@@ -146,7 +153,6 @@ public class ResearchController {
     @ResponseBody
     public ApiResponse<String> detail(@RequestBody RegistrationRSRDTO registrationRSRDTO) {
         log.info("[POST] /research/response");
-//        rsRepository.updateHits(rs_seq);
         researchService.createResponse(registrationRSRDTO);
         return new ApiResponse<>(200, "success", null, LocalDateTime.now());
     }

@@ -10,8 +10,18 @@
 <body>
 <div layout:fragment="content">
     <h1>Send Message to AWS SNS</h1>
-    <form action="/send-message" method="post">
+    <form action="/sns/sendmsg" method="get">
         <button type="submit">Send Message</button>
+    </form>
+
+    <h1>Send Message to AWS SQS</h1>
+    <form action="/sns/subsms" method="get">
+        <button type="submit">Subscribe SMS</button>
+    </form>
+
+    <h1>Send SMS Test</h1>
+    <form action="/sms/sendOne" method="get">
+        <button type="submit">Send SMS</button>
     </form>
 </div>
 </body>

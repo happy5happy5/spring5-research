@@ -1,15 +1,13 @@
 package com.demo1010.researcherv2.service;
 
 import com.demo1010.researcherv2.entity.Rs;
+import com.demo1010.researcherv2.entity.Rsa;
 import com.demo1010.researcherv2.entity.Rsr;
 import com.demo1010.researcherv2.entity.Rsr_sub;
 import com.demo1010.researcherv2.model.RSRDTO;
 import com.demo1010.researcherv2.model.RegistrationRSDTO;
 import com.demo1010.researcherv2.model.RegistrationRSRDTO;
-import com.demo1010.researcherv2.repository.RsRepository;
-import com.demo1010.researcherv2.repository.RsiRepository;
-import com.demo1010.researcherv2.repository.RsrRepository;
-import com.demo1010.researcherv2.repository.RsrSubRepository;
+import com.demo1010.researcherv2.repository.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -20,21 +18,25 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class ResearchServiceImpl implements ResearchService {
+    private final RsaRepository rsaRepository;
 
     private final RsiRepository rsiRepository;
     private final RsRepository rsRepository;
     private final RsrRepository rsrRepository;
     private final RsrSubRepository rsrSubRepository;
+    private final SnsService snsService;
 
 
     @Override
-    public void createResearch(RegistrationRSDTO registrationRSDTO) {
+    public Rs createResearch(RegistrationRSDTO registrationRSDTO) {
         Rs rs = rsRepository.save(registrationRSDTO.toEntity());
-//        rs.getRs_seq();
-
+        String topicArn = snsService.createTopic("rs_seq"+rs.getRs_seq().toString());
+        rs.setTopic_arn(topicArn);
+        rsRepository.save(rs);
         for (int i = 0; i < registrationRSDTO.getContent().size(); i++) {
             rsiRepository.save(registrationRSDTO.getContent().get(i).toEntity( rs.getRs_seq(),i+1));
         }
+        return rs;
     }
 
     @Override
@@ -277,5 +279,14 @@ public class ResearchServiceImpl implements ResearchService {
                 rsrRepository.save(rsr);
             }
         }
+
+        Rsa rsa = new Rsa();
+        rsa.setRs_seq(rs_seq);
+        rsa.setUsername(username);
+        rsa.setTopic_arn(rsRepository.findByRsSeq(rs_seq).getTopic_arn());
+        List<String> arns = snsService.createSubscription(rsa.getTopic_arn(), username);
+        rsa.setEmail_arn(arns.get(0));
+        rsa.setSms_arn(arns.get(1));
+        rsaRepository.save(rsa);
     }
 }

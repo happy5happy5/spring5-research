@@ -1,39 +1,69 @@
 package com.demo1010.researcherv2.service;
 
 
-import com.amazonaws.services.sns.AmazonSNS;
-import com.demo1010.researcherv2.config.AwsSnsConfig;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.amazonaws.services.sns.AmazonSNSClient;
+import com.amazonaws.services.sns.model.*;
+import com.demo1010.researcherv2.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
+@Slf4j
 @Service
-//@RequiredArgsConstructor
-public class SnsServiceImpl implements SnsService{
+@RequiredArgsConstructor
+public class SnsServiceImpl implements SnsService {
 
+    private final AmazonSNSClient amazonSNSClient;
+    private final UserRepository userRepository;
 
-    private final AwsSnsConfig awsSnsConfig;
-
-    private final AmazonSNS amazonSNS;
-
-    @Autowired
-    public SnsServiceImpl(AwsSnsConfig awsSnsConfig) {
-        this.awsSnsConfig = new AwsSnsConfig();
-        this.amazonSNS = this.awsSnsConfig.amazonSNS();
+    @Override
+    public String createTopic(String topicName) {
+        CreateTopicRequest createTopicRequest = new CreateTopicRequest(topicName);
+        CreateTopicResult createTopicResult = amazonSNSClient.createTopic(createTopicRequest);
+        return createTopicResult.getTopicArn();
     }
 
-//    @Override
-//    public AmazonSNS amazonSNS() {
-//        return AmazonSNSClientBuilder.standard()
-//                .withCredentials(DefaultAWSCredentialsProviderChain.getInstance())
-//                .withRegion(Regions.AP_NORTHEAST_2)
-//                .build();
+    @Override
+    public String sendMessage(String topicArn, String message) {
+        PublishRequest publishRequest = new PublishRequest(topicArn, message);
+        PublishResult publishResult = amazonSNSClient.publish(publishRequest);
+        return publishResult.getMessageId();
+    }
+
+    @Override
+    public List<String> createSubscription(String topicArn, String username) {
+
+//        ApplicationUser user = userRepository.findByUsername(username).orElseThrow();
+
+        SubscribeRequest subscribeRequest = new SubscribeRequest(topicArn, "sms", "+821090281679");
+        amazonSNSClient.subscribe(subscribeRequest);
+        return null;
+//        SubscribeRequest subscribeRequest = new SubscribeRequest();
+//        subscribeRequest.withTopicArn(topicArn)
+//                .withProtocol("email")
+//                .withEndpoint(user.getEmail());
+//        SubscribeResult emailSubscribeResult = amazonSNSClient.subscribe(subscribeRequest);
+//        subscribeRequest.withProtocol("sms")
+//                .withEndpoint(user.getPhone().replaceFirst("0", "+82"));
+//        SubscribeResult smsSubscribeResult = amazonSNSClient.subscribe(subscribeRequest);
+//        return List.of(emailSubscribeResult.getSubscriptionArn(), smsSubscribeResult.getSubscriptionArn());
+    }
+
+//    public void pubTextSMS(String message, String phoneNumber) {
+//        try {
+//            PublishRequest request = PublishRequest
+//
+//            PublishResponse result = snsClient.publish(request);
+//            System.out.println(result.messageId() + " Message sent. Status was " + result.sdkHttpResponse().statusCode());
+//
+//        } catch (SnsException e) {
+//            System.err.println(e.awsErrorDetails().errorMessage());
+//            System.exit(1);
+//        }
 //    }
 
 
-//    public String createTopic(String topicName) {
-//        AmazonSNS snsClient = amazonSNS();
-//        CreateTopicRequest createTopicRequest = new CreateTopicRequest(topicName);
-//        CreateTopicResult createTopicResult = snsClient.createTopic(createTopicRequest);
-//        return createTopicResult.getTopicArn();
-//    }
+
 }
