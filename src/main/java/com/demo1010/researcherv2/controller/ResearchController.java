@@ -5,6 +5,7 @@ import com.demo1010.researcherv2.entity.*;
 import com.demo1010.researcherv2.model.*;
 import com.demo1010.researcherv2.repository.*;
 import com.demo1010.researcherv2.service.ResearchService;
+import com.demo1010.researcherv2.service.SMSService;
 import com.demo1010.researcherv2.service.SnsService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -31,11 +32,13 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @RequestMapping("/research")
 public class ResearchController {
+    private final UserRepository userRepository;
     private final RsaRepository rsaRepository;
     private final RsrRepository rsrRepository;
     private final RsiRepository rsiRepository;
     private final RsrSubRepository rsrSubRepository;
     private final SnsService snsService;
+    private final SMSService smsService;
 
     private final RsRepository rsRepository;
     private final ResearchService researchService;
@@ -196,6 +199,19 @@ public class ResearchController {
         model.addAttribute("rsiList", rsiList);
 
         return "pages/research/updateform";
+    }
+
+    @PostMapping("/sendResultUrl")
+    @ResponseBody
+    public ApiResponse<String> sendResultUrl(@RequestBody SendResultDTO body) {
+        log.info("[POST] /research/sendResultUrl");
+        userRepository.findByUsername(body.getUsername())
+                .ifPresent(user -> {
+                    String message = "설문조사 결과가 나왔습니다. \n" +
+                            body.getResultUrl();
+                    smsService.sendOne("01090281679",user.getPhone(), message);
+                });
+        return new ApiResponse<>(200, "success", null, LocalDateTime.now());
     }
 
 }

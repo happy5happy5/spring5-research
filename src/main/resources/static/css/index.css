@@ -1,11 +1,11 @@
 body {
     margin-top: 10px;
-    background: linear-gradient(to bottom, #5ee7df 0%, #ffc107 100%);
+    background: linear-gradient(to bottom, #66CCCC 0%, #CCFFFF 100%);
     background-size: 100% 300%;
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-position: top;
-    background-color: #ffc107;
+    background-color: #CCFFFF;
 }
 
 .bottom-10 {
@@ -98,13 +98,13 @@ body {
 .navbar-animate {
     padding: 0 10px 0 0;
     transition: all ease 0.4s;
-    background-color: #86b7fe;
+    background-color: rgb(102,102,255);
     /*background: transparent;*/
 }
 
-.navbar:hover {
-    background-color: #1e2125;
-}
+/*.navbar:hover {*/
+/*    background-color: #1e2125;*/
+/*}*/
 
 .navbar-no-hover {
     z-index: 0;

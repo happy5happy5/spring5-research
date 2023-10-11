@@ -26,6 +26,9 @@
                     <span>~</span>
                     <span class="result-content-period-content-end" th:text="${research.rs_end_date}"></span>
                 </div>
+                <div class="result-content-period-send d-flex justify-content-end">
+                    <button class="btn btn-primary" onclick="sendResultUrl()">결과 발송</button>
+                </div>
             </div>
         </div>
         <hr>
@@ -54,6 +57,21 @@
         /*]]>*/
     </script>
     <script type="text/javascript">
+        function sendResultUrl(){
+            let url = window.location.href;
+            let urlArr = url.split('/');
+            let resultUrl = urlArr[0] + "//" + urlArr[2] + "/research/result/" + research.rs_seq;
+            console.log(research.username)
+            axios.post('/research/sendResultUrl', {
+                resultUrl: resultUrl,
+                username: research.username,
+            }).then(function (response) {
+                console.log(response);
+                alert("결과 발송 완료");
+            }).catch(function (error) {
+                console.log(error);
+            });
+        }
 
         const resultContainer = document.querySelector('.result-container');
         // 만든 차례 대로 resultContainer 에 appendChild 한다
@@ -97,7 +115,7 @@
             <div class="question-info">
                 <span>Q${rsiList[index].rsi_no}</span>
                 <span>${rsiList[index].rsi_question}</span>
-                <div>${rsiList[index].rsi_type}</div>
+<!--                <div>${rsiList[index].rsi_type}</div>-->
             </div>
             <div class="result-content-chart">
             </div>

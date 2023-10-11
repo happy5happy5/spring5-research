@@ -20,6 +20,16 @@ if (window.location.href.indexOf("research/read/") !== -1) {
     document.querySelector(".answer-content-body").innerHTML = createIntroHTML();
 }
 
+function togglePrevAndNextBtn() {
+    let answerButtons = document.getElementById('prevnextButtons');
+    if (currentRsiNo !== 0) {
+        // console.log("block")
+        answerButtons.style.visibility = 'visible';
+    } else {
+        // console.log("none")
+        answerButtons.style.visibility = 'hidden';
+    }
+}
 function handleAnswerPage(direction) {
     let currentPageNum = document.querySelector('#question-number').nextElementSibling.querySelector("span").innerText;
     // 현재의 답변이 작성 되었는 지 확인
@@ -110,9 +120,9 @@ function handleAnswerPage(direction) {
 
     }
 
-
+    togglePrevAndNextBtn();
 }
-
+togglePrevAndNextBtn();
 function setEventListenersOnInputs(flag) {
     let answerContent = document.querySelector(".answer-content-body");
     if (flag === 3) {
@@ -241,32 +251,37 @@ function createIntroHTML() {
                     <span>-></span>
                 </div>
 
-                <div class="col-10 pe-5">
+                <div class="col-10 pe-5 h-100">
                     <div>${research.rs_title}</div>
+                    <hr>
                     <div>${research.rs_desc}</div>
 
                     <div class="d-flex row">
                         <div class="row-cols-6">
-                            <div class="col w-75">
-                                <div class="col-4">
+                            <span class="col w-75">
+                                <span class="col-4">
                                     <span class="text-white">시작일</span>
-                                </div>
-                                <div class="col-8">
+                                </span>
+                                <span class="col-8">
                                     <span>${research.rs_start_date}</span>
-                                </div>
-                            </div>
-                            <div class="col w-75">
-                                <div class="col-4">
+                                </span>
+                            </span>
+                            <span class="col w-75">
+                                <span class="col-4">
                                     <span class="text-white">종료일</span>
-                                </div>
-                                <div class="col-8">
+                                </span>
+                                <span class="col-8">
                                     <span>${research.rs_end_date}</span>
-                                </div>
-                            </div>
+                                </span>
+                            </span>
                         </div>
                     </div>
                 </div>
             </div>
+                <div class="col-12 d-flex justify-content-end me-3">
+<!--                    <button class="btn btn-outline-primary" onclick="handleAnswerPage('<')">이전</button>-->
+                    <button class="btn btn-outline-primary" onclick="handleAnswerPage('>')">참여</button>
+                </div>
                 `;
 }
 

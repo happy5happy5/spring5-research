@@ -238,13 +238,13 @@ function createMainContentElementType0(index, title, type) {
                 </div>
 
                 <div class="col-11 pe-5">
-                    <textarea placeholder="질문을 입력하세요" oninput="handleTextAreaInput(this,'Q')">${title}</textarea>
+                    <textarea placeholder="문제를 입력하세요" oninput="handleTextAreaInput(this,'Q')">${title}</textarea>
 
                     <ul class="question-list m-0 p-0">
 
                     </ul>
 
-                    <div class="main-content-add-question" onclick="handleQuestionAddButtonOnMainContent(this)">질문 추가</div>
+                    <div class="main-content-add-question" onclick="handleQuestionAddButtonOnMainContent(this)">문항 추가</div>
 
                 </div>
             </div>
@@ -265,7 +265,7 @@ function createMainContentElementType1(index, title, type) {
                 </div>
 
                 <div class="col-11 pe-5">
-                    <textarea placeholder="질문을 입력하세요" oninput="handleTextAreaInput(this,'Q')">${title}</textarea>
+                    <textarea placeholder="문제를 입력하세요" oninput="handleTextAreaInput(this,'Q')">${title}</textarea>
 
                     <ul class="question-list m-0 p-0">
                         <li class="question-item d-flex col justify-content-evenly" >
@@ -298,7 +298,7 @@ function createMainContentElementType2(index, title, type) {
                 </div>
 
                 <div class="col-11 pe-5 ">
-                    <textarea placeholder="질문을 입력하세요" oninput="handleTextAreaInput(this,'Q')">${title}</textarea>
+                    <textarea placeholder="문제를 입력하세요" oninput="handleTextAreaInput(this,'Q')">${title}</textarea>
 
                     <ul class="question-list m-0 p-0 likert">
                         <li>
@@ -341,7 +341,7 @@ function createMainContentElementType3(index, title, type) {
                 </div>
 
                 <div class="col-11 pe-5">
-                    <textarea placeholder="질문을 입력하세요" oninput="handleTextAreaInput(this,'Q')">${title}</textarea>
+                    <textarea placeholder="문제를 입력하세요" oninput="handleTextAreaInput(this,'Q')">${title}</textarea>
 
                     <div class="question-list m-0 p-0">
                         <textarea placeholder="주관식 답변" oninput="autoResizeTextArea(this)" readonly></textarea>
@@ -365,7 +365,7 @@ function createMainContentElementType4(index, title, type) {
                 </div>
 
                 <div class="col-11 pe-5">
-                    <textarea placeholder="질문을 입력하세요" oninput="handleTextAreaInput(this,'Q')">${title}</textarea>
+                    <textarea placeholder="문제를 입력하세요" oninput="handleTextAreaInput(this,'Q')">${title}</textarea>
 
                     <ul class="question-list m-0 p-0">
                         <span class="star-input">
@@ -401,7 +401,7 @@ function createMainContentElementType5(index, title, type) {
                 </div>
 
                 <div class="col-11 pe-5">
-                    <textarea placeholder="질문을 입력하세요" oninput="handleTextAreaInput(this,'Q')">${title}</textarea>
+                    <textarea placeholder="문제를 입력하세요" oninput="handleTextAreaInput(this,'Q')">${title}</textarea>
                     
 <!--                    숫자 입력만 넣을 수 있는 1의 기본 값을 가지고 최대 question-list의 개수만큼 지정 할수 있는 인풋 만들기-->
                     <div>
@@ -412,7 +412,7 @@ function createMainContentElementType5(index, title, type) {
 
                     </ul>
 
-                    <div class="main-content-add-question" onclick="handleQuestionAddButtonOnMainContent(this)">질문 추가</div>
+                    <div class="main-content-add-question" onclick="handleQuestionAddButtonOnMainContent(this)">문항 추가</div>
 
                 </div>
             </div>
