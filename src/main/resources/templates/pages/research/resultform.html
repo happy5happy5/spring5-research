@@ -61,8 +61,9 @@
             let url = window.location.href;
             let urlArr = url.split('/');
             let resultUrl = urlArr[0] + "//" + urlArr[2] + "/research/result/" + research.rs_seq;
-            console.log(research.username)
             axios.post('/research/sendResultUrl', {
+                rs_title: research.rs_title,
+                topic_arn: research.topic_arn,
                 resultUrl: resultUrl,
                 username: research.username,
             }).then(function (response) {

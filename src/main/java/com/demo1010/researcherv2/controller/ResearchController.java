@@ -210,8 +210,11 @@ public class ResearchController {
                     String message = "설문조사 결과가 나왔습니다. \n" +
                             body.getResultUrl();
                     smsService.sendOne("01090281679",user.getPhone(), message);
+                    snsService.sendMail(body.getTopic_arn(), message, "["+body.getRs_title()+"]"+" 설문조사 결과가 나왔습니다.");
                 });
         return new ApiResponse<>(200, "success", null, LocalDateTime.now());
     }
+
+
 
 }

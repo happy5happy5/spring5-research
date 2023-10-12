@@ -9,8 +9,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -27,10 +25,13 @@ public class SnsServiceImpl implements SnsService {
     }
 
     @Override
-    public String sendMessage(String topicArn, String message) {
-        PublishRequest publishRequest = new PublishRequest(topicArn, message);
-        PublishResult publishResult = amazonSNSClient.publish(publishRequest);
-        return publishResult.getMessageId();
+    public String sendMail(String topicArn, String message, String subject) {
+        PublishRequest publishRequest = new PublishRequest()
+                .withTopicArn(topicArn)
+                .withMessage(message)
+                .withSubject(subject);
+        amazonSNSClient.publish(publishRequest);
+        return topicArn;
     }
 
     @Override

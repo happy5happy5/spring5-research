@@ -4,7 +4,8 @@ import lombok.Data;
 
 @Data
 public class SendResultDTO {
-
+    private String rs_title;
+    private String topic_arn;
     private String resultUrl;
     private String username;
 }

@@ -8,7 +8,7 @@ public interface SnsService {
 
     String createTopic(String topicName);
 
-    String sendMessage(String topicArn, String message);
+    String sendMail(String topicArn, String message, String subject);
 
     String createSubscription(String topicArn, String username);
 }

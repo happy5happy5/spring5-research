@@ -36,7 +36,7 @@ public class SNSController {
 
     @GetMapping("/sendsms")
     public String sendSms() {
-        String temp = snsService.sendMessage("arn:aws:sns:ap-northeast-2:879689923226:testTopic", "testMessage");
+        String temp = snsService.sendMail("arn:aws:sns:ap-northeast-2:879689923226:testTopic", "testMessage", "testSubject");
         log.info("sendSms: {}", temp);
         return "redirect:/";
     }
