@@ -8,145 +8,120 @@
 </head>
 <body>
 <div layout:fragment="content">
-    <fieldset>
-        <div th:if="${param.error}">
-            비번 틀렸습니다.
-        </div>
-        <div th:if="${param.logout}">
-            로그아웃 했습니다.
-        </div>
-    </fieldset>
-    <fieldset>
-
-        <div class="register-page">
-            <form class="register-form" th:object="${registrationDTO}" th:action="@{/auth/register}" method="post">
-                아이디
-                <br>
-                <input type="text" name="username" size=35>
-                <small class="alert alert-danger" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Username
-                    Error</small>
-                <br>
-                비밀번호
-                <br>
-                <input type="password" name="password" size=35>
-                <small class="alert alert-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password
-                    Error</small>
-                <br>
-                비밀번호 체크
-                <br>
-                <input type="password" name="PasswordConfirm" size=35>
-                <span class="alert alert-danger" th:if="${#fields.hasErrors('passwordConfirm')}"
-                      th:errors="*{passwordConfirm}">Password Confirm Error</span>
-                <br>
-                이름
-                <br>
-                <input type="text" name="name" size=35>
-                <span class="alert alert-danger" th:if="${#fields.hasErrors('name')}"
-                      th:errors="*{name}">Name Error</span>
-                <br>
-                이메일
-                <br>
-                <input type="text" name="email" size=35>
-                <span class="alert alert-danger" th:if="${#fields.hasErrors('email')}"
-                      th:errors="*{email}">Email Error</span>
-                <br>
-                전화번호
-                <br>
-                <input type="text" name="phone" size=35>
-                <span class="alert alert-danger" th:if="${#fields.hasErrors('phone')}"
-                      th:errors="*{phone}">Phone Error</span>
-                <br>
-                <button type="submit">가입완료</button>
-            </form>
-        </div>
-
-        <form th:object="${registrationDTO}" th:action="@{/auth/register}" method="post">
-            <div>
-                <label for="username">Username</label>
-                <input type="text" id="username" name="username" th:field="*{username}" required/>
-                <small class="alert alert-danger" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Username
-                    Error</small>
-            </div>
-
+    <!-- Bootstrap 경고 메시지 -->
+    <div class="alert alert-danger mt-2 position-fixed fixed-top" id="validation-error" style="display: none;"></div>
+    <div class="register-page">
+        <form class="register-form" th:object="${registrationDTO}" th:action="@{/auth/register}" method="post" onsubmit="return validateForm()">
             <div class="mb-3">
-                <label for="password">Password</label>
-                <input type="password" id="password" name="password" th:field="*{password}" required value="1!aA@2eE3"/>
-                <small class="alert alert-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password
-                    Error</small>
+                <label for="username" class="form-label">아이디</label>
+                <input type="text" name="username" class="form-control" id="username">
             </div>
-
-            <div>
-                <label for="passwordConfirm">Password Confirm</label>
-                <input type="password" id="passwordConfirm" name="passwordConfirm" th:field="*{passwordConfirm}"
-                       required
-                       value="1!aA@2eE3"/>
-                <span class="alert alert-danger" th:if="${#fields.hasErrors('passwordConfirm')}"
-                      th:errors="*{passwordConfirm}">Password Confirm Error</span>
+            <div class="mb-3">
+                <label for="password" class="form-label">비밀번호</label>
+                <input type="password" name="password" class="form-control" id="password">
             </div>
-
-            <div>
-                <label for="name">Name</label>
-                <input type="text" id="name" name="name" th:field="*{name}" required/>
-                <span class="alert alert-danger" th:if="${#fields.hasErrors('name')}"
-                      th:errors="*{name}">Name Error</span>
+            <div class="mb-3">
+                <label for="passwordConfirm" class="form-label">비밀번호 체크</label>
+                <input type="password" name="passwordConfirm" class="form-control" id="passwordConfirm">
             </div>
-
-            <div>
-                <label for="email">Email</label>
-                <input type="email" id="email" name="email" th:field="*{email}" required/>
-                <span class="alert alert-danger" th:if="${#fields.hasErrors('email')}"
-                      th:errors="*{email}">Email Error</span>
+            <div class="mb-3">
+                <label for="name" class="form-label">이름</label>
+                <input type="text" name="name" class="form-control" id="name">
             </div>
-
-            <div>
-                <label for="phone">Phone</label>
-                <input type="text" id="phone" name="phone" th:field="*{phone}" required/>
-                <span class="alert alert-danger" th:if="${#fields.hasErrors('phone')}"
-                      th:errors="*{phone}">Phone Error</span>
+            <div class="mb-3">
+                <label for="email" class="form-label">이메일</label>
+                <input type="text" name="email" class="form-control" id="email">
             </div>
-
-
-            <button type="submit">등록</button>
+            <div class="mb-3">
+                <label for="phone" class="form-label">전화번호</label>
+                <input type="text" name="phone" class="form-control" id="phone">
+            </div>
+            <button type="submit" class="btn btn-primary">가입완료</button>
         </form>
-    </fieldset>
-    <h1>1</h1>
-    <h1>1</h1>
-    <h1>1</h1>
-    <h1>1</h1>
-    <h1>1</h1>
-    <h1>1</h1>
-    <h1>1</h1>
-    <h1>1</h1>
-    <h1>1</h1>
-    <h1>1</h1>
-    <h1>1</h1>
-    <h1>1</h1>
+    </div>
 
-    <h1>1</h1>
-    <h1>1</h1>
-    <h1>1</h1>
-    <h1>1</h1>
-    <h1>1</h1>
-    <h1>1</h1>
-    <h1>1</h1>
-    <h1>1</h1>
-    <h1>1</h1>
-    <h1>1</h1>
-    <h1>1</h1>
-    <h1>1</h1>
-    <h1>1</h1>
-    <h1>1</h1>
-    <h1>1</h1>
-    <h1>1</h1>
-    <h1>1</h1>
-    <h1>1</h1>
-    <h1>1</h1>
-    <h1>1</h1>
-    <h1>1</h1>
-    <h1>1</h1>
-    <h1>1</h1>
-    <h1>1</h1>
 
+    <script>
+        let validationError = document.getElementById("validation-error");
+        function validateForm() {
+            let username = document.getElementById("username").value;
+            let password = document.getElementById("password").value;
+            let passwordConfirm = document.getElementById("passwordConfirm").value;
+            let name = document.getElementById("name").value;
+            let email = document.getElementById("email").value;
+            let phone = document.getElementById("phone").value;
+            let validationError = document.getElementById("validation-error");
+
+            // 유효성 검사 및 오류 메시지 표시
+            if (username.length < 4 || username.length > 20) {
+                displayErrorMessage("아이디는 4자 이상 20자 이하로 입력해주세요.");
+                document.getElementById("username").focus();
+                return false;
+            }
+            if (password.length < 4 || password.length > 20) {
+                displayErrorMessage("비밀번호는 4자 이상 20자 이하로 입력해주세요.");
+                document.getElementById("password").focus();
+                return false;
+            }
+            if (password !== passwordConfirm) {
+                displayErrorMessage("비밀번호가 일치하지 않습니다.");
+                document.getElementById("passwordConfirm").focus();
+                return false;
+            }
+            if (name.length < 2 || name.length > 20) {
+                displayErrorMessage("이름은 2자 이상 20자 이하로 입력해주세요.");
+                document.getElementById("name").focus();
+                return false;
+            }
+            // 추가 유효성 검사
+            // 이메일 유효성 검사
+            if (!email.includes("@")) {
+                displayErrorMessage("이메일 형식이 올바르지 않습니다.");
+                document.getElementById("email").focus();
+                return false;
+            }
+            // 전화번호 유효성 검사
+            // 숫자만 넣도록 유도
+            if (phone.includes("-")) {
+                displayErrorMessage("전화번호에 '-'를 제외해주세요.");
+                document.getElementById("phone").focus();
+                return false;
+            }
+
+            if (isNaN(phone)) {
+                displayErrorMessage("전화번호는 숫자만 입력해주세요.");
+                document.getElementById("phone").focus();
+                return false;
+            }
+
+            if (phone.length < 10 || phone.length > 11) {
+                displayErrorMessage("전화번호는 10자 이상 11자 이하로 입력해주세요.");
+                document.getElementById("phone").focus();
+                return false;
+            }
+
+
+
+
+            // 모든 유효성 검사 통과 시 폼 제출
+            hideErrorMessage();
+            return true;
+        }
+
+        // 경고 메시지를 표시하고 1초 후에 숨깁니다.
+        function displayErrorMessage(message) {
+            validationError.innerHTML = message;
+            validationError.style.display = "block";
+            setTimeout(function() {
+                hideErrorMessage();
+            }, 1000); // 1초 후에 숨김
+        }
+
+        // 경고 메시지를 숨깁니다.
+        function hideErrorMessage() {
+            validationError.style.display = "none";
+        }
+    </script>
 
 </div>
 
