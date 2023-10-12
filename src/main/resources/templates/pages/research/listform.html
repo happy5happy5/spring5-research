@@ -87,6 +87,8 @@
             let temp = []
             const currentDate = new Date();
 
+            let rs_seq = rs.rs_seq;
+            console.log(rs_seq);
             let startDate = new Date(rs.rs_start_date);
             // strartDate 에서 하루를 뺀다
             startDate.setDate(startDate.getDate() - 1);
@@ -210,11 +212,11 @@
                 temp.push(
                     `
                         <a href="/research/update/${rs.rs_seq}" class="btn btn-primary">수정</a>
-                        <a href="/research/delete/${rs.rs_seq}" class="btn btn-danger">삭제</a>
+                        <div onclick="deleteList(${rs_seq})" class="btn btn-danger">삭제</div>
                     `
                 )
             }
-
+            // href="/research/delete/${rs.rs_seq}"
             temp.push(
                 `
                 </div>
@@ -295,6 +297,20 @@
                 )
             } else {
                 $("#loading").html("")
+            }
+        }
+
+        function deleteList(rs) {
+            console.log(rs)
+            if(confirm("삭제하시겠습니까?")) {
+                axios.post("/research/delete/" + rs)
+                    .then(function (response) {
+                        alert("삭제되었습니다.");
+                        window.location.href = "/research/list";
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
             }
         }
     </script>

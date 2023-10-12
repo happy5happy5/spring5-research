@@ -15,7 +15,7 @@ public class HomeController {
     @GetMapping
     public String home() {
         log.info("[GET] /");
-        return "home";
+        return "redirect:/research/list";
     }
 
     @GetMapping("/admin")

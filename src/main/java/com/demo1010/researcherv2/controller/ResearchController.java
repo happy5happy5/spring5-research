@@ -216,6 +216,13 @@ public class ResearchController {
         return new ApiResponse<>(200, "success", null, LocalDateTime.now());
     }
 
+    @PostMapping("/delete/{rs_seq}")
+    @ResponseBody
+    public ApiResponse<String> delete(@PathVariable int rs_seq) {
+        log.info("[POST] /research/delete");
+        researchService.deleteResearch(rs_seq);
+        return new ApiResponse<>(200, "success", null, LocalDateTime.now());
+    }
 
 
 }

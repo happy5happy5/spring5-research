@@ -10,4 +10,7 @@ public interface RsrSubRepository extends JpaRepository<Rsr_sub, Integer> {
 
     @Query("SELECT rs FROM Rsr_sub rs WHERE rs.rs_seq = ?1 ORDER BY rs.rsi_no ASC")
     List<Rsr_sub> findAllByRsSeqOrderByRsi_noAsc(int rsSeq);
+
+//    삭제 쿼리
+
 }

@@ -287,4 +287,13 @@ public class ResearchServiceImpl implements ResearchService {
         rsa.setEmail_arn(arn);
         rsaRepository.save(rsa);
     }
+
+    @Override
+    public void deleteResearch(Integer rsSeq) {
+//        rsrRepository.deleteAllByRsSeq(rsSeq);
+//        rsrSubRepository.deleteAllByRsSeq(rsSeq);
+//        rsaRepository.deleteAllByRsSeq(rsSeq);
+//        rsiRepository.deleteAllByRsSeq(rsSeq);
+        rsRepository.deleteById(rsSeq);
+    }
 }

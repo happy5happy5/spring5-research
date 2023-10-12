@@ -11,4 +11,7 @@ import java.util.Optional;
 public interface RsaRepository extends JpaRepository<Rsa, Integer> {
     @Query("SELECT r FROM Rsa r WHERE r.rs_seq = ?1 AND r.username = ?2")
     Optional<Rsa> findByRsSeqAndUsername(int rsSeq, String name);
+
+//    삭제 쿼리
+
 }

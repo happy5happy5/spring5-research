@@ -14,4 +14,6 @@ public interface RsiRepository extends JpaRepository<Rsi, Integer> {
     @Query("SELECT r FROM Rsi r WHERE r.rs_seq = :rsSeq ORDER BY r.rsi_no ASC")
     List<Rsi> findByRsSeqOrderByRsiNoAsc(@Param("rsSeq") int rsSeq);
 
+//    삭제 쿼리
+
 }
