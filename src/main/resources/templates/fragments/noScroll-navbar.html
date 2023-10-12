@@ -20,9 +20,9 @@
 <!--                <p class="text-white m-0 me-3">Welcome, <span th:text="${#authentication.principal.name}"></span>!</p>-->
 <!--            </div>-->
             <ul class="navbar-nav ms-auto">
-                <li class="nav-item"><a th:href="@{/}" class="nav-link ">Home</a></li>
+<!--                <li class="nav-item"><a th:href="@{/}" class="nav-link ">Home</a></li>-->
                 <li class="nav-item"><a th:href="@{/research/list}" class="nav-link ">List</a></li>
-                <li class="nav-item"><a th:href="@{/user/test}" class="nav-link ">UserPage</a></li>
+<!--                <li class="nav-item"><a th:href="@{/user/test}" class="nav-link ">UserPage</a></li>-->
                 <li th:if="${#authorization.expression('isAuthenticated()')}" class="nav-item">
                     <!-- 로그인한 사용자 -->
                     <a th:href="@{/auth/profile}" class="nav-link ">Profile</a>
@@ -40,10 +40,10 @@
                     <a th:href="@{/auth/register}" class="nav-link ">SignIn</a>
                 </li>
 <!--                admin 전용-->
-                <li th:if="${#authorization.expression('hasRole(''ADMIN'')')}" class="nav-item">
-                    <!-- 로그인한 사용자 -->
-                    <a th:href="@{/admin/test}" class="nav-link ">Admin전용</a>
-                </li>
+<!--                <li th:if="${#authorization.expression('hasRole(''ADMIN'')')}" class="nav-item">-->
+<!--                    &lt;!&ndash; 로그인한 사용자 &ndash;&gt;-->
+<!--                    <a th:href="@{/admin/test}" class="nav-link ">Admin전용</a>-->
+<!--                </li>-->
 
             </ul>
         </div>

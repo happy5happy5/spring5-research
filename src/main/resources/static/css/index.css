@@ -35,10 +35,19 @@ body {
 }
 
 .custom-nav {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(73px, 1fr));
+    /*display: grid;*/
+    /*grid-template-columns: repeat(auto-fit, minmax(73px, 2fr));*/
+    /*gap: 10px;*/
     list-style: none;
-    gap: 10px;
+/*    세로 정렬*/
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+    align-items: center;
+    gap: 20px;
+    /*    넘치는 내용 모두 생략 */
+    margin: 0;
+    padding: 0;
 
 }
 

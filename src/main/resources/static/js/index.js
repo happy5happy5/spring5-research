@@ -138,10 +138,15 @@ function loadContentAction(sidebarList,clickedNum){
     if (mainContentContainerInputs.length === 0){
 
     }else {
-        let input = saveData_input? saveData_input.value : [""];
-        mainContentContainerInputs.forEach(function (item,index){
-            item.value = input[index];
-        });
+        try {
+
+            let input = saveData_input? saveData_input.value : [""];
+            mainContentContainerInputs.forEach(function (item,index){
+                item.value = input[index];
+            });
+        } catch (e) {
+            // console.log(e);
+        }
     }
     document.querySelector('#layout-content #question-number span').textContent = clickedNum;
 }

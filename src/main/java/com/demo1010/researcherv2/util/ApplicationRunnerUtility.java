@@ -28,8 +28,8 @@ class ApplicationRunnerUtility implements org.springframework.boot.ApplicationRu
         int port = webServer.getPort();
         String hostName = getHostName();
 
-        logger.info("http://{}:{}", hostName, port);
-        logger.info("http://127.0.0.1:{}", port);
+        logger.info("http://{}:{}/research/list", hostName, port);
+        logger.info("http://127.0.0.1:{}/research/list", port);
     }
 
     private String getHostName() {
