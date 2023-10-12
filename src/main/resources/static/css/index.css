@@ -51,6 +51,10 @@ body {
 
 }
 
+.navbar-no-scroll{
+    margin-right: 10rem;
+}
+
 .nav-item {
     text-align: center;
 }
