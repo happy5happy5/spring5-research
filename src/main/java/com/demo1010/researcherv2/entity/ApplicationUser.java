@@ -28,9 +28,11 @@ public class ApplicationUser implements UserDetails {
     private Integer userId;
     @Column(unique = true)
     private String username;
+    @Column(unique = true)
     private String email;
     private String password;
     private String name;
+    @Column(unique = true)
     private String phone;
 
     // 다대일 관계 설정

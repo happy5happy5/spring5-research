@@ -10,40 +10,56 @@
 <div layout:fragment="content">
     <!-- Bootstrap 경고 메시지 -->
     <div class="alert alert-danger mt-2 position-fixed fixed-top" id="validation-error" style="display: none;"></div>
+<!--    usernameError passwordError 등 서버에서 모델에 전달해준 에러가 있다면 표시한다-->
     <div class="register-page">
         <form class="register-form" th:object="${registrationDTO}" th:action="@{/auth/register}" method="post" onsubmit="return validateForm()">
             <div class="mb-3">
                 <label for="username" class="form-label">아이디</label>
-                <input type="text" name="username" class="form-control" id="username">
+                <input type="text" name="username" class="form-control" id="username" th:value="*{username}">
             </div>
             <div class="mb-3">
                 <label for="password" class="form-label">비밀번호</label>
-                <input type="password" name="password" class="form-control" id="password">
+                <input type="password" name="password" class="form-control" id="password" th:value="*{password}">
             </div>
             <div class="mb-3">
                 <label for="passwordConfirm" class="form-label">비밀번호 체크</label>
-                <input type="password" name="passwordConfirm" class="form-control" id="passwordConfirm">
+                <input type="password" name="passwordConfirm" class="form-control" id="passwordConfirm" th:value="*{passwordConfirm}">
             </div>
             <div class="mb-3">
                 <label for="name" class="form-label">이름</label>
-                <input type="text" name="name" class="form-control" id="name">
+                <input type="text" name="name" class="form-control" id="name" th:value="*{name}">
             </div>
             <div class="mb-3">
                 <label for="email" class="form-label">이메일</label>
-                <input type="text" name="email" class="form-control" id="email">
+                <input type="text" name="email" class="form-control" id="email" th:value="*{email}">
             </div>
             <div class="mb-3">
                 <label for="phone" class="form-label">전화번호</label>
-                <input type="text" name="phone" class="form-control" id="phone">
+                <input type="text" name="phone" class="form-control" id="phone" th:value="*{phone}">
             </div>
             <button type="submit" class="btn btn-primary">가입완료</button>
         </form>
     </div>
-
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    let usernameError = [[${usernameError}]];
+    let passwordError = [[${passwordError}]];
+    let passwordConfirmError = [[${passwordConfirmError}]];
+    let nameError = [[${nameError}]];
+    let emailError = [[${emailError}]];
+    let phoneError = [[${phoneError}]];
+    /*]]>*/
+</script>
 
     <script>
         let validationError = document.getElementById("validation-error");
-        function validateForm() {
+        validateForm(usernameError||passwordError||passwordConfirmError||nameError||emailError||phoneError);
+        function validateForm(errorMessage) {
+            if (errorMessage) {
+                displayErrorMessage(errorMessage);
+                return false;
+            }
+
             let username = document.getElementById("username").value;
             let password = document.getElementById("password").value;
             let passwordConfirm = document.getElementById("passwordConfirm").value;
@@ -73,13 +89,20 @@
                 document.getElementById("name").focus();
                 return false;
             }
-            // 추가 유효성 검사
             // 이메일 유효성 검사
             if (!email.includes("@")) {
                 displayErrorMessage("이메일 형식이 올바르지 않습니다.");
                 document.getElementById("email").focus();
                 return false;
             }
+
+            // 전형적인 이메일 형식 이여야한다
+            if (!email.includes(".")) {
+                displayErrorMessage("이메일 형식이 올바르지 않습니다.");
+                document.getElementById("email").focus();
+                return false;
+            }
+
             // 전화번호 유효성 검사
             // 숫자만 넣도록 유도
             if (phone.includes("-")) {
@@ -90,6 +113,13 @@
 
             if (isNaN(phone)) {
                 displayErrorMessage("전화번호는 숫자만 입력해주세요.");
+                document.getElementById("phone").focus();
+                return false;
+            }
+
+            // 전화번호는 010으로 시작해야한다
+            if (!phone.startsWith("010")) {
+                displayErrorMessage("전화번호는 010으로 시작해야합니다.");
                 document.getElementById("phone").focus();
                 return false;
             }
