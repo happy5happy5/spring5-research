@@ -171,7 +171,8 @@ public class ResearchController {
         model.addAttribute("userRoles", roles);
 
         List<Rsi> rsiList = rsiRepository.findByRsSeqOrderByRsiNoAsc(rs_seq);
-        Rs rs = rsRepository.findById(rs_seq).orElseThrow(() -> new IllegalArgumentException("해당 설문조사가 없습니다. rs_seq=" + rs_seq));
+        Rs rs = rsRepository.findById(rs_seq).orElseThrow(() ->
+                new IllegalArgumentException("해당 설문조사가 없습니다. rs_seq=" + rs_seq));
         List<Rsr> rsrList = rsrRepository.findAllByRsSeqOrderByRsi_noAsc(rs_seq);
         List<Rsr_sub> rsrSubList = rsrSubRepository.findAllByRsSeqOrderByRsi_noAsc(rs_seq);
         model.addAttribute("research", rs);

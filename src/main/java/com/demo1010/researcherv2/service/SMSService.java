@@ -62,27 +62,11 @@ public class SMSService {
             message.setFrom(froms.get(i));
             message.setTo(tos.get(i));
             message.setText(texts.get(i));
-
-            // 메시지 건건 마다 사용자가 원하는 커스텀 값(특정 주문/결제 건의 ID를 넣는등)을 map 형태로 기입하여 전송 후 확인해볼 수 있습니다!
-            /*HashMap<String, String> map = new HashMap<>();
-
-            map.put("키 입력", "값 입력");
-            message.setCustomFields(map);
-
-            messageList.add(message);*/
             messageList.add(message);
         }
 
         try {
-            // send 메소드로 단일 Message 객체를 넣어도 동작합니다!
-            // 세 번째 파라미터인 showMessageList 값을 true로 설정할 경우 MultipleDetailMessageSentResponse에서 MessageList를 리턴하게 됩니다!
-            MultipleDetailMessageSentResponse response = this.messageService.send(messageList, false, true);
-
-            // 중복 수신번호를 허용하고 싶으실 경우 위 코드 대신 아래코드로 대체해 사용해보세요!
-            //MultipleDetailMessageSentResponse response = this.messageService.send(messageList, true);
-
-            System.out.println(response);
-
+           MultipleDetailMessageSentResponse response = this.messageService.send(messageList, false, true);
             return response;
         } catch (Exception exception) {
             log.error("exception: ", exception);
@@ -93,14 +77,12 @@ public class SMSService {
 
     public MultipleDetailMessageSentResponse sendScheduledMessages(List<String> froms, List<String> tos, List<String> texts, String scheduledDate) {
         ArrayList<Message> messageList = new ArrayList<>();
-
         for (int i = 0; i < 3; i++) {
             Message message = new Message();
             // 발신번호 및 수신번호는 반드시 01012345678 형태로 입력되어야 합니다.
             message.setFrom(froms.get(i));
             message.setTo(tos.get(i));
             message.setText(texts.get(i));
-
             messageList.add(message);
         }
 
@@ -109,15 +91,10 @@ public class SMSService {
             LocalDateTime localDateTime = LocalDateTime.parse(scheduledDate + " 00:00:00", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
             ZoneOffset zoneOffset = ZoneId.systemDefault().getRules().getOffset(localDateTime);
             Instant instant = localDateTime.toInstant(zoneOffset);
-
             // 단일 발송도 지원하여 ArrayList<Message> 객체가 아닌 Message 단일 객체만 넣어도 동작합니다!
             MultipleDetailMessageSentResponse response = this.messageService.send(messageList, instant);
-
             // 중복 수신번호를 허용하고 싶으실 경우 위 코드 대신 아래코드로 대체해 사용해보세요!
             //MultipleDetailMessageSentResponse response = this.messageService.send(messageList, instant, true);
-
-            System.out.println(response);
-
             return response;
         } catch (NurigoMessageNotReceivedException exception) {
             System.out.println(exception.getFailedMessageList());
