@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.Set;
 
@@ -41,6 +42,16 @@ public class RegistrationDTO {
 
     public void setPhone(String phone) {
         this.phone = phone.replaceAll("-", "");
+    }
+
+    public void setPassword(String password) {
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        this.password = passwordEncoder.encode(password);
+    }
+
+//    compare password and passwordConfirm
+    public boolean isPasswordMatches() {
+        return this.password.equals(this.passwordConfirm);
     }
 
     public ApplicationUser toEntity(RegistrationDTO dto, Set<Role> role){

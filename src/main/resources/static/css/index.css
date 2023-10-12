@@ -31,19 +31,27 @@ body {
     padding: 20px 10px 20px 0;
     background: transparent;
     transition: all ease 0.4s;
+    min-width: 100%;
 }
 
-.navbar-nav {
-    margin: 0 auto;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.custom-nav {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(73px, 1fr));
+    list-style: none;
+    gap: 10px;
+
 }
+
+.nav-item {
+    text-align: center;
+}
+
 
 .navbar-brand {
-    font-size: 22px;
+    font-size: 32px;
     color: #ffc720;
 }
+
 
 .navbar .navbar-nav li a {
     font-size: 16px;
@@ -113,7 +121,10 @@ body {
 .navbar-no-hover:hover {
     background-color: transparent;
 }
+.nav-link{
+    color: #fff !important;
 
+}
 
 .nav-link:hover {
     color: #0a53be !important;
@@ -667,4 +678,85 @@ textarea {
     width: initial;
     z-index: -1;
     /*justify-content: center;*/
+}
+
+
+/*register page*/
+.register-page {
+    width: 360px;
+    padding: 8% 0 0;
+    margin: auto;
+}
+.register-form {
+    position: relative;
+    z-index: 1;
+    background: #FFFFFF;
+    max-width: 360px;
+    margin: 0 auto 100px;
+    padding: 30px;
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+}
+.register-form > input {
+    outline: 0;
+    background: #f2f2f2;
+    border: 0;
+    margin: 0 0 15px;
+    padding: 10px;
+    box-sizing: border-box;
+    font-size: 14px;
+}
+.register-form > button {
+    text-transform: uppercase;
+    outline: 0;
+    background: #66CCCC;
+    width: 100%;
+    border: 0;
+    padding: 15px;
+    color: #FFFFFF;
+    font-size: 14px;
+    cursor: pointer;
+}
+.register-form > button:hover,.register-form > button:active,.register-form > button:focus {
+    background: #43A047;
+}
+
+/*login page*/
+.login-page {
+    width: 360px;
+    padding: 8% 0 0;
+    margin: auto;
+}
+.login-form {
+    position: relative;
+    z-index: 1;
+    background: #FFFFFF;
+    max-width: 360px;
+    margin: 0 auto 100px;
+    padding: 45px;
+    text-align: center;
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+}
+.login-form > input {
+    outline: 0;
+    background: #f2f2f2;
+    width: 100%;
+    border: 0;
+    margin: 0 0 15px;
+    padding: 15px;
+    box-sizing: border-box;
+    font-size: 14px;
+}
+.login-form > button {
+    text-transform: uppercase;
+    outline: 0;
+    background: #66CCCC;
+    width: 100%;
+    border: 0;
+    padding: 15px;
+    color: #FFFFFF;
+    font-size: 14px;
+    cursor: pointer;
+}
+.login-form > button:hover,.login-form > button:active,.login-form > button:focus {
+    background: #43A047;
 }

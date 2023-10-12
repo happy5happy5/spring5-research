@@ -7,21 +7,21 @@
     <title>Title</title>
 </head>
 <body>
-<nav th:fragment="navbar" id="navbar-layout" class="navbar navbar-expand-lg fixed-top navbar-default">
-    <div class="container">
-        <a href="/" class="navbar-brand ">Company Logo</a>
-        <button type="button" class="navbar-toggler shadow-none" data-bs-toggle="collapse" data-bs-target="#resNav">
-<!--            흰색 버거 아이콘-->
-<!--            <span class="navbar-toggler-bugger"> </span>-->
-            <img alt="" src="/img/white-burger-menu-icon.png" width="40" height="40">
-        </button>
-        <div class="collapse navbar-collapse" id="resNav">
-            <div th:if="${#authorization.expression('isAuthenticated()')}" class="d-flex align-items-center">
+<nav th:fragment="navbar" id="navbar-layout" class="navbar fixed-top">
+    <div class="container ">
+        <a href="/" class="navbar-brand">1DAY2DAY</a>
+<!--        <button type="button" class="navbar-toggler shadow-none" data-bs-toggle="collapse" data-bs-target="#resNav">-->
+<!--&lt;!&ndash;            흰색 버거 아이콘&ndash;&gt;-->
+<!--&lt;!&ndash;            <span class="navbar-toggler-bugger"> </span>&ndash;&gt;-->
+<!--            <img alt="" src="/img/white-burger-menu-icon.png" width="40" height="40">-->
+<!--        </button>-->
+        <div class="w-75" id="resNav">
+            <div th:if="${#authorization.expression('isAuthenticated()')}" class="">
                 <!-- 로그인한 사용자만 볼 수 있는 내용 -->
                 <p class="text-white m-0 me-3">Welcome, <span th:text="${#authentication.principal.name}"></span>!</p>
             </div>
-            <ul class="navbar-nav ms-auto pt-1">
-                <li class="nav-item"><a th:href="@{/}" class="nav-link ">Home</a></li>
+            <ul class="navbar-nav me-0 custom-nav">
+                <li class="nav-item "><a th:href="@{/}" class="nav-link ">Home</a></li>
                 <li class="nav-item"><a th:href="@{/research/list}" class="nav-link ">List</a></li>
                 <li th:if="${#authorization.expression('isAuthenticated()')}" class="nav-item">
                     <!-- 로그인한 사용자 -->
@@ -40,13 +40,13 @@
                     <a th:href="@{/auth/register}" class="nav-link ">SignIn</a>
                 </li>
 <!--                user 전용-->
-                <li th:if="${#authorization.expression('hasRole(''USER'')')}" class="nav-item">
-                    <a th:href="@{/user}" class="nav-link ">User 전용</a>
-                </li>
+<!--                <li th:if="${#authorization.expression('hasRole(''USER'')')}" class="nav-item">-->
+<!--                    <a th:href="@{/user}" class="nav-link ">User 전용</a>-->
+<!--                </li>-->
 <!--                admin 전용-->
-                <li th:if="${#authorization.expression('hasRole(''ADMIN'')')}" class="nav-item">
-                    <a th:href="@{/admin}" class="nav-link ">Admin전용</a>
-                </li>
+<!--                <li th:if="${#authorization.expression('hasRole(''ADMIN'')')}" class="nav-item">-->
+<!--                    <a th:href="@{/admin}" class="nav-link ">Admin전용</a>-->
+<!--                </li>-->
 
             </ul>
         </div>

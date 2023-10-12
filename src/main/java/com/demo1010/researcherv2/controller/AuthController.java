@@ -41,7 +41,11 @@ public class AuthController {
     @PostMapping("/register")
     public String register(RegistrationDTO registrationDTO) {
         log.info("[POST] /auth/register");
+        if(registrationDTO.isPasswordMatches()){
+            return "redirect:/auth/register?error=비밀번호가 일치하지 않습니다.";
+        }
         Set<Role> role =roleRepository.findByAuthority("ROLE_USER").map(Set::of).orElseThrow(() -> new RuntimeException("ROLE_ADMIN이 DB에 없습니다."));
+
         userRepository.save(registrationDTO.toEntity(registrationDTO,role));
         return "redirect:/auth/login";
     }
