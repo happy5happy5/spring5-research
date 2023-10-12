@@ -8,16 +8,16 @@
 </head>
 <body>
 <div layout:fragment="content">
-    <div th:if="${param.error}">
-        <p>Invalid username and password.</p>
-    </div>
-    <div th:if="${param.logout}">
-        <p>You have been logged out.</p>
-    </div>
-<!--    loginError-->
-    <div th:if="${loginError}">
-        <p th:text="${loginError}"></p>
-    </div>
+<!--    <div th:if="${param.error}">-->
+<!--        <p>Invalid username and password.</p>-->
+<!--    </div>-->
+<!--    <div th:if="${param.logout}">-->
+<!--        <p>You have been logged out.</p>-->
+<!--    </div>-->
+<!--&lt;!&ndash;    loginError&ndash;&gt;-->
+<!--    <div th:if="${loginError}">-->
+<!--        <p th:text="${loginError}"></p>-->
+<!--    </div>-->
     <div class="login-page">
         <form class="login-form" th:action="@{/auth/login}" method="post">
             <input type="text" placeholder="Username" name="username"/>
