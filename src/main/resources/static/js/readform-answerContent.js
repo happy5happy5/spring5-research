@@ -247,14 +247,14 @@ function createIntroHTML() {
                <div class="d-flex col">
                 <div id="question-number" class="col-2 d-flex justify-content-end me-3">
                     <span style="display: none">0</span>
-                    <span class="text-white">설문 내용</span>
+                    <span class="text-white">설문 제목</span>
                     <span>-></span>
                 </div>
 
                 <div class="col-10 pe-5 h-100">
                     <div>${research.rs_title}</div>
                     <hr>
-                    <div>${research.rs_desc}</div>
+                    <div class="mb-3">${research.rs_desc}</div>
 
                     <div class="d-flex row">
                         <div class="row-cols-6">
@@ -330,8 +330,7 @@ function createType0HTML(index) {
                 <div id="question-number" class="col-2 d-flex justify-content-end me-3">
                     <span style="display: none">${rsiList[index].rsi_type}</span>
 
-                    <span class="text-white">설문 내용</span>
-                    <span>-></span>
+                    
                 </div>
 
                 <div class="col-10 pe-5">
@@ -355,8 +354,7 @@ function createType1HTML(index) {
                 <div id="question-number" class="col-2 d-flex justify-content-end me-3">
                     <span style="display: none">${rsiList[index].rsi_type}</span>
 
-                    <span class="text-white">설문 내용</span>
-                    <span>-></span>
+                    
                 </div>
 
                 <div class="col-10 pe-5">
@@ -383,8 +381,7 @@ function createType2HTML(index) {
                <div class="d-flex col h-100">
                 <div id="question-number" class="col-2 d-flex justify-content-end me-3">
                     <span style="display: none">${rsiList[index].rsi_type}</span>
-                    <span class="text-white">설문 내용</span>
-                    <span>-></span>
+                    
                 </div>
 
                 <div class="col-10 pe-5">
@@ -424,8 +421,7 @@ function createType3HTML(index) {
               <div class="d-flex col h-100">
                 <div id="question-number" class="col-2 d-flex justify-content-end me-3">
                     <span style="display: none">${rsiList[index].rsi_type}</span>
-                    <span class="text-white">설문 내용</span>
-                    <span>-></span>
+                    
                 </div>
 
                 <div class="col-10 pe-5">
@@ -445,8 +441,7 @@ function createType4HTML(index) {
                <div class="d-flex col h-100">
                 <div id="question-number" class="col-2 d-flex justify-content-end me-3">
                     <span style="display: none">${rsiList[index].rsi_type}</span>
-                    <span class="text-white">설문 내용</span>
-                    <span>-></span>
+                    
                 </div>
 
                 <div class="col-10 pe-5">
@@ -519,8 +514,7 @@ function createType5HTML(index) {
                 <div id="question-number" class="col-2 d-flex justify-content-end me-3">
                     <span style="display: none">${rsiList[index].rsi_type}</span>
 
-                    <span class="text-white">설문 내용</span>
-                    <span>-></span>
+                    
                 </div>
 
                 <div class="col-10 pe-5">
