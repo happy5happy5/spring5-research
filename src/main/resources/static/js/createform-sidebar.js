@@ -406,7 +406,8 @@ function createMainContentElementType5(index, title, type) {
 <!--                    숫자 입력만 넣을 수 있는 1의 기본 값을 가지고 최대 question-list의 개수만큼 지정 할수 있는 인풋 만들기-->
                     <div>
                     
-                    <input class="numeric-input" type="number" placeholder="최대 질문 개수 설정" inputmode="numeric" pattern="[0-9]*"  max="5" value="1">
+                    <input class="numeric-input" type="number" placeholder="최대 질문 개수 설정" min="1" max="5" value="1" oninput="validateInput()">
+
                     </div>
                     <ul class="question-list m-0 p-0">
 
@@ -417,7 +418,26 @@ function createMainContentElementType5(index, title, type) {
                 </div>
             </div>
             `
+
     newMainContentEl = htmlToElement(newMainContentEl);
 
     return newMainContentEl;
+}
+function validateInput() {
+    const input = document.querySelector('.numeric-input');
+    // 입력값에서 숫자 이외의 문자를 제거합니다.
+    input.value = input.value.replace(/[^0-9]/g, "");
+
+    // 입력값이 1보다 작으면 1로 설정합니다.
+    if (input.value < 1) {
+        input.value = 1;
+    }
+
+    // 입력값이 최대값보다 큰 경우 최대값으로 설정합니다.
+    // 문자 값을 숫자로 변환합니다.
+
+    if (Number(input.value) > Number(input.max)) {
+        console.log("input.value : " + input.value)
+        input.value = input.max;
+    }
 }
