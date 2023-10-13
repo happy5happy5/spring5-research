@@ -192,7 +192,9 @@
             let element = createDefaultElement(index);
             let chartPart = element.querySelector('.result-content-chart')
             let rs_seq = rsiList[index].rsi_seq;
-            let rs_sub_list = rsrSubList.filter(item => item.rs_seq === rs_seq).map(item => item.rsr_sub_type3);
+            let rs_sub_list = rsrSubList.filter(item => item.rsi_no === (index+1));
+            // console.log("no:",index+1)
+            // console.log(rsrSubList.filter(item => item.rsi_no === (index+1)))
             // console.log("rs_sub_list", rs_sub_list);
             // let dataArray =[
             //     "aaaaaaaa",
@@ -269,6 +271,11 @@
         }
 
         function createModal(index, chartPart, dataArray) {
+            let htmlEl = dataArray.map(item =>{
+                // console.log(item)
+                    return `<div>${item.rsr_sub_type3}<br><hr></div>`
+                }
+            ).join('')
 
             let newModal = `
 <div>
@@ -284,8 +291,9 @@
             <h5 class="modal-title" id="exampleModalLabel">객관식 답변</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
-          <div class="modal-body">
-            ${dataArray.map(item => `<div>${item}</div>`).join('')}
+          <div class="modal-body">`+
+                htmlEl
++`
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
