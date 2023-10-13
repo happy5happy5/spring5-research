@@ -24,14 +24,14 @@ public class ResearchServiceImpl implements ResearchService {
     private final RsRepository rsRepository;
     private final RsrRepository rsrRepository;
     private final RsrSubRepository rsrSubRepository;
-    private final SnsService snsService;
+//    private final SnsService snsService;
 
 
     @Override
     public Rs createResearch(RegistrationRSDTO registrationRSDTO) {
         Rs rs = rsRepository.save(registrationRSDTO.toEntity());
-        String topicArn = snsService.createTopic("rs_seq"+rs.getRs_seq().toString());
-        rs.setTopic_arn(topicArn);
+//        String topicArn = snsService.createTopic("rs_seq"+rs.getRs_seq().toString());
+//        rs.setTopic_arn(topicArn);
         rsRepository.save(rs);
         for (int i = 0; i < registrationRSDTO.getContent().size(); i++) {
             rsiRepository.save(registrationRSDTO.getContent().get(i).toEntity( rs.getRs_seq(),i+1));
@@ -282,9 +282,9 @@ public class ResearchServiceImpl implements ResearchService {
         Rsa rsa = new Rsa();
         rsa.setRs_seq(rs_seq);
         rsa.setUsername(username);
-        rsa.setTopic_arn(rsRepository.findByRsSeq(rs_seq).getTopic_arn());
-        String arn = snsService.createSubscription(rsa.getTopic_arn(), username);
-        rsa.setEmail_arn(arn);
+//        rsa.setTopic_arn(rsRepository.findByRsSeq(rs_seq).getTopic_arn());
+//        String arn = snsService.createSubscription(rsa.getTopic_arn(), username);
+//        rsa.setEmail_arn(arn);
         rsaRepository.save(rsa);
     }
 

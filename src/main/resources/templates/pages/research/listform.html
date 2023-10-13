@@ -90,8 +90,7 @@
             let rs_seq = rs.rs_seq;
             console.log(rs_seq);
             let startDate = new Date(rs.rs_start_date);
-            // strartDate 에서 하루를 뺀다
-            startDate.setDate(startDate.getDate() - 1);
+
             const endDate = new Date(rs.rs_end_date);
 
             const totalTime = endDate - startDate;
@@ -99,6 +98,8 @@
             const elapsedTime = currentDate - startDate;
 
             const progress = (elapsedTime / totalTime) * 100;
+            // strartDate 에서 하루를 뺀다
+            startDate.setDate(startDate.getDate() - 1);
 
             let daysAgo = Math.floor((currentDate - startDate) / (1000 * 60 * 60 * 24));
             if(daysAgo === 0)
@@ -151,7 +152,7 @@
                             <div class="badge badge-bg-almost"> <span>마감임박</span> </div>
                     `
                 )
-            else if(progress >= 0)
+            else if(progress > 0)
                 temp.push(
                     `
                             <div class="badge badge-bg-progress"> <span>조사중</span> </div>
