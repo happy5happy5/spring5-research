@@ -29,14 +29,11 @@ public class Rsi {
     @Column(columnDefinition = "text")
     private String html_data; // html 데이터
 
-    // 다대일 관계 설정
+    //    foreign key 설정
+//    rs_seq
 //    @ManyToOne
-//    @JoinColumn(name = "rs_seq", referencedColumnName = "rs_seq", insertable = false, updatable = false)
+//    @JoinColumn(name = "rs_seq", insertable = false, updatable = false)
 //    private Rs rs;
-
-    // 일대다 관계 설정
-//    @OneToMany(mappedBy = "rsi", cascade = CascadeType.ALL)
-//    private List<Rsa> rsaList;
 
 }
 

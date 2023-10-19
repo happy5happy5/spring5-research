@@ -4,10 +4,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 @Getter
@@ -24,14 +21,20 @@ public class Rsr_sub {
     private String rsr_sub_etc;
     private String rsr_sub_type3;
 
-    // 다대일 관계 설정
+    //    foreign key 설정
+//    rsr_seq
 //    @ManyToOne
-//    @JoinColumn(name = "rs_seq", referencedColumnName = "rs_seq", insertable = false, updatable = false)
+//    @JoinColumn(name = "rsr_seq", insertable = false, updatable = false)
+//    private Rsr rsr;
+
+    //    rs_seq
+//    @ManyToOne
+//    @JoinColumn(name = "rs_seq", insertable = false, updatable = false)
 //    private Rs rs;
-//
-//     다대일 관계 설정
+
+    //    rsi_no
 //    @ManyToOne
-//    @JoinColumn(name = "rsi_seq", referencedColumnName = "rsi_seq", insertable = false, updatable = false)
+//    @JoinColumn(name = "rsi_no", insertable = false, updatable = false)
 //    private Rsi rsi;
 
 }

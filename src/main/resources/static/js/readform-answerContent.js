@@ -98,6 +98,8 @@ function handleAnswerPage(direction) {
             alert("답변을 모두 작성해 주세요.");
             return;
         }
+        sbHideToggler();
+
         let submit = confirm("제출 하시겠습니까?");
         if (submit) {
             let data = {
@@ -339,9 +341,21 @@ function createType0HTML(index) {
                     <div class="d-flex row">
 
                 `
-        + choices +
+        + choices
+        +
         `
                     </div>
+                    `
+        +`
+                
+        
+                <div id="sb-container">
+                       <button class="btn btn-info">제출</button>
+                </div>
+        
+`
+        +
+        `
                 </div>
             </div>
                 `
@@ -564,4 +578,16 @@ function createAnswerContentHTMLByPage(pageNum) {
             break;
     }
     return answerContent;
+}
+
+function sbHideToggler(){
+    let sbContainer = document.querySelector("#sb-container");
+    //     sb-container 의 클래스에 hide 가 있는 지 확인한다.
+    if(sbContainer.classList.contains("hidden")){
+        //         있으면 제거한다.
+        sbContainer.classList.remove("hidden");
+        return;
+    }
+//     함수가 실행되면 sb-container 의 클래스에 hide 를 추가한다.
+    sbContainer.classList.add("hidden");
 }

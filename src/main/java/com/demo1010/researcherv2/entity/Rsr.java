@@ -31,5 +31,22 @@ public class Rsr {
     private Integer rsr_type2;
     private String rsr_type3_yn;
     private Integer rsr_type4;
+
+    //    foreign key 설정
+//    rs_seq
+//    @ManyToOne
+//    @JoinColumn(name = "rs_seq", insertable = false, updatable = false)
+//    private Rs rs;
+
+    //    rsi_no
+    //    rsi_type
+//    @ManyToOne
+//    @JoinColumn(name = "rsi_no", insertable = false, updatable = false)
+//    @JoinColumn(name = "rsi_type", insertable = false, updatable = false)
+//    private Rsi rsi;
+
+
+
 }
+
 

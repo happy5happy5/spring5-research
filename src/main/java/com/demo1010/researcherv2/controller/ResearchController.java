@@ -95,7 +95,7 @@ public class ResearchController {
         for (Rs rs : rsPage.getContent()) {
             RSDTO researchListDTO = new RSDTO();
             researchListDTO.setRs_seq(rs.getRs_seq());
-            researchListDTO.setUsername(rs.getUsername());
+            researchListDTO.setUsername(rs.getApplicationUser().getUsername());
             researchListDTO.setRs_title(rs.getRs_title());
             researchListDTO.setRs_desc(rs.getRs_desc());
             researchListDTO.setRs_cnt(rs.getRs_cnt());

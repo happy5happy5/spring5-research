@@ -773,3 +773,21 @@ textarea {
 .login-form > button:hover,.login-form > button:active,.login-form > button:focus {
     background: #43A047;
 }
+
+
+/*read page*/
+#sb-container {
+    position: absolute;
+    /*아래쪽에 위치하도록*/
+    bottom: 10%;
+    /*오른쪽에 위치하도록*/
+    right: 10%;
+    /*background-color: #86b7fe;*/
+    /*border-radius: 5px;*/
+    /*box-shadow: 0 0 10px rgba(0,0,0,.1);*/
+
+}
+/*hidden*/
+#sb-container.hidden {
+    display: none;
+}
