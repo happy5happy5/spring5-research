@@ -29,10 +29,13 @@ public class ResearchServiceImpl implements ResearchService {
 
     @Override
     public Rs createResearch(RegistrationRSDTO registrationRSDTO) {
+        if(registrationRSDTO.getContent().isEmpty()){
+            return null;
+        }
         Rs rs = rsRepository.save(registrationRSDTO.toEntity());
 //        String topicArn = snsService.createTopic("rs_seq"+rs.getRs_seq().toString());
 //        rs.setTopic_arn(topicArn);
-        rsRepository.save(rs);
+//        rsRepository.save(rs);
         for (int i = 0; i < registrationRSDTO.getContent().size(); i++) {
             rsiRepository.save(registrationRSDTO.getContent().get(i).toEntity( rs.getRs_seq(),i+1));
         }

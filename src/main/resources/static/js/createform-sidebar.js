@@ -29,12 +29,21 @@ function handleSidebarSubmitButtonClick(element) {
     // console.log(surveyData);
     axios.post('/research/create', surveyData)
         .then(function (response) {
-                console.log(response);
-                location.href = '/research/list';
-                // alert("설문이 생성 되었습니다.");
+                    // console.log(response);
+                if(response.data.status === 400){
+                    alert(response.data.message)
+                    return;
+                }
+                if(response.data.status === 500){
+                    alert(response.data.message)
+                    return;
+                }
+                if(response.data.status === 200){
+                    location.href = '/research/list';
+                }
             })
         .catch(function (error) {
-                console.log(error);
+                // console.log(error);
                 alert("설문 생성에 실패하였습니다.");
             });
 }

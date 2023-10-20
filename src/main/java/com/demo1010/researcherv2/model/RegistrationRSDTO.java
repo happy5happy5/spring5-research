@@ -16,8 +16,7 @@ public class RegistrationRSDTO {
 
     public Rs toEntity() {
         Rs rs = new Rs();
-        rs.setApplicationUser(new ApplicationUser());
-        rs.getApplicationUser().setUsername(username);
+        rs.setUsername(username);
         rs.setHtml_data(html);
         rs.setRs_title(data_textarea.get(0));
         rs.setRs_desc(data_textarea.get(1));

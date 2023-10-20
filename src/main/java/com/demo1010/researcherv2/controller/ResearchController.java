@@ -95,7 +95,7 @@ public class ResearchController {
         for (Rs rs : rsPage.getContent()) {
             RSDTO researchListDTO = new RSDTO();
             researchListDTO.setRs_seq(rs.getRs_seq());
-            researchListDTO.setUsername(rs.getApplicationUser().getUsername());
+            researchListDTO.setUsername(rs.getUsername());
             researchListDTO.setRs_title(rs.getRs_title());
             researchListDTO.setRs_desc(rs.getRs_desc());
             researchListDTO.setRs_cnt(rs.getRs_cnt());
@@ -123,6 +123,9 @@ public class ResearchController {
         String username = securityContext.getAuthentication().getName();
         registrationRSDTO.setUsername(username);
         Rs rs = researchService.createResearch(registrationRSDTO);
+        if (rs == null) {
+            return new ApiResponse<>(400, "설문 내용이 필요 합니다.", null, LocalDateTime.now());
+        }
         return new ApiResponse<>(200, "success", rs, LocalDateTime.now());
     }
 

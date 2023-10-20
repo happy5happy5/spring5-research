@@ -77,33 +77,30 @@ public class DataLoadUtility implements CommandLineRunner {
 
 
         Rs rs1 = new Rs();
-        rs1.setApplicationUser(registeredUser1);
         rs1.setRs_cnt(0);
         rs1.setRs_desc("test desc1111111111");
         rs1.setRs_title("test title1111111111111111");
         rs1.setRs_start_date(present);
         rs1.setRs_end_date(plus10);
-        rs1.getApplicationUser().setUsername(registeredUser1.getUsername());
+        rs1.setUsername(registeredUser1.getUsername());
         rs1.setUse_yn("N");
         Rs registeredRs1=rsRepository.save(rs1);
 
         Rs rs2 = new Rs();
-        rs2.setApplicationUser(registeredUser2);
         rs2.setRs_cnt(0);
         rs2.setRs_desc("test desc2222222222");
         rs2.setRs_title("test title22222222222222222222");
         rs2.setRs_start_date(present);
         rs2.setRs_end_date(plus30);
-        rs2.getApplicationUser().setUsername(registeredUser2.getUsername());
+        rs2.setUsername(registeredUser2.getUsername());
         rs2.setUse_yn("N");
         Rs registeredRs2=rsRepository.save(rs2);
 
         Rs rs3 = new Rs();
-        rs3.setApplicationUser(registeredUser3);
         rs3.setRs_cnt(0);
         rs3.setRs_desc("test desc33333333333333");
         rs3.setRs_title("test title33333333333333333");
-        rs3.getApplicationUser().setUsername(registeredUser3.getUsername());
+        rs3.setUsername(registeredUser3.getUsername());
         rs3.setRs_start_date(plus10);
         rs3.setRs_end_date(plus30);
         rs3.setUse_yn("N");

@@ -15,7 +15,7 @@ public class Rs {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "rs_seq")
     private Integer rs_seq;
-//    private String username;
+    private String username;
     private String rs_title;
     private String rs_desc;
     private Integer rs_cnt;
@@ -29,9 +29,9 @@ public class Rs {
 
 //    foreign key 설정
 //    username
-    @ManyToOne
-    @JoinColumn(name = "username", insertable = false, updatable = false)
-    private ApplicationUser applicationUser;
+//    @ManyToOne
+//    @JoinColumn(name = "username", insertable = false, updatable = false)
+//    private ApplicationUser applicationUser;
 
 }
 
