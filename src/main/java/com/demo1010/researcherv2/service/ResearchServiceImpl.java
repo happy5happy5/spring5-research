@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Slf4j
@@ -292,11 +293,12 @@ public class ResearchServiceImpl implements ResearchService {
     }
 
     @Override
+    @Transactional
     public void deleteResearch(Integer rsSeq) {
-//        rsrRepository.deleteAllByRsSeq(rsSeq);
-//        rsrSubRepository.deleteAllByRsSeq(rsSeq);
-//        rsaRepository.deleteAllByRsSeq(rsSeq);
-//        rsiRepository.deleteAllByRsSeq(rsSeq);
         rsRepository.deleteById(rsSeq);
+        rsiRepository.deleteAllByRsSeq(rsSeq);
+        rsrRepository.deleteAllByRsSeq(rsSeq);
+        rsrSubRepository.deleteAllByRsSeq(rsSeq);
+        rsaRepository.deleteAllByRsSeq(rsSeq);
     }
 }

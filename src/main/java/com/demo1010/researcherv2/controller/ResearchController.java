@@ -6,7 +6,7 @@ import com.demo1010.researcherv2.model.*;
 import com.demo1010.researcherv2.repository.*;
 import com.demo1010.researcherv2.service.ResearchService;
 import com.demo1010.researcherv2.service.SMSService;
-import com.demo1010.researcherv2.service.SnsService;
+import com.demo1010.researcherv2.service.SesService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -33,15 +33,16 @@ import java.util.stream.Collectors;
 @RequestMapping("/research")
 public class ResearchController {
     private final UserRepository userRepository;
+    private final RsRepository rsRepository;
     private final RsaRepository rsaRepository;
     private final RsrRepository rsrRepository;
     private final RsiRepository rsiRepository;
     private final RsrSubRepository rsrSubRepository;
-    private final SnsService snsService;
-    private final SMSService smsService;
 
-    private final RsRepository rsRepository;
+    private final SMSService smsService;
+    private final SesService sesService;
     private final ResearchService researchService;
+
 
     @GetMapping("/list")
     public String list(Model model, RSListRequestDTO requestDTO, @RequestParam(required = false) String error) {
@@ -214,8 +215,10 @@ public class ResearchController {
                     String message = "설문조사 결과가 나왔습니다. \n" +
                             body.getResultUrl();
                     smsService.sendOne("01090281679",user.getPhone(), message);
-                    snsService.sendMail(body.getTopic_arn(), message, "["+body.getRs_title()+"]"+" 설문조사 결과가 나왔습니다.");
                 });
+
+//        sesService.sendEmail(body.getUsername(), "설문조사 결과가 나왔습니다.", body.getResultUrl());
+
         return new ApiResponse<>(200, "success", null, LocalDateTime.now());
     }
 
