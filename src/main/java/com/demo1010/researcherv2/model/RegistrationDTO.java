@@ -43,10 +43,10 @@ public class RegistrationDTO {
         this.phone = phone.replaceAll("-", "");
     }
 
-    public void setPassword(String password) {
-        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        this.password = passwordEncoder.encode(password);
-    }
+//    public void setPassword(String password) {
+//        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+//        this.password = passwordEncoder.encode(password);
+//    }
 
 //    compare password and passwordConfirm
 //    public boolean isPasswordMatches() {
