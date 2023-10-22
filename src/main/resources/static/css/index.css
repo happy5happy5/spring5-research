@@ -788,6 +788,9 @@ textarea {
 
 }
 /*hidden*/
-#sb-container.hidden {
+.hide.pagebutton-enter,
+.hide.pagebutton-submit,
+.hide.pagebutton-prev,
+.hide.pagebutton-next {
     display: none;
 }

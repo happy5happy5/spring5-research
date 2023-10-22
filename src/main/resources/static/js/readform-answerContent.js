@@ -20,20 +20,11 @@ if (window.location.href.indexOf("research/read/") !== -1) {
     document.querySelector(".answer-content-body").innerHTML = createIntroHTML();
 }
 
-function togglePrevAndNextBtn() {
-    let answerButtons = document.getElementById('prevnextButtons');
-    if (currentRsiNo !== 0) {
-        // console.log("block")
-        answerButtons.style.visibility = 'visible';
-    } else {
-        // console.log("none")
-        answerButtons.style.visibility = 'hidden';
-    }
-}
 function handleAnswerPage(direction) {
     let currentPageNum = document.querySelector('#question-number').nextElementSibling.querySelector("span").innerText;
     // 현재의 답변이 작성 되었는 지 확인
     if (!isAnswered() && direction === '>' && currentRsiNo !== 0) {
+        pageButtonController()
         alert("답변을 작성해 주세요.");
         return;
     }
@@ -49,7 +40,10 @@ function handleAnswerPage(direction) {
     }
     setCurrentQNum();
     answerContent.innerHTML = createAnswerContentHTMLByPage(currentRsiNo);
-    if (currentRsiNo === 0) return;
+    if (currentRsiNo === 0) {
+        pageButtonController()
+        return;
+    }
     let type = rsiList[currentRsiNo - 1].rsi_type;
     //     type 에 따라 답을 여기서 넣어 줘야 한다.
     answerList.forEach((item) => {
@@ -98,7 +92,6 @@ function handleAnswerPage(direction) {
             alert("답변을 모두 작성해 주세요.");
             return;
         }
-        sbHideToggler();
 
         let submit = confirm("제출 하시겠습니까?");
         if (submit) {
@@ -122,9 +115,9 @@ function handleAnswerPage(direction) {
 
     }
 
-    togglePrevAndNextBtn();
+    pageButtonController();
+
 }
-togglePrevAndNextBtn();
 function setEventListenersOnInputs(flag) {
     let answerContent = document.querySelector(".answer-content-body");
     if (flag === 3) {
@@ -282,7 +275,7 @@ function createIntroHTML() {
             </div>
                 <div class="col-12 d-flex justify-content-end me-3">
 <!--                    <button class="btn btn-outline-primary" onclick="handleAnswerPage('<')">이전</button>-->
-                    <button class="btn btn-outline-primary" onclick="handleAnswerPage('>')">참여</button>
+                    <button class="btn btn-outline-primary pagebutton-enter" onclick="handleAnswerPage('>')">참여</button>
                 </div>
                 `;
 }
@@ -345,17 +338,6 @@ function createType0HTML(index) {
         +
         `
                     </div>
-                    `
-        +`
-                
-        
-                <div id="sb-container">
-                       <button class="btn btn-info">제출</button>
-                </div>
-        
-`
-        +
-        `
                 </div>
             </div>
                 `
@@ -579,15 +561,38 @@ function createAnswerContentHTMLByPage(pageNum) {
     }
     return answerContent;
 }
+pageButtonController()
+function pageButtonController(){
+    let pageButtonEnter = document.querySelector(".pagebutton-enter");
+    // let pageButtonSubmit = document.querySelector(".pagebutton-submit");
+    let pageButtonPrev = document.querySelector(".pagebutton-prev");
+    let pageButtonNext = document.querySelector(".pagebutton-next");
 
-function sbHideToggler(){
-    let sbContainer = document.querySelector("#sb-container");
-    //     sb-container 의 클래스에 hide 가 있는 지 확인한다.
-    if(sbContainer.classList.contains("hidden")){
-        //         있으면 제거한다.
-        sbContainer.classList.remove("hidden");
+    // console.log(currentRsiNo)
+    // console.log(rsiList.length)
+    // visibility
+    if(currentRsiNo===0){
+        pageButtonEnter.style.visibility = "visible";
+        pageButtonPrev.style.visibility = "hidden";
+        pageButtonNext.style.visibility = "hidden";
+        // pageButtonSubmit.style.visibility = "hidden";
         return;
     }
-//     함수가 실행되면 sb-container 의 클래스에 hide 를 추가한다.
-    sbContainer.classList.add("hidden");
+    if(currentRsiNo===rsiList.length){
+        // pageButtonEnter.style.visibility = "hidden";
+        pageButtonPrev.style.visibility = "visible";
+        pageButtonNext.style.visibility = "visible";
+        pageButtonNext.innerHTML = "제출";
+        // pageButtonSubmit.style.visibility = "visible";
+        return;
+    }
+
+    if(currentRsiNo<rsiList.length){
+        // pageButtonEnter.style.visibility = "hidden";
+        pageButtonPrev.style.visibility = "visible";
+        pageButtonNext.style.visibility = "visible";
+        pageButtonNext.innerHTML = "다음 문제";
+        return;
+    }
 }
+
