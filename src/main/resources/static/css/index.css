@@ -150,20 +150,26 @@ body {
 
 .card-container {
     opacity: 0.95;
-    /*min-height: 100%;*/
-    /*height: 350px;*/
-    /*    넘치는 내용 모두 생략 */
+    min-width: 300px;
+    /*    세로 정렬*/
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
 
 }
+
+#rs-list{
+    margin: 0;
+    padding: 0;
+}
+
 #rs-list  div > div.d-flex.justify-content-between > div > div > h6 {
     font-size: 1rem;
     font-weight: 600;
     color: #6f42c1;
-    margin-bottom: 0;
-    white-space: nowrap; /* 텍스트가 한 줄에 나타나도록 합니다. */
-    overflow: hidden; /* 텍스트가 컨테이너를 벗어나면 숨깁니다. */
-    text-overflow: ellipsis; /* 텍스트가 컨테이너를 벗어나면 ...으로 표시합니다. */
-    max-width: 250px; /* 표시하고자 하는 최대 너비를 지정합니다. */
+    white-space: break-spaces;
 }
 #rs-list  div > div.mt-5 > h3 {
     font-size: 1.5rem;
@@ -178,7 +184,7 @@ body {
 
 .card {
     border: none;
-    border-radius: 10px;
+    border-radius: 20px;
     min-width: 100%;
     max-width: 100%;
 }

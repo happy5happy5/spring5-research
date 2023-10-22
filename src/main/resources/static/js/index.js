@@ -26,7 +26,7 @@ function toggleAnimation(e) {
 
 window.addEventListener('scroll', function () {
     // Navbar Animation
-    if (window.scrollY > 150) {
+    if (window.scrollY > 50) {
         document.querySelector('nav').classList.add('navbar-animate');
     } else {
         document.querySelector('nav').classList.remove('navbar-animate');
