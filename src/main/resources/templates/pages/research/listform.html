@@ -84,6 +84,7 @@
 
         function createCard(rs) {
 
+            console.log("rs : ", rs);
             let temp = []
             const currentDate = new Date();
 
@@ -236,8 +237,10 @@
 
         function loadMoreData() {
             return $.get("/research/list2?page=" + page + "&size=" + size, function (data) {
-                // console.log(data.rsList);
-                if (data.rsList.length === 0) {
+                console.log(typeof data);
+                console.log(typeof data !== "string");
+                // data 가 String 이 아닐 때
+                if (typeof data !== "string" && data.rsList.length === 0) {
                     if (!noMoreData) alert("마지막 데이터입니다.");
                     noMoreData = true;
                     return;

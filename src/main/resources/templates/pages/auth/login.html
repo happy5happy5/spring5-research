@@ -8,12 +8,7 @@
 </head>
 <body>
 <div layout:fragment="content">
-<!--    <div th:if="${param.error}">-->
-<!--        <p>Invalid username and password.</p>-->
-<!--    </div>-->
-<!--    <div th:if="${param.logout}">-->
-<!--        <p>You have been logged out.</p>-->
-<!--    </div>-->
+    <div class="alert alert-danger mt-2 position-fixed fixed-top" id="validation-error" style="display: none;"></div>
 <!--&lt;!&ndash;    loginError&ndash;&gt;-->
 <!--    <div th:if="${loginError}">-->
 <!--        <p th:text="${loginError}"></p>-->
@@ -25,6 +20,34 @@
             <button type="submit">로그인</button>
         </form>
     </div>
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        let usernameError = [[${usernameError}]];
+        let passwordError = [[${passwordError}]];
+        /*]]>*/
+    </script>
+    <script>
+        let validationError = document.getElementById("validation-error");
+        displayErrorMessage("");
+        function displayErrorMessage(message) {
+            let currentURL = window.location.href;
+            if(currentURL.includes("error")) {
+                message = "아이디 또는 비밀번호가 일치하지 않습니다.";
+                validationError.innerHTML = message;
+                validationError.style.display = "block";
+                setTimeout(function() {
+                    hideErrorMessage();
+                }, 1000); // 1초 후에 숨김
+            }
+        //     현재 페이지 주소만 error 없는 주소로 변경
+            window.history.replaceState({}, null, currentURL.replace("?error=true", ""));
+        }
+
+        // 경고 메시지를 숨깁니다.
+        function hideErrorMessage() {
+            validationError.style.display = "none";
+        }
+    </script>
 </div>
 
 

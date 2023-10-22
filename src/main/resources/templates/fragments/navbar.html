@@ -18,7 +18,7 @@
         <div class="w-75" id="resNav">
             <div th:if="${#authorization.expression('isAuthenticated()')}" class="">
                 <!-- 로그인한 사용자만 볼 수 있는 내용 -->
-                <p class="text-white m-0 me-3">Welcome, <span th:text="${#authentication.principal.name}"></span>!</p>
+                <p class="text-white m-0 pt-3 float-start">Welcome, <span th:text="${#authentication.principal.name}"></span>!</p>
             </div>
             <ul class="navbar-nav me-0 custom-nav">
 <!--                <li class="nav-item "><a th:href="@{/}" class="nav-link ">Home</a></li>-->
