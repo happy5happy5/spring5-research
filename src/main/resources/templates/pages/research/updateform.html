@@ -9,7 +9,7 @@
 </head>
 <body>
 <div layout:fragment="content">
-    <div th:replace="~{fragments/sidebar :: sidebar}"></div>
+    <div th:replace="~{fragments/sidebar :: sidebar('Update')}"></div>
 
     <!--    main content-->
     <!--    여기는 하드코딩으로 바꿔야함-->
@@ -38,7 +38,7 @@
                                     <span class="text-white">시작일</span>
                                 </div>
                                 <div class="col-8">
-                                    <input type="date">
+                                    <input class="bg-transparent border-0" type="date" id="startDate" onchange="validateDates()">
                                 </div>
                             </div>
                         </div>
@@ -48,7 +48,7 @@
                                     <span class="text-white">종료일</span>
                                 </div>
                                 <div class="col-8">
-                                    <input type="date">
+                                    <input class="bg-transparent border-0" type="date" id="endDate" onchange="validateDates()">
                                 </div>
                             </div>
                         </div>
@@ -77,12 +77,147 @@
         /*]]>*/
     </script>
     <script>
+        function validateDates() {
+            let startDateInput = document.getElementById("startDate");
+            let endDateInput = document.getElementById("endDate");
+
+            // 현재 날짜 가져오기
+            let currentDate = new Date();
+            let year = currentDate.getFullYear();
+            let month = String(currentDate.getMonth() + 1).padStart(2, '0');
+            let day = String(currentDate.getDate()).padStart(2, '0');
+
+            let today = year + '-' + month + '-' + day;
+
+            // 시작일의 최소값과 종료일의 최대값을 현재 날짜로 설정
+            startDateInput.min = today;
+            // 시작일과 오늘 중에 더 큰값을 종료일의 최소 값으로 설정
+            endDateInput.min = startDateInput.value > today ? startDateInput.value : today;
+
+            // 여기서 추가적인 검증 또는 메시지 표시를 할 수 있습니다.
+        }
+
+    </script>
+    <script>
+        initUpdatePage()
         function initUpdatePage(){
+        //     먼저 research 정보를 불러온다.
+        //     research 의 정보를 입력 한다
+        //     제목 입력
+        //                 <div class="col-11 pe-5">
+        //     <textarea placeholder="제목을 입력하세요" onInput="handleTextAreaInput(this, 'Q')"></textarea>
+        //
+        //     <textarea placeholder="부연 설명 (optional)" onInput="autoResizeTextArea(this)"></textarea>
+
+            let title = document.querySelector("textarea[placeholder='제목을 입력하세요']");
+            let description = document.querySelector("textarea[placeholder='부연 설명 (optional)']");
+
+            let startDate = document.querySelector("#startDate");
+            let endDate = document.querySelector("#endDate");
+
+            // class="item-title ms-2"
+            let itemTitle = document.querySelector(".item-title");
+            title.value = research.rs_title;
+            description.value = research.rs_desc;
+            startDate.value = research.rs_start_date;
+            endDate.value = research.rs_end_date;
+            itemTitle.innerText = research.rs_title;
+            validateDates();
+
+            // handleSideBarCreatButtonByType(research.rs_type);
+
+            for(let i = 0; i < rsiList.length; i++){
+                let rsi = rsiList[i];
+                let rsi_no = rsi.rsi_no;
+                let rsi_question = rsi.rsi_question;
+                let rsi_seq = rsi.rsi_seq;
+                let rsi_type = rsi.rsi_type;
+                let rsi_type0_1 = rsi.rsi_type0_1;
+                let rsi_type0_2 = rsi.rsi_type0_2;
+                let rsi_type0_3 = rsi.rsi_type0_3;
+                let rsi_type0_4 = rsi.rsi_type0_4;
+                let rsi_type0_5 = rsi.rsi_type0_5;
+
+                let rsi_type0_etc = rsi.rsi_type0_etc;
+                let rsi_type5 = rsi.rsi_type5;
+
+                let rsi_type0_list = [rsi_type5,rsi_type0_1,rsi_type0_2,rsi_type0_3,rsi_type0_4,rsi_type0_5]
+                // null 값 삭제
+                rsi_type0_list = rsi_type0_list.filter(function (el) {
+                    return el != null;
+                });
+
+                let html_data = rsi.html_data;
+                let sidebar = document.querySelector(".sidebar");
+                // 가장 마지막 자식 요소
+                let lastChild = sidebar.lastElementChild;
+                // lastChild 의 형제중에 가장 가까운 sidebar-item 을 찾는다
+                let lastSidebarItem = lastChild.previousElementSibling;
+                // todo:
+                // 실제로 create page 에서 만들 때의
+                // 로직과 똑같이 버튼을
+                // 클릭한 효과를 내도록 해야 한다.
+                handleSideBarCreatButtonByType(lastSidebarItem,rsi_type);
+                lastSidebarItem = lastChild.previousElementSibling;
+
+                // placeholder="문제를 입력하세요"
+
+
+
+                // console.log("[lastSidebarItem]", lastSidebarItem);
+            //     savehtml 에 데이터를 넣는다
+                lastSidebarItem.querySelector(".saveHTML").value = html_data;
+                // lastSidebarItem.querySelector(".saveData").value = rsi_question;
+                lastSidebarItem.querySelector(".saveData_input").value = rsi_type0_list;
+                lastSidebarItem.querySelector(".saveType").value = rsi_type;
+                lastSidebarItem.querySelector(".saveData").value;
+                let sidebarList = document.querySelectorAll(".sidebar-item");
+                loadContentAction(sidebarList,rsi_no)
+
+                let question = document.querySelector("textarea[placeholder='문제를 입력하세요']");
+                question.value = rsi_question;
+                lastSidebarItem.querySelector(".item-title").innerText = rsi_question;
+                // console.log("[question]", question);
+
+                if(rsi_type ==="0"){
+                    let inputList = document.querySelector(".question-list")
+                    console.log("[inputList]", inputList);
+                    let textAreaList = inputList.querySelectorAll("textarea");
+                    console.log("[textAreaList]", textAreaList);
+                    for(let j = 0; j < textAreaList.length; j++){
+                        let textArea = textAreaList[j];
+                        textArea.value = rsi_type0_list[j];
+                    }
+                }
+                if(rsi_type ==="5"){
+                    let inputList = document.querySelector(".question-list")
+                    let textAreaList = inputList.querySelectorAll("textarea");
+                    let textAreaInput = [rsi_type0_1,rsi_type0_2,rsi_type0_3,rsi_type0_4,rsi_type0_5]
+                    for(let j = 0; j < textAreaList.length; j++){
+                        let textArea = textAreaList[j];
+                        textArea.value = textAreaInput[j];
+                    }
+                }
+
+            }
+
+
+        // //     현재 만들어야하는 sidebar 의 위치를 특정 한다
+        //     let sidebar = document.querySelector(".sidebar");
+        //     // 가장 마지막 자식 요소
+        //     let lastChild = sidebar.lastElementChild;
+        //     // lastChild 의 형제중에 가장 가까운 sidebar-item 을 찾는다
+        //     let lastSidebarItem = lastChild.previousElementSibling;
+        //
+        //     // function createSideBarElementByType(parentUlEl, index, title, type) {
+        //     createSideBarElementByType(lastSidebarItem.parentElement, 0, "정보입력", "Q");
+
 
 
         }
 
     </script>
+
 
 </div>
 </body>

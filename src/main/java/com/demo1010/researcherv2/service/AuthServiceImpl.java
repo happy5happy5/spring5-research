@@ -7,6 +7,7 @@ import com.demo1010.researcherv2.repository.RoleRepository;
 import com.demo1010.researcherv2.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;
@@ -18,6 +19,8 @@ public class AuthServiceImpl implements AuthService{
 
     private final RoleRepository roleRepository;
     private final UserRepository userRepository;
+//    password encoder
+    private final PasswordEncoder passwordEncoder;
     @Override
     public RegistrationDTO register(RegistrationDTO registrationDTO) {
 
@@ -54,6 +57,8 @@ public class AuthServiceImpl implements AuthService{
             return registrationDTO;
         }
         Set<Role> role =roleRepository.findByAuthority("ROLE_USER").map(Set::of).orElseThrow(() -> new RuntimeException("ROLE_ADMIN이 DB에 없습니다."));
+//        encrypted password
+        registrationDTO.setPassword(passwordEncoder.encode(registrationDTO.getPassword()));
         userRepository.save(registrationDTO.toEntity(registrationDTO,role));
         registrationDTO.setAttrName("success");
         registrationDTO.setAttrValue("회원가입에 성공하였습니다.");

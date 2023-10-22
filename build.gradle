@@ -39,6 +39,8 @@ dependencies {
     implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
 //aws-java-sdk-sns
     implementation 'com.amazonaws:aws-java-sdk-sns:1.12.112'
+//    aws- java-sdk-ses
+    implementation 'com.amazonaws:aws-java-sdk-ses:1.12.112'
     implementation 'net.nurigo:sdk:4.3.0'
 
 }

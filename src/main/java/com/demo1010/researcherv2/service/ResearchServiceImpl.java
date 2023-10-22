@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Slf4j
@@ -292,11 +293,29 @@ public class ResearchServiceImpl implements ResearchService {
     }
 
     @Override
+    @Transactional
     public void deleteResearch(Integer rsSeq) {
-//        rsrRepository.deleteAllByRsSeq(rsSeq);
-//        rsrSubRepository.deleteAllByRsSeq(rsSeq);
-//        rsaRepository.deleteAllByRsSeq(rsSeq);
-//        rsiRepository.deleteAllByRsSeq(rsSeq);
         rsRepository.deleteById(rsSeq);
+        rsiRepository.deleteAllByRsSeq(rsSeq);
+        rsrRepository.deleteAllByRsSeq(rsSeq);
+        rsrSubRepository.deleteAllByRsSeq(rsSeq);
+        rsaRepository.deleteAllByRsSeq(rsSeq);
+    }
+
+    @Override
+    @Transactional
+    public Rs updateResearch(int rsSeq, RegistrationRSDTO registrationRSDTO) {
+//        Rs rs = rsRepository.findByRsSeq(rsSeq);
+        Rs rs = registrationRSDTO.toEntity();
+        rs.setRs_seq(rsSeq);
+        rs.setRs_cnt(registrationRSDTO.getContent().size());
+        rsRepository.save(rs);
+
+        rsiRepository.deleteAllByRsSeq(rsSeq);
+        for (int i = 0; i < registrationRSDTO.getContent().size(); i++) {
+            rsiRepository.save(registrationRSDTO.getContent().get(i).toEntity(rsSeq, i + 1));
+        }
+
+        return rs;
     }
 }

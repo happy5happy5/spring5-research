@@ -1,0 +1,46 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      java: corretto17
+    commands:
+      - echo "[Option] install jq for json processing"
+      - sudo yum install jq -y
+      - echo "[Option] install unzip"
+      - sudo yum install unzip -y
+
+  pre_build:
+    commands:
+      - echo "[Option] set Gradle wrapper permissions"
+      - chmod +x gradlew
+
+  build:
+    commands:
+      - echo "[Build] Building Spring Boot application"
+      - ./gradlew clean build
+  artifacts:
+    files: app/build/libs/*.jar
+
+cache:
+  paths:
+    - ~/.gradle/caches
+    - ~/.gradle/wrapper
+    - ~/.m2
+
+post_build:
+  commands:
+    - echo "[Option] Install AWS CLI"
+    - sudo pip install awscli
+
+    # Replace with your Elastic Beanstalk application and environment names
+    - EB_APP_NAME="YourApplicationName"
+    - EB_ENV_NAME="YourEnvironmentName"
+
+    - echo "[Deploy] Create Elastic Beanstalk application version"
+    - aws elasticbeanstalk create-application-version --application-name $EB_APP_NAME --version-label "app-$(date +'%Y%m%d%H%M%S')" --source-bundle S3Bucket=$CODEBUILD_RESOLVED_SOURCE_VERSION_BUCKET,S3Key=$CODEBUILD_RESOLVED_SOURCE_VERSION
+
+    - echo "[Deploy] Update Elastic Beanstalk environment"
+    - aws elasticbeanstalk update-environment --application-name $EB_APP_NAME --environment-name $EB_ENV_NAME --version-label "app-$(date +'%Y%m%d%H%M%S')"
+
+    - echo "[Deploy] Wait for Elastic Beanstalk deployment to complete"

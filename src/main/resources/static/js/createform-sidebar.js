@@ -26,10 +26,18 @@ function handleSidebarSubmitButtonClick(element) {
         console.log("[handleSidebarSubmitButtonClick] content : " + content)
         surveyData.content.push(content);
     }
-    // console.log(surveyData);
-    axios.post('/research/create', surveyData)
-        .then(function (response) {
-                    // console.log(response);
+    let isUpdate
+    try {
+        isUpdate = research
+    } catch (e) {
+        isUpdate = false
+    }
+    if(isUpdate){
+        // @GetMapping("/update/{rs_seq}")
+        let rs_seq = research.rs_seq
+        axios.post('/research/update/'+rs_seq, surveyData)
+            .then(function (response) {
+                console.log(response);
                 if(response.data.status === 400){
                     alert(response.data.message)
                     return;
@@ -42,13 +50,34 @@ function handleSidebarSubmitButtonClick(element) {
                     location.href = '/research/list';
                 }
             })
-        .catch(function (error) {
-                // console.log(error);
+            .catch(function (error) {
+                console.log(error);
                 alert("설문 생성에 실패하였습니다.");
             });
+    }else{
+        axios.post('/research/create', surveyData)
+            .then(function (response) {
+                        // console.log(response);
+                    if(response.data.status === 400){
+                        alert(response.data.message)
+                        return;
+                    }
+                    if(response.data.status === 500){
+                        alert(response.data.message)
+                        return;
+                    }
+                    if(response.data.status === 200){
+                        location.href = '/research/list';
+                    }
+                })
+            .catch(function (error) {
+                    // console.log(error);
+                    alert("설문 생성에 실패하였습니다.");
+                });
+    }
 }
 
-function handleSideBarCreatButtonByType(element) {
+function handleSideBarCreatButtonByType(element,type) {
     let currentElNum = document.querySelector('#layout-content #question-number span').textContent;
     const sidebarList = document.querySelector('.sidebar').children;
     saveContentAction(sidebarList, currentElNum);
@@ -70,7 +99,8 @@ function handleSideBarCreatButtonByType(element) {
 
 
     // parentUlEl 의 index+1 번째에 새로운 li 요소를 만듭니다.
-    const type = element.dataset.type;
+    type = type? type : element.dataset.type;
+    // const type = element.dataset.type;
     // newLiEL 에 type 따라서 다른 html 넣어줍니다.
     for (let i = 0; i < sidebarList.length; i++) {
         if (i === 0) continue;
@@ -247,7 +277,7 @@ function createMainContentElementType0(index, title, type) {
                 </div>
 
                 <div class="col-11 pe-5">
-                    <textarea placeholder="문제를 입력하세요" oninput="handleTextAreaInput(this,'Q')">${title}</textarea>
+                    <textarea id="question-title" placeholder="문제를 입력하세요" oninput="handleTextAreaInput(this,'Q')">${title}</textarea>
 
                     <ul class="question-list m-0 p-0">
 
@@ -274,7 +304,7 @@ function createMainContentElementType1(index, title, type) {
                 </div>
 
                 <div class="col-11 pe-5">
-                    <textarea placeholder="문제를 입력하세요" oninput="handleTextAreaInput(this,'Q')">${title}</textarea>
+                    <textarea id="question-title" placeholder="문제를 입력하세요" oninput="handleTextAreaInput(this,'Q')">${title}</textarea>
 
                     <ul class="question-list m-0 p-0">
                         <li class="question-item d-flex col justify-content-evenly" >
@@ -307,7 +337,7 @@ function createMainContentElementType2(index, title, type) {
                 </div>
 
                 <div class="col-11 pe-5 ">
-                    <textarea placeholder="문제를 입력하세요" oninput="handleTextAreaInput(this,'Q')">${title}</textarea>
+                    <textarea id="question-title" placeholder="문제를 입력하세요" oninput="handleTextAreaInput(this,'Q')">${title}</textarea>
 
                     <ul class="question-list m-0 p-0 likert">
                         <li>
@@ -350,7 +380,7 @@ function createMainContentElementType3(index, title, type) {
                 </div>
 
                 <div class="col-11 pe-5">
-                    <textarea placeholder="문제를 입력하세요" oninput="handleTextAreaInput(this,'Q')">${title}</textarea>
+                    <textarea id="question-title" placeholder="문제를 입력하세요" oninput="handleTextAreaInput(this,'Q')">${title}</textarea>
 
                     <div class="question-list m-0 p-0">
                         <textarea placeholder="주관식 답변" oninput="autoResizeTextArea(this)" readonly></textarea>
@@ -374,7 +404,7 @@ function createMainContentElementType4(index, title, type) {
                 </div>
 
                 <div class="col-11 pe-5">
-                    <textarea placeholder="문제를 입력하세요" oninput="handleTextAreaInput(this,'Q')">${title}</textarea>
+                    <textarea id="question-title" placeholder="문제를 입력하세요" oninput="handleTextAreaInput(this,'Q')">${title}</textarea>
 
                     <ul class="question-list m-0 p-0">
                         <span class="star-input">
@@ -410,7 +440,7 @@ function createMainContentElementType5(index, title, type) {
                 </div>
 
                 <div class="col-11 pe-5">
-                    <textarea placeholder="문제를 입력하세요" oninput="handleTextAreaInput(this,'Q')">${title}</textarea>
+                    <textarea id="question-title" placeholder="문제를 입력하세요" oninput="handleTextAreaInput(this,'Q')">${title}</textarea>
                     
 <!--                    숫자 입력만 넣을 수 있는 1의 기본 값을 가지고 최대 question-list의 개수만큼 지정 할수 있는 인풋 만들기-->
                     <div>

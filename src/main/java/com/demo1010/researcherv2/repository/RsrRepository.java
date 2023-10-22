@@ -16,5 +16,7 @@ public interface RsrRepository extends JpaRepository<Rsr, Integer> {
     @Query(value = "select * from rsr where rs_seq = ?1 and rsi_no = ?2", nativeQuery = true)
     Rsr findByRsSeqAndRsiNo(int rs_seq, int rsi_no);
 
-//    삭제 쿼리
+    @Modifying
+    @Query(value = "delete from rsr where rs_seq = ?1", nativeQuery = true)
+    void deleteAllByRsSeq(Integer rsSeq);
 }
