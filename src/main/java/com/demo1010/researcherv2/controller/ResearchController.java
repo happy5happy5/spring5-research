@@ -206,6 +206,19 @@ public class ResearchController {
         return "pages/research/updateform";
     }
 
+    @PostMapping("/update/{rs_seq}")
+    @ResponseBody
+    public ApiResponse<Rs> update(@PathVariable int rs_seq, @RequestBody RegistrationRSDTO registrationRSDTO) {
+        log.info("[POST] /research/update/{}", rs_seq);
+        Rs rs = researchService.updateResearch(rs_seq, registrationRSDTO);
+        if (rs == null) {
+            return new ApiResponse<>(400, "설문 내용이 필요 합니다.", null, LocalDateTime.now());
+        }
+        return new ApiResponse<>(200, "success", rs, LocalDateTime.now());
+    }
+
+
+
     @PostMapping("/sendResultUrl")
     @ResponseBody
     public ApiResponse<String> sendResultUrl(@RequestBody SendResultDTO body) {

@@ -301,4 +301,21 @@ public class ResearchServiceImpl implements ResearchService {
         rsrSubRepository.deleteAllByRsSeq(rsSeq);
         rsaRepository.deleteAllByRsSeq(rsSeq);
     }
+
+    @Override
+    @Transactional
+    public Rs updateResearch(int rsSeq, RegistrationRSDTO registrationRSDTO) {
+//        Rs rs = rsRepository.findByRsSeq(rsSeq);
+        Rs rs = registrationRSDTO.toEntity();
+        rs.setRs_seq(rsSeq);
+        rs.setRs_cnt(registrationRSDTO.getContent().size());
+        rsRepository.save(rs);
+
+        rsiRepository.deleteAllByRsSeq(rsSeq);
+        for (int i = 0; i < registrationRSDTO.getContent().size(); i++) {
+            rsiRepository.save(registrationRSDTO.getContent().get(i).toEntity(rsSeq, i + 1));
+        }
+
+        return rs;
+    }
 }

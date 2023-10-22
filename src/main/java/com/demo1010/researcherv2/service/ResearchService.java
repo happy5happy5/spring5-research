@@ -11,4 +11,6 @@ public interface ResearchService {
     void createResponse(RegistrationRSRDTO registrationRSRDTO);
 
     void deleteResearch(Integer rsSeq);
+
+    Rs updateResearch(int rsSeq, RegistrationRSDTO registrationRSDTO);
 }
