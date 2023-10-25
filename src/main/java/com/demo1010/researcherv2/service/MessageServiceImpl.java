@@ -58,6 +58,9 @@ public class MessageServiceImpl implements MessageService {
         code.setEp(email);
         code.defaultSetCode();
         code.setEmail(true);
+        if(codeRepository.findByEp(email) != null) {
+            codeRepository.delete(codeRepository.findByEp(email));
+        }
         codeRepository.save(code);
         String subject = "1day2days.com 인증 코드";
         String content = "<h1>1day2days.com 인증 코드</h1><br><h2>인증 코드: " + code.getCode() + "</h2>";

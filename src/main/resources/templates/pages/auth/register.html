@@ -66,6 +66,13 @@
         function createEmailVerificationField(e) {
             let emailVerificationField = document.getElementById("emailVerificationField");
             emailVerificationField.innerHTML = '';
+            let email = document.getElementById("email").value;
+
+            axios.get("/auth/code/email/"+email).then(function(response) {
+                console.log(response);
+            }).catch(function(error) {
+                console.log(error);
+            });
 
 
             let input = document.createElement("input");
@@ -81,12 +88,28 @@
             confirmButton.textContent = "확인";
             confirmButton.onclick = function() {
                 // 인증 코드 확인 로직을 여기에 추가
+                let code = input.value;
+                console.log(code);
                 // 인증이 성공하면 아래 코드를 사용하여 인증 코드 입력 필드를 숨김
-                input.style.display = "none";
-                confirmButton.style.display = "none";
-                // emailVerificationField.innerHTML = "인증되었습니다";
-                e.style.display = "none";
-                displayInfoMessage("인증되었습니다");
+                axios.get("/auth/code/validate"+"?code="+code+"&ep="+email
+                ).then(function(response) {
+                    console.log(response);
+                    if(response.data.status === 200){
+                        input.style.display = "none";
+                        confirmButton.style.display = "none";
+                        e.style.display = "none";
+                        displayInfoMessage("인증되었습니다");
+                    }else{
+                        displayErrorMessage("인증코드가 일치하지 않습니다.");
+                    }
+                }).catch(function(error) {
+                    console.log(error);
+                });
+                // input.style.display = "none";
+                // confirmButton.style.display = "none";
+                // // emailVerificationField.innerHTML = "인증되었습니다";
+                // e.style.display = "none";
+                // displayInfoMessage("인증되었습니다");
             };
             emailVerificationField.appendChild(confirmButton);
         }

@@ -30,7 +30,7 @@ public class SecurityConfig {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/auth/**","/webjars/**","/research/result/**","/research/list/**", "/css/**", "/js/**", "/img/**").permitAll()
+                .antMatchers("/auth/**","/webjars/**","/auth/code/**","/research/result/**","/research/list/**", "/css/**", "/js/**", "/img/**").permitAll()
 //                .antMatchers("/researcher/**").permitAll()
 //                .antMatchers("/research/**").permitAll()
                 .antMatchers("/admin/**").hasRole("ADMIN")

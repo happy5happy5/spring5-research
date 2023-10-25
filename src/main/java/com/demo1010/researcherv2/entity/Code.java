@@ -5,6 +5,7 @@ import lombok.*;
 import org.joda.time.DateTime;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 
 @Getter
 @Setter
@@ -21,14 +22,14 @@ public class Code implements ICode{
     private boolean isPhone;
     @Column(columnDefinition = "varchar(6)")
     private String code;
-    private DateTime createdAt;
+    private String createdAt;
     private boolean isVerified;
     private boolean isExpired;
 
     @Override
     public boolean isExpiredCode() {
         DateTime now = DateTime.now();
-        DateTime expiredAt = createdAt.plusHours(1);
+        DateTime expiredAt = new DateTime(this.createdAt).plusMinutes(3);
         return now.isAfter(expiredAt);
     }
 
@@ -38,7 +39,7 @@ public class Code implements ICode{
         this.isPhone = false;
         this.isVerified = false;
         this.isExpired = false;
-        this.createdAt = DateTime.now();
+        this.createdAt = String.valueOf(DateTime.now());
         this.code = String.valueOf((int)(Math.random()*1000000));
     }
 }

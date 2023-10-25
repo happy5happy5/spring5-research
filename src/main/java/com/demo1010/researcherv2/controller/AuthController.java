@@ -47,23 +47,30 @@ public class AuthController {
         }
         return "redirect:/auth/login";
     }
-
-    @PostMapping("/code/phone")
+    @GetMapping("/code/email/{email}")
     @ResponseBody
-    public ApiResponse<String> sendCodeToPhone(@RequestBody String phone) {
+    public ApiResponse<String> sendCodeToEmail(@PathVariable String email) {
+        log.info("[POST] /auth/code/email");
+        messageService.sendCodeToEmail(email);
+        return ApiResponse.success("인증번호가 전송되었습니다.", email);
+    }
+
+    @GetMapping("/code/phone")
+    @ResponseBody
+    public ApiResponse<String> sendCodeToPhone(@RequestParam String phone) {
         log.info("[POST] /auth/code/phone");
         messageService.sendCodeToPhone(phone);
         return ApiResponse.success("인증번호가 전송되었습니다.", phone);
     }
 
-    @GetMapping("/validate/code")
+    @GetMapping("/code/validate")
     @ResponseBody
-    public ApiResponse<String> sendCodeToPhoneGet(@RequestParam String code, @RequestParam String phone) {
-        log.info("[GET] /auth/code/phone");
-        boolean e = messageService.checkCode(phone, code);
+    public ApiResponse<String> validateCode(@RequestParam String code, @RequestParam String ep) {
+        log.info("[GET] /auth/code/validate");
+        boolean e = messageService.checkCode(ep, code);
         if(!e) {
             return ApiResponse.error(400, "인증번호가 일치하지 않습니다.");
         }
-        return ApiResponse.success("인증번호가 일치합니다.", phone);
+        return ApiResponse.success("인증번호가 일치합니다.", ep);
     }
 }
