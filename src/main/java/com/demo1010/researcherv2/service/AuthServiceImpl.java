@@ -1,8 +1,10 @@
 package com.demo1010.researcherv2.service;
 
 
+import com.demo1010.researcherv2.entity.Code;
 import com.demo1010.researcherv2.entity.Role;
 import com.demo1010.researcherv2.model.RegistrationDTO;
+import com.demo1010.researcherv2.repository.CodeRepository;
 import com.demo1010.researcherv2.repository.RoleRepository;
 import com.demo1010.researcherv2.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +21,7 @@ public class AuthServiceImpl implements AuthService{
 
     private final RoleRepository roleRepository;
     private final UserRepository userRepository;
+    private final CodeRepository codeRepository;
 //    password encoder
     private final PasswordEncoder passwordEncoder;
     @Override
@@ -56,6 +59,21 @@ public class AuthServiceImpl implements AuthService{
             registrationDTO.setAttrValue("이름은 한글로 2~5자 이어야 합니다.");
             return registrationDTO;
         }
+
+        Code ce =codeRepository.findByEp(registrationDTO.getEmail());
+        Code cp = codeRepository.findByEp(registrationDTO.getPhone());
+        if(ce==null||!ce.isVerified()){
+            registrationDTO.setAttrName("emailError");
+            registrationDTO.setAttrValue("인증되지 않은 이메일 입니다.");
+            return registrationDTO;
+        }
+        if(cp==null||!cp.isVerified()){
+            registrationDTO.setAttrName("phoneError");
+            registrationDTO.setAttrValue("인증되지 않은 전화번호 입니다.");
+            return registrationDTO;
+        }
+
+
         Set<Role> role =roleRepository.findByAuthority("ROLE_USER").map(Set::of).orElseThrow(() -> new RuntimeException("ROLE_ADMIN이 DB에 없습니다."));
 //        encrypted password
         registrationDTO.setPassword(passwordEncoder.encode(registrationDTO.getPassword()));

@@ -73,9 +73,12 @@ public class MessageServiceImpl implements MessageService {
         code.setEp(phone);
         code.defaultSetCode();
         code.setPhone(true);
+        if(codeRepository.findByEp(phone) != null) {
+            codeRepository.delete(codeRepository.findByEp(phone));
+        }
         codeRepository.save(code);
         String text = "1day2days.com 인증 코드: " + code.getCode();
-        sendPhone("01087318731", phone, text);
+        sendPhone("01090281679", phone, text);
     }
 
     @Override

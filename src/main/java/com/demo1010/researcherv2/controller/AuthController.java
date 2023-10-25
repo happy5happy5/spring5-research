@@ -55,9 +55,9 @@ public class AuthController {
         return ApiResponse.success("인증번호가 전송되었습니다.", email);
     }
 
-    @GetMapping("/code/phone")
+    @GetMapping("/code/phone/{phone}")
     @ResponseBody
-    public ApiResponse<String> sendCodeToPhone(@RequestParam String phone) {
+    public ApiResponse<String> sendCodeToPhone(@PathVariable String phone) {
         log.info("[POST] /auth/code/phone");
         messageService.sendCodeToPhone(phone);
         return ApiResponse.success("인증번호가 전송되었습니다.", phone);
