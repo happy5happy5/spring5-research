@@ -18,55 +18,13 @@
         </div>
     </div>
 <!--    to 를 지정해서 요청-->
-    <form th:action="@{/ses/send}" method="get">
-        <input type="text" name="to" placeholder="email">
-        <input type="submit" value="send test">
-    </form>
+<!--    <form th:action="@{/ses/send}" method="get">-->
+<!--        <input type="text" name="to" placeholder="email">-->
+<!--        <input type="submit" value="send test">-->
+<!--    </form>-->
 
         <div class="container mt-5 mb-3">
             <div id="rs-list" class="row">
-
-<!--                <div class="card-container col-md-4">-->
-<!--                    <div class="card p-3 mb-2">-->
-
-<!--                        <div class="d-flex justify-content-between">-->
-<!--                            <div class="d-flex flex-row align-items-center">-->
-<!--                                <div class="ms-2 c-details">-->
-<!--                                    <h6 class="mb-0">${rs.rs_title}</h6>-->
-<!--                                    <span>1 days ago</span>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                        </div>-->
-
-<!--                        <div class="mt-1">-->
-<!--                            <div class="badge badge-bg-almost"> <span>마감임박</span> </div>-->
-<!--                            <div class="badge badge-bg-progress"> <span>작성중</span> </div>-->
-<!--                            <div class="badge badge-bg-end"> <span>종료됨</span> </div>-->
-<!--                        </div>-->
-
-<!--                        <div class="mt-5">-->
-<!--                            <h3 class="heading">${rs.rs_desc}</h3>-->
-<!--                            <div class="mt-5">-->
-<!--                                <div class="progress">-->
-<!--                                    <div class="progress-bar" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>-->
-<!--                                </div>-->
-<!--                                <div class="mt-3"> <span class="text1"> <span class="text2">${rs} - ${rs}</span></span> </div>-->
-<!--                            </div>-->
-<!--                        </div>-->
-
-<!--                        <div>-->
-<!--                            <a class="btn btn-primary"><span>수정</span></a>-->
-<!--                            <a class="btn btn-secondary"><span>삭제</span></a>-->
-<!--                            <a class="btn btn-danger"><span>시작</span></a>-->
-<!--                            <a class="btn btn-info"><span>결과</span></a>-->
-<!--                        </div>-->
-
-<!--                    </div>-->
-<!--                </div>-->
-
-
-            </div>
-
         </div>
     <div id="loading"></div>
     <script th:inline="javascript">
@@ -108,14 +66,14 @@
 
             let daysAgo = Math.floor((currentDate - startDate) / (1000 * 60 * 60 * 24));
             if(daysAgo === 0)
-                daysAgo = '오늘'
+                daysAgo = '오늘 시작'
             else if(daysAgo === 1)
-                daysAgo = '어제'
+                daysAgo = '어제 시작'
             else if (daysAgo > 1)
-                daysAgo = daysAgo + '일 전'
+                daysAgo = daysAgo + '일 전 시작'
             else
                 // 음수인 경우 양수로 변경
-                daysAgo = daysAgo * -1 + '일 후'
+                daysAgo = daysAgo * -1 + '일 후 시작'
 
             // head
             temp.push(
@@ -157,7 +115,7 @@
                             <div class="badge badge-bg-almost"> <span>마감임박</span> </div>
                     `
                 )
-            else if(progress > 0)
+            else if(daysAgo === '오늘 시작'||progress >= 0)
                 temp.push(
                     `
                             <div class="badge badge-bg-progress"> <span>조사중</span> </div>

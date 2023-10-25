@@ -131,7 +131,6 @@ function loadContentAction(sidebarList,clickedNum){
     }
     let mainContentContainerTextareas = mainContentContainer.querySelectorAll('textarea');
     mainContentContainerTextareas.forEach(function (item,index){
-        console.log(textareas[index]);
         item.value = textareas[index];
     });
     let mainContentContainerInputs = mainContentContainer.querySelectorAll('input');
@@ -139,7 +138,6 @@ function loadContentAction(sidebarList,clickedNum){
 
     }else {
         try {
-
             let input = saveData_input? saveData_input.value : [""];
             mainContentContainerInputs.forEach(function (item,index){
                 item.value = input[index];
@@ -221,6 +219,15 @@ function handleDrop(e) {
         // 내용 교환
         dragSrcEl.querySelector('textarea').value = e.target.querySelector('textarea').value;
         e.target.querySelector('textarea').value = dragSrcContent;
+
+
+        // 복원할 내용을 저장
+        let dragSrcContent_input = dragSrcEl.querySelector('input').value;
+
+        // 드롭 대상의 내용을 저장
+        // 내용 교환
+        dragSrcEl.querySelector('input').value = e.target.querySelector('input').value;
+        e.target.querySelector('input').value = dragSrcContent_input;
     }
     return false;
 }

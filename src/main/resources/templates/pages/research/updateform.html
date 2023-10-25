@@ -14,9 +14,10 @@
     <!--    main content-->
     <!--    여기는 하드코딩으로 바꿔야함-->
     <div class="main-content-container">
-        <div class="text-info">
-            Main Content
-        </div>
+<!--        <div class="text-info" style="display: none">-->
+<!--            Main Content-->
+<!--        </div>-->
+        <div th:replace="~{fragments/spacer :: spacer(5)}"></div>
         <div class="main-content d-flex p-0 m-0 pt-3">
             <!--                hide scroll bar by cover another div-->
             <div class="d-flex col">

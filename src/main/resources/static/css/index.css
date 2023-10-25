@@ -249,7 +249,8 @@ body {
 }
 
 .text2 {
-    color: #a5aec0
+    color: #a5aec0;
+    font-size: 18px;
 }
 
 /* Sidebar */
