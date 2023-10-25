@@ -5,8 +5,7 @@ import com.demo1010.researcherv2.entity.*;
 import com.demo1010.researcherv2.model.*;
 import com.demo1010.researcherv2.repository.*;
 import com.demo1010.researcherv2.service.ResearchService;
-import com.demo1010.researcherv2.service.SMSService;
-import com.demo1010.researcherv2.service.SesService;
+import com.demo1010.researcherv2.service.MessageService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -39,8 +38,7 @@ public class ResearchController {
     private final RsiRepository rsiRepository;
     private final RsrSubRepository rsrSubRepository;
 
-    private final SMSService smsService;
-    private final SesService sesService;
+    private final MessageService messageService;
     private final ResearchService researchService;
 
 
@@ -227,7 +225,7 @@ public class ResearchController {
                 .ifPresent(user -> {
                     String message = "설문조사 결과가 나왔습니다. \n" +
                             body.getResultUrl();
-                    smsService.sendOne("01090281679",user.getPhone(), message);
+                    messageService.sendPhone("01090281679", user.getPhone(), message);
                 });
 
 //        sesService.sendEmail(body.getUsername(), "설문조사 결과가 나왔습니다.", body.getResultUrl());

@@ -1,21 +1,17 @@
 package com.demo1010.researcherv2.controller;
 
 
-import com.demo1010.researcherv2.entity.Role;
+import com.demo1010.researcherv2.model.ApiResponse;
 import com.demo1010.researcherv2.model.RegistrationDTO;
-import com.demo1010.researcherv2.repository.RoleRepository;
-import com.demo1010.researcherv2.repository.UserRepository;
 import com.demo1010.researcherv2.service.AuthService;
+import com.demo1010.researcherv2.service.MessageService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Objects;
-import java.util.Set;
 
 @Slf4j
 @Controller
@@ -23,10 +19,9 @@ import java.util.Set;
 @RequestMapping("/auth")
 public class AuthController {
 
-    private final UserRepository userRepository;
-    private final RoleRepository roleRepository;
-
     private final AuthService authService;
+    private final MessageService messageService;
+//    private final
 
     @GetMapping("/login")
     public String login() {
@@ -53,5 +48,22 @@ public class AuthController {
         return "redirect:/auth/login";
     }
 
+    @PostMapping("/code/phone")
+    @ResponseBody
+    public ApiResponse<String> sendCodeToPhone(@RequestBody String phone) {
+        log.info("[POST] /auth/code/phone");
+        messageService.sendCodeToPhone(phone);
+        return ApiResponse.success("인증번호가 전송되었습니다.", phone);
+    }
 
+    @GetMapping("/validate/code")
+    @ResponseBody
+    public ApiResponse<String> sendCodeToPhoneGet(@RequestParam String code, @RequestParam String phone) {
+        log.info("[GET] /auth/code/phone");
+        boolean e = messageService.checkCode(phone, code);
+        if(!e) {
+            return ApiResponse.error(400, "인증번호가 일치하지 않습니다.");
+        }
+        return ApiResponse.success("인증번호가 일치합니다.", phone);
+    }
 }
