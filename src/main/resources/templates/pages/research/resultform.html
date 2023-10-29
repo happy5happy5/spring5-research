@@ -26,8 +26,8 @@
                     <span>~</span>
                     <span class="result-content-period-content-end" th:text="${research.rs_end_date}"></span>
                 </div>
-                <div class="result-content-period-send d-flex justify-content-end">
-                    <button class="btn btn-primary" onclick="sendResultUrl()">결과 발송</button>
+                <div th:if="${userRoles.contains('ROLE_ADMIN')}" class="result-content-period-send d-flex justify-content-end">
+                    <button class="btn btn-primary">결과 발송</button>
                 </div>
             </div>
         </div>

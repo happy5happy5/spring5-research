@@ -226,6 +226,7 @@ public class ResearchController {
                     String message = "설문조사 결과가 나왔습니다. \n" +
                             body.getResultUrl();
                     messageService.sendPhone("01090281679", user.getPhone(), message);
+                    messageService.sendEmail(user.getEmail(), "설문조사 결과가 나왔습니다.", body.getResultUrl());
                 });
 
 //        sesService.sendEmail(body.getUsername(), "설문조사 결과가 나왔습니다.", body.getResultUrl());

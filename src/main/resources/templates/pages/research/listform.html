@@ -43,13 +43,15 @@
     <!-- 스크롤 이벤트를 감지하는 JavaScript 코드 -->
     <script th:fragment="infinite-scroll">
         let page = 1;
-        let size = 30;
+        let size = 12;
 
         function createCard(rs) {
 
             console.log("rs : ", rs);
             let temp = []
             const currentDate = new Date();
+            // 한국 시간으로 변경
+            currentDate.setHours(currentDate.getHours() + 9);
 
             let rs_seq = rs.rs_seq;
             let startDate = new Date(rs.rs_start_date);
@@ -60,11 +62,13 @@
 
             const elapsedTime = currentDate - startDate;
 
+            const isEnd = currentDate > endDate;
+
             const progress = (elapsedTime / totalTime) * 100;
-            // strartDate 에서 하루를 뺀다
-            startDate.setDate(startDate.getDate() - 1);
+            startDate.setDate(startDate.getDate());
 
             let daysAgo = Math.floor((currentDate - startDate) / (1000 * 60 * 60 * 24));
+            console.log(daysAgo);
             if(daysAgo === 0)
                 daysAgo = '오늘 시작'
             else if(daysAgo === 1)
@@ -103,7 +107,7 @@
                 `
             )
 
-            if(progress >= 100)
+            if(progress >= 100||isEnd)
                 temp.push(
                     `
                             <div class="badge badge-bg-end"> <span>종료됨</span> </div>
@@ -156,7 +160,7 @@
             )
 
             temp.push(
-                (userRoles.includes('ROLE_USER')&&  elapsedTime >= 0 )|| userRoles.includes('ROLE_ADMIN') ?
+                (userRoles.includes('ROLE_USER')&&  !isEnd )|| userRoles.includes('ROLE_ADMIN') ?
                     `
                             <a href="/research/read/${rs.rs_seq}" class="btn btn-info"><span>참여</span></a>
                     `
@@ -164,7 +168,7 @@
             )
 
             temp.push(
-                (progress >= 100||userRoles.includes('ROLE_ADMIN'))?
+                (userRoles.includes('ROLE_ADMIN')||isEnd)?
                 `
                             <a href="/research/result/${rs.rs_seq}" class="btn btn-dark"><span>결과</span></a>
                 `:``
@@ -172,7 +176,7 @@
 
             // 현재 접속한 사용자의 아이디와 게시글의 작성자 아이디가 같은 경우에만 수정 삭제 버튼이 보이도록 함
             // todo 수정이 안되는 조건 추가 필요
-            if (userNames === rs.username||userRoles.includes('ROLE_ADMIN')) {
+            if (userRoles.includes('ROLE_ADMIN')) {
                 temp.push(
                     `
                         <a href="/research/update/${rs.rs_seq}" class="btn btn-primary">수정</a>
@@ -280,6 +284,7 @@
             }
         }
     </script>
+        </div>
 
 
 </div>
